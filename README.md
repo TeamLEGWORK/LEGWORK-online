@@ -1,2 +1,2 @@
-# LEGWORK-online
-Web app for using LEGWORK online
+# LEGWORK-online (coming soon!)
+Work in progress: web app for using LEGWORK online
