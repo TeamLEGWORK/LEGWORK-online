@@ -14,14 +14,15 @@
     <!-- icons and fonts -->
     <script src="https://kit.fontawesome.com/328d20ce71.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Signika+Negative:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <!-- random css -->
     <link href="../css/animate.css" rel="stylesheet">
     <link href="../css/main.css" rel="stylesheet">
 </head>
 
 <body>
-    <button id="nav-toggler" class="position-fixed btn btn-light m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#nav">
+    <button id="nav-toggler" class="position-fixed btn btn-light m-3" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#nav">
         <i class="fa fa-bars fa-3x"></i>
     </button>
     <div class="offcanvas offcanvas-end px-5" tabindex="-1" id="nav">
@@ -40,7 +41,8 @@
                 </li>
                 <hr>
                 <li class="nav-item">
-                    <a class="nav-link link-light" href="https://legwork.readthedocs.io/en/latest/cite.html">Citations</a>
+                    <a class="nav-link link-light"
+                        href="https://legwork.readthedocs.io/en/latest/cite.html">Citations</a>
                 </li>
                 <hr>
                 <li class="nav-item">
@@ -49,15 +51,16 @@
             </ul>
         </div>
     </div>
-
-    <div class="container">
-        <div class="row my-3">
-            <div class="col">
-                <h1 class="title">
-                    <img src="../img/legwork_shoe.png" height="40px"> LEGWORK Online</h1>
-                <h5>a tool for analysing potential sources for space-based gravitational wave detectors</h5>
-            </div>
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <div class="display-1 fw-bold">
+                <img src="../img/legwork_shoe.png" height="40px"> LEGWORK Online</div>
+            <p class="col-md-8 fs-4">
+                a one stop shop for analysing stellar-origin gravitational-wave sources for space-based detectors
+            </p>
         </div>
+    </div>
+    <div class="container">
         <div class="row">
             <div class="col">
                 <div class="card">
@@ -149,7 +152,7 @@
                                 <form>
                                     <div class="row mb-3">
                                         <div class="col">
-                                            <label for="detector" class="form-label">Detector</label>
+                                            <label for="detector" class="form-label">Sensitivity Curve</label>
                                             <select id="detector" class="form-select">
                                                 <option selected value="lisa">LISA</option>
                                                 <option value="tianqin">TianQin</option>
