@@ -24,7 +24,6 @@
     <nav class="navbar bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="https://legwork.readthedocs.io">
-                <img src="../img/legwork_no_wave.png" width="200px">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -40,7 +39,7 @@
                         <a class="nav-link" href="#">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Citations</a>
+                        <a class="nav-link" href="https://legwork.readthedocs.io/en/latest/cite.html">Citations</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://legwork.readthedocs.io">Python Package</a>
@@ -49,19 +48,179 @@
             </div>
         </div>
     </nav>
-
     <div class="container">
-        <div class="row">
+        <div class="row my-3">
             <div class="col">
-                <h1 class="title">Space-based Gravitational Wave Source Detectability Calculator</h1>
+                
+                <h1 class="title">
+                    <img src="../img/legwork_shoe.png" height="40px">
+                    LEGWORK Online</h1>
+                <h5>a tool for analysing potential sources for space-based gravitational wave detectors</h5>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <div class="form-box">
-                    <div class="row">
-                        <div class="col">
-                            <h3>Source Description</h3>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Inputs</h2>
+                    </div>
+                    <div class="card-body">
+                        <h3>Sources</h3>
+                        <div class="row">
+                            <div class="col">
+                                <nav>
+                                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                        <button class="nav-link active" id="input-single-source-tab"
+                                            data-bs-toggle="tab" data-bs-target="#input-single-source" type="button"
+                                            role="tab">Single Source </button>
+                                        <button class="nav-link" id="input-csv-sources-tab" data-bs-toggle="tab"
+                                            data-bs-target="#input-csv-sources" type="button" role="tab">Sources from
+                                            CSV </button>
+                                        <button class="nav-link" id="input-random-sources-tab" data-bs-toggle="tab"
+                                            data-bs-target="#input-random-sources" type="button" role="tab">Random
+                                            sources </button>
+                                    </div>
+                                </nav>
+                                <div class="tab-content mt-2" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="input-single-source" role="tabpanel"
+                                        tabindex="0">
+                                        <form>
+                                            <div class="row mb-3">
+                                                <div class="col">
+                                                    <label for="single-primary-mass" class="form-label">Primary
+                                                        Mass</label>
+                                                    <div class="input-group">
+                                                        <input type="number" step="any" min="0" class="form-control"
+                                                            id="single-primary-mass" required>
+                                                        <span class="input-group-text">$\rm M_\odot$</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="single-secondary-mass" class="form-label">Secondary
+                                                        Mass</label>
+                                                    <div class="input-group">
+                                                        <input type="number" step="any" min="0" class="form-control"
+                                                            id="single-secondary-mass" required>
+                                                        <span class="input-group-text">$\rm M_\odot$</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-text">Masses should be in units of solar masses</div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-8">
+                                                    <label for="single-frequency" class="form-label">Frequency or
+                                                        Separation</label>
+                                                    <div class="input-group">
+                                                        <input type="number" step="any" class="form-control"
+                                                            id="single-frequency">
+                                                        <span class="input-group-text">$\rm mHz$</span>
+                                                        <input type="number" step="any" min="0" class="form-control"
+                                                            id="single-separation">
+                                                        <span class="input-group-text">$\rm AU$</span>
+                                                    </div>
+                                                    <div class="form-text">Only frequency <i>or</i> separation is
+                                                        required </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <label for="single-eccentricity"
+                                                        class="form-label">Eccentricity</label>
+                                                    <input type="number" step="any" min="0" max="1" class="form-control"
+                                                        id="single-eccentricity" required>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6">
+                                                    <label for="single-distance" class="form-label">Distance</label>
+                                                    <div class="input-group">
+                                                        <input type="number" step="any" min="0" class="form-control"
+                                                            id="single-distance">
+                                                        <span class="input-group-text">$\rm kpc$</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane fade" id="input-csv-sources" role="tabpanel" tabindex="0"> TODO
+                                    </div>
+                                    <div class="tab-pane fade" id="input-random-sources" role="tabpanel" tabindex="0">
+                                        TODO </div>
+                                </div>
+                                <h3>Detector</h3>
+                                <form>
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <label for="detector" class="form-label">Detector</label>
+                                            <select id="detector" class="form-select">
+                                                <option selected value="lisa">LISA</option>
+                                                <option value="tianqin">TianQin</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <label for="duration" class="form-label">Mission Duration</label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" min="0" id="duration"
+                                                    value="4">
+                                                <span class="input-group-text">$\rm years$</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3 text-center">
+                                        <div class="col">
+                                            <div class="form-check form-check-inline form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="confusion-noise" checked="true">
+                                                <label class="form-check-label" for="confusion-noise">Include confusion
+                                                    noise?</label>
+                                            </div>
+                                            <div class="form-check form-check-inline form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="approximate-response">
+                                                <label class="form-check-label" for="approximate-response">Approximate
+                                                    response function?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <label for="confusion-model" class="form-label">Confusion Noise
+                                                Model</label>
+                                            <select id="confusion-model" class="form-select">
+                                                <option selected value="robson">Robson+19</option>
+                                                <option value="huang">Huang+20</option>
+                                                <option value="huang">Thiele+21</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                                <h3>Settings</h3>
+                                <form>
+                                    <div class="row mb-3 align-items-end">
+                                        <div class="col">
+                                            <label for="gw-tol" class="form-label">Gravitational Wave Luminosity
+                                                Tolerance</label>
+                                            <input type="number" step="any" min="0" class="form-control" id="gw-tol"
+                                                value="0.05" required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="stat-tol" class="form-label">Stationary Tolerance</label>
+                                            <input type="number" step="any" min="0" class="form-control" id="stat-tol"
+                                                value="0.01" required>
+                                        </div>
+                                        <div class="col align-self-end align-items-end">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="interpolate-sc" checked="true">
+                                                <label class="form-check-label" for="interpolate-sc">Interpolate sensitivity curve?</label>
+                                            </div>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="interpolate-g">
+                                                <label class="form-check-label" for="interpolate-g">Interpolate $g(n, e)$?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -82,12 +241,6 @@
             integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
         </script>
         <script src="../js/main.js"></script>
-        <script type="text/x-mathjax-config"> MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-            MathJax.Hub.Config({
-                "HTML-CSS": { linebreaks: { automatic: true } },
-                        SVG: { linebreaks: { automatic: true } }
-                });
-            </script>
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </div>
