@@ -17,15 +17,28 @@ window.MathJax = {
     }
 };
 
+window.addEventListener("load", function() {
+    // grab the template for later use
+    template = document.getElementById("helper-template");
 
-$('body').on('scroll', function () {
-    // will give position of scrollbar
-    var height = $(this).scrollHeight();
-    if (height > 100) {
-        // this will update the font size
-        $('.navbar-brand').addClass('scrollFontSize')
-    } else if (height === 0) {
-        // removing specific font size on scrolling back to top
-        $('.navbar-brand').removeClass('scrollFontSize')
-    }
-})
+    // loop over each helper
+    this.document.querySelectorAll(".helper").forEach(function(el) {
+        // clone the template and reveal it
+        helper = template.cloneNode(true);
+        helper.classList.remove("hide");
+
+        // cut and paste the title
+        helper.setAttribute("title", el.getAttribute("title"));
+        el.setAttribute("title", "")
+
+        // attach it to the DOM
+        el.appendChild(helper);
+    });
+
+    // activate all of the tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+});
