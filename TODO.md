@@ -1,0 +1,19 @@
+# TODO List
+
+- File input tab
+    - Drag and drop box
+    - Browse button
+- Random sources tab
+    - Define ranges and distributions (start with just uniform, add normal/lognormal later)
+    - Perhaps add sliders?
+- Initial data box
+    - Display the initial sources (even if it's just one) in the data box
+- Results pane
+    - Calculate strain
+    - Calculate SNR
+    - Calculate merger time
+    - Evolve sources
+    - Plot sensitivity curve (with or without sources)
+    - Plot 1/2D distributions of sources with the usual variables
+- Export data
+    - Add a download button for the final data (which is constantly updated)
