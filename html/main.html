@@ -18,7 +18,7 @@
         href="https://fonts.googleapis.com/css2?family=Signika+Negative:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <!-- random css -->
-    <link href="../css/animate.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link href="../css/main.css" rel="stylesheet">
 </head>
 
@@ -74,9 +74,9 @@
                             <div class="col">
                                 <nav>
                                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                        <button class="nav-link active" id="input-single-source-tab"
-                                            data-bs-toggle="tab" data-bs-target="#input-single-source" type="button"
-                                            role="tab">Single Source </button>
+                                        <button class="nav-link active" id="input-single-source-tab" data-bs-toggle="tab"
+                                            data-bs-target="#input-single-source" type="button" role="tab">Single Source
+                                        </button>
                                         <button class="nav-link" id="input-csv-sources-tab" data-bs-toggle="tab"
                                             data-bs-target="#input-csv-sources" type="button" role="tab">Sources from
                                             CSV </button>
@@ -86,8 +86,7 @@
                                     </div>
                                 </nav>
                                 <div class="tab-content mt-2" id="nav-tabContent">
-                                    <div class="tab-pane fade show active" id="input-single-source" role="tabpanel"
-                                        tabindex="0">
+                                    <div class="tab-pane fade active show" id="input-single-source" role="tabpanel" tabindex="0">
                                         <form>
                                             <div class="row mb-3">
                                                 <div class="col">
@@ -112,8 +111,8 @@
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-8">
-                                                    <label for="single-frequency" class="form-label">Orbital frequency or
-                                                        Separation</label>
+                                                    <label for="single-frequency" class="form-label">Orbital frequency
+                                                        or Separation</label>
                                                     <div class="input-group">
                                                         <input type="number" step="any" class="form-control"
                                                             id="single-frequency">
@@ -144,11 +143,43 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="tab-pane fade" id="input-csv-sources" role="tabpanel" tabindex="0"> TODO
+                                    <div class="tab-pane fade" id="input-csv-sources" role="tabpanel"
+                                        tabindex="0">
+                                        <div class="row mb-4">
+                                            <div class="col"> The following columns are required for your CSV file:
+                                                <code>m_1</code>, <code>m_2</code>, <code>f_orb</code> and/or
+                                                <code>a</code>, <code>dist</code>, <code>ecc</code>. The units of these
+                                                columns are $\rm M_\odot$, $\rm M_\odot$, $\rm Hz$ or $\rm AU$, $\rm
+                                                kpc$ and None respectively. </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col file-drop-box-container">
+                                                <div class="file-drop-box">
+                                                    <div class="message pre-upload">
+                                                        <i class="fa fa-upload fa-3x d-block mb-3"></i>
+                                                        <input type="file" id="source-csv-file"
+                                                            class="file-drop-box-choose">
+                                                        <label id="source-csv-file-label"
+                                                            for="source-csv-file"><strong>Choose a file</strong><span
+                                                                class=""> or drag it here</span></label>
+                                                    </div>
+                                                    <div class="message ready-to-drop hide">
+                                                        <i class="fa fa-upload fa-3x d-block mb-3"></i>
+                                                        <p>Ooh nice file, now just let go!</p>
+                                                    </div>
+                                                    <div class="message uploading hide">
+                                                        <i class="fa fa-spin fa-circle-o-notch d-block"></i>
+                                                        <label>Looks like some great sources, uploading them
+                                                            now!</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="input-random-sources" role="tabpanel" tabindex="0">
                                         TODO </div>
                                 </div>
+                                <hr>
                                 <h3>Detector</h3>
                                 <form>
                                     <div class="row mb-3">
@@ -174,21 +205,24 @@
                                                 <input class="form-check-input" type="checkbox" role="switch"
                                                     id="confusion-noise" checked="true">
                                                 <label class="form-check-label" for="confusion-noise">Include confusion
-                                                    noise? <span class="helper" title="Whether to include the Galactic confusion noise in the sensitivity curve"></span>
+                                                    noise? <span class="helper"
+                                                        title="Whether to include the Galactic confusion noise in the sensitivity curve"></span>
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline form-switch">
                                                 <input class="form-check-input" type="checkbox" role="switch"
                                                     id="approximate-response">
                                                 <label class="form-check-label" for="approximate-response">Approximate
-                                                    response function? <span class="helper" title="Whether to use an approximation for the LISA response function rather than the exact expression (approximation removes 'bumps' at high frequency)"></span></label>
+                                                    response function? <span class="helper"
+                                                        title="Whether to use an approximation for the LISA response function rather than the exact expression (approximation removes 'bumps' at high frequency)"></span></label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-6">
-                                            <label for="confusion-model" class="form-label">Confusion Noise
-                                                Model <span class="helper" title="Model to use for the Galactic confusion noise. Robson+19 and Thiele+19 are meant for LISA, Huang+20 for TianQin.<br><br>Use the Python package if you want to use a custom confusion noise model."></span></label>
+                                            <label for="confusion-model" class="form-label">Confusion Noise Model <span
+                                                    class="helper"
+                                                    title="Model to use for the Galactic confusion noise. Robson+19 and Thiele+19 are meant for LISA, Huang+20 for TianQin.<br><br>Use the Python package if you want to use a custom confusion noise model."></span></label>
                                             <select id="confusion-model" class="form-select">
                                                 <option selected value="robson">Robson+19</option>
                                                 <option value="huang">Huang+20</option>
@@ -202,12 +236,15 @@
                                     <div class="row mb-3 align-items-end">
                                         <div class="col">
                                             <label for="gw-lum-tol" class="form-label">Gravitational Wave Luminosity
-                                                Tolerance <span class="helper" title="Allowed error on the GW luminosity when calculating SNRs - used for calculating how many harmonics are necessary for eccentric sources"></span></label>
+                                                Tolerance <span class="helper"
+                                                    title="Allowed error on the GW luminosity when calculating SNRs - used for calculating how many harmonics are necessary for eccentric sources"></span></label>
                                             <input type="number" step="any" min="0" class="form-control" id="gw-lum-tol"
                                                 value="0.05" required>
                                         </div>
                                         <div class="col">
-                                            <label for="stat-tol" class="form-label">Stationary Tolerance <span class="helper" title="Fractional change in frequency over the mission duration below which a binary should be considered stationary"></span></label>
+                                            <label for="stat-tol" class="form-label">Stationary Tolerance <span
+                                                    class="helper"
+                                                    title="Fractional change in frequency over the mission duration below which a binary should be considered stationary"></span></label>
                                             <input type="number" step="any" min="0" class="form-control" id="stat-tol"
                                                 value="0.01" required>
                                         </div>
@@ -216,13 +253,15 @@
                                                 <input class="form-check-input" type="checkbox" role="switch"
                                                     id="interpolate-sc" checked="true">
                                                 <label class="form-check-label" for="interpolate-sc">Interpolate
-                                                    sensitivity curve? <span class="helper" title="Whether to interpolate the sensitivity for speed ups in calculating SNRs. Recommend always true."></span></label>
+                                                    sensitivity curve? <span class="helper"
+                                                        title="Whether to interpolate the sensitivity for speed ups in calculating SNRs. Recommend always true."></span></label>
                                             </div>
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox" role="switch"
                                                     id="interpolate-g">
                                                 <label class="form-check-label" for="interpolate-g">Interpolate $g(n,
-                                                    e)$? <span class="helper" title="Whether to interpolate the $g(n, e)$ function - this will speed up the strain/SNR calculations but takes time so it's only worth it for large collections of sources"></span>
+                                                    e)$? <span class="helper"
+                                                        title="Whether to interpolate the $g(n, e)$ function - this will speed up the strain/SNR calculations but takes time so it's only worth it for large collections of sources"></span>
                                                 </label>
                                             </div>
                                         </div>
@@ -250,7 +289,7 @@
                         <h2>Data</h2>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive"> Nothing yet! </div>
+                        <div id="sources-table" class="table-responsive"> Nothing yet! </div>
                     </div>
                 </div>
             </div>
@@ -284,8 +323,8 @@
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </div>
-
-    <span id="helper-template" class="fa-stack" data-bs-toggle="tooltip" data-bs-html="true" title="" style="font-size: 8px; vertical-align: top;">
+    <span id="helper-template" class="fa-stack" data-bs-toggle="tooltip" data-bs-html="true" title=""
+        style="font-size: 8px; vertical-align: top;">
         <i class="fa fa-circle fa-stack-2x"></i>
         <i class="fa fa-question fa-stack-1x fa-inverse"></i>
     </span>

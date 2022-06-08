@@ -2,6 +2,10 @@ body {
     font-family: 'Signika Negative', sans-serif
 }
 
+.hide {
+    display: none;
+}
+
 .title {
     font-size: 30px;
     font-weight: bold;
@@ -17,13 +21,13 @@ body {
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 #nav-toggler {
@@ -39,7 +43,7 @@ input[type=number] {
 
 .offcanvas-title {
     font-size: 50px;
-    font-weight:bolder;
+    font-weight: bolder;
 }
 
 .offcanvas-backdrop.show {
@@ -52,5 +56,38 @@ input[type=number] {
 }
 
 #helper-template {
-    display: none!important;
+    display: none !important;
+}
+
+.file-drop-box-container {
+    background-color: lightblue;
+    margin: 1rem;
+    padding: 70px 1rem;
+    outline: 2px dashed rgba(0, 0, 0, 0.25);
+    outline-offset: -10px;
+    transition: 0.2s ease-in-out;
+}
+
+.file-drop-box-container.file-is-over {
+    outline-offset: -20px;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.file-drop-box {
+    color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-size: 18px;
+}
+
+.file-drop-box-choose {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+#source-csv-file-label strong {
+    cursor: pointer;
 }
