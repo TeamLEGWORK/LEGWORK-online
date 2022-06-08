@@ -25,7 +25,6 @@ window.addEventListener("load", function() {
     this.document.querySelectorAll(".helper").forEach(function(el) {
         // clone the template and reveal it
         helper = template.cloneNode(true);
-        helper.classList.remove("hide");
 
         // cut and paste the title
         helper.setAttribute("title", el.getAttribute("title"));
