@@ -35,6 +35,10 @@ window.addEventListener("load", function() {
         el.appendChild(helper);
     });
 
+    this.document.getElementById("confusion-noise").addEventListener("click", function() {
+        document.getElementById("confusion-model").toggleAttribute("disabled");
+    });
+
     // activate all of the tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
