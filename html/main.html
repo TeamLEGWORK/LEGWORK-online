@@ -280,11 +280,12 @@
                             <div class="col">
                                 <h4>Calculations</h4>
                                 <div class="btn-group w-100">
-                                    <button class="btn btn-lg btn-primary">Signal-to-Noise Ratio</button>
-                                    <button class="btn btn-lg btn-primary">Merger Time</button>
-                                    <button class="btn btn-lg btn-primary">Strain</button>
-                                    <button class="btn btn-lg btn-primary">Characteristic Strain</button>
+                                    <button class="btn btn-primary">Signal-to-Noise Ratio</button>
+                                    <button class="btn btn-primary">Merger Time</button>
+                                    <button class="btn btn-primary">Strain</button>
+                                    <button class="btn btn-primary">Characteristic Strain</button>
                                 </div>
+                                <div class="form-text">Results will appear in the data table below</div>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -293,12 +294,12 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="input-group">
-                                            <input class="form-control form-control-lg">
+                                            <input class="form-control">
                                             <span class="input-group-text">years</span>
                                         </div>
                                     </div>
                                     <div class="col-3">
-                                        <button class="btn btn-primary btn-lg w-100">Evolve sources</button>
+                                        <button class="btn btn-primary w-100">Evolve sources</button>
                                     </div>
                                 </div>
                             </div>
@@ -306,11 +307,40 @@
                         <div class="row">
                             <div class="col">
                                 <h4>Plots</h4>
-                                <label>Plot Type</label>
-                                <select class="form-select">
-                                    <option selected value="">Sensitivity curve</option>
-                                </select>
-                                <img class="img-fluid" src="../img/legwork.png">
+                                <div class="mb-3">
+                                    <label>Plot Type</label>
+                                    <select class="form-select">
+                                        <option selected value="">Sensitivity curve</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 text-center">
+                                    <div class="btn-group">
+                                        <button class="btn btn-primary btn-lg">Create new plot</button>
+                                        <button class="btn btn-primary btn-lg">Download current plot</button>
+                                    </div>
+                                </div>
+                                <figure>
+                                    <div class="img-fluid-limited float-start position-relative zoom-figure me-2"
+                                        data-bs-toggle="modal" data-bs-target="#gal_modal">
+                                        <img src="../img/legwork.png" class="img-fluid zoom-figure">
+                                        <div class="img-overlay">
+                                            <p class="m-0 fw-bold">Click to Zoom</p>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="gal_modal" tabindex="-1">
+                                        <div class="modal-dialog modal-fullscreen">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    <img src="../img/legwork.png" class="img-fluid">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </figure>
                                 <div class="text-center">
                                     <h4>Plots appear here <i class="fa fa-arrow-up"></i></h4>
                                 </div>
