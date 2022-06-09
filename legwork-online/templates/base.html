@@ -1,24 +1,99 @@
-<!doctype html>
-<title>{% block title %}{% endblock %} - LEGWORK Online</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<nav>
-  <h1>Flaskr</h1>
-  <ul>
-    {% if g.user %}
-      <li><span>{{ g.user['username'] }}</span>
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
-    {% else %}
-      <li><a href="{{ url_for('auth.register') }}">Register</a>
-      <li><a href="{{ url_for('auth.login') }}">Log In</a>
-    {% endif %}
-  </ul>
-</nav>
-<section class="content">
-  <header>
-    {% block header %}{% endblock %}
-  </header>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-  {% block content %}{% endblock %}
-</section>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Web app for using LEGWORK online">
+    <meta name="author" content="Tom Wagg">
+    <title>{% block title %}{% endblock %}- LEGWORK Online</title>
+    <link href="../static/img/logo.ico" rel="icon">
+    <!-- icons and fonts -->
+    <script src="https://kit.fontawesome.com/328d20ce71.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Signika+Negative:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <!-- main css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    {% block css_imports %}{% endblock %}
+</head>
+
+<body>
+    <button id="nav-toggler" class="position-fixed btn btn-light m-3" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#nav" style="z-index: 100;">
+        <i class="fa fa-bars fa-3x"></i>
+    </button>
+    <div class="offcanvas offcanvas-end px-5" tabindex="-1" id="nav">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Menu</h5>
+            <button type="button" class="btn-close btn-light" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body fs-2">
+            <ul class="nav flex-column me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="/">Home</a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="/tool">Online Calculator</a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="/about">About</a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="https://legwork.readthedocs.io/en/latest/cite.html">Citing
+                        LEGWORK</a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="https://legwork.readthedocs.io">Python Package</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <nav class="navbar navbar-light bg-light mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="../static/img/legwork_shoe.png" style="width:100px;">
+            </a>
+            <div class="me-auto mb-2 mb-lg-0 display-5 fw-bold">
+                LEGWORK Online
+            </div>
+        </div>
+    </nav>
+    {% block content %}{% endblock %}
+    <div class="container-fluid">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-4 border-top">
+            <div class="col-md-4 d-flex align-items-center">
+                <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                    <img src="../static/img/legwork_shoe.png" width="30px">
+                </a>
+                <span class="text-muted">© 2021 Tom Wagg</span>
+            </div>
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
+                <li class="nav-item"><a href="/tool" class="nav-link px-2 text-muted">Online Calculator</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link px-2 text-muted">About</a></li>
+                <li class="nav-item"><a href="https://legwork.readthedocs.io/en/latest/cite.html"
+                        class="nav-link px-2 text-muted">Citing LEGWORK</a></li>
+                <li class="nav-item"><a href="https://legwork.readthedocs.io/en/latest/"
+                        class="nav-link px-2 text-muted">Python Package</a></li>
+            </ul>
+        </footer>
+    </div>
+    <div id="javascriptbox">
+        <script src="../static/node_modules/jquery/dist/jquery.slim.min.js"></script>
+        <script type="module" src="../static/js/main.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js">
+        </script>
+    </div>
+    <span id="helper-template" class="fa-stack" data-bs-toggle="tooltip" data-bs-html="true" title=""
+        style="font-size: 8px; vertical-align: top;">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-question fa-stack-1x fa-inverse"></i>
+    </span>
+</body>

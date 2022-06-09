@@ -1,396 +1,317 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Web app for using LEGWORK online">
-    <meta name="author" content="Tom Wagg">
-    <title>LEGWORK Online</title>
-    <link href="../static/img/logo.ico" rel="icon">
-    <!-- icons and fonts -->
-    <script src="https://kit.fontawesome.com/328d20ce71.js" crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Signika+Negative:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
-    <!-- main css -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link href="../static/css/main.css" rel="stylesheet">
-</head>
+{% block title %}
+Calculator
+{% endblock %}
 
-<body>
-    <button id="nav-toggler" class="position-fixed btn btn-light m-3" type="button" data-bs-toggle="offcanvas"
-        data-bs-target="#nav" style="z-index: 100;">
-        <i class="fa fa-bars fa-3x"></i>
-    </button>
-    <div class="offcanvas offcanvas-end px-5" tabindex="-1" id="nav">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title">Menu</h5>
-            <button type="button" class="btn-close btn-light" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body fs-2">
-            <ul class="nav flex-column me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link link-light active" aria-current="page" href="#">Home</a>
-                </li>
-                <hr>
-                <li class="nav-item">
-                    <a class="nav-link link-light" href="#">About</a>
-                </li>
-                <hr>
-                <li class="nav-item">
-                    <a class="nav-link link-light" href="https://legwork.readthedocs.io/en/latest/cite.html">Citing
-                        LEGWORK</a>
-                </li>
-                <hr>
-                <li class="nav-item">
-                    <a class="nav-link link-light" href="https://legwork.readthedocs.io">Python Package</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="p-5 mb-4 bg-light rounded-3">
-        <div class="container-fluid py-5">
-            <div class="display-1 fw-bold">
-                <img src="../static/img/legwork_shoe.png" height="40px"> LEGWORK Online</div>
-            <p class="col-md-8 fs-4"> a one stop shop for analysing stellar-origin gravitational-wave sources for
-                space-based detectors </p>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-6 mb-3 mb-md-0">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Inputs</h2>
-                    </div>
-                    <div class="card-body">
-                        <h3>Sources</h3>
-                        <div class="row">
-                            <div class="col">
-                                <nav>
-                                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                        <button class="nav-link active" id="input-single-source-tab" data-bs-toggle="tab"
-                                            data-bs-target="#input-single-source" type="button" role="tab">Single Source
-                                        </button>
-                                        <button class="nav-link" id="input-csv-sources-tab" data-bs-toggle="tab"
-                                            data-bs-target="#input-csv-sources" type="button" role="tab">Sources from
-                                            CSV </button>
-                                        <button class="nav-link" id="input-random-sources-tab" data-bs-toggle="tab"
-                                            data-bs-target="#input-random-sources" type="button" role="tab">Random
-                                            sources </button>
-                                    </div>
-                                </nav>
-                                <div class="tab-content mt-2" id="nav-tabContent">
-                                    <div class="tab-pane fade active show" id="input-single-source" role="tabpanel" tabindex="0">
-                                        <form>
-                                            <div class="row mb-3">
-                                                <div class="col">
-                                                    <label for="single-primary-mass" class="form-label">Primary
-                                                        Mass</label>
-                                                    <div class="input-group">
-                                                        <input type="number" step="any" min="0" class="form-control"
-                                                            id="single-primary-mass" required>
-                                                        <span class="input-group-text">$\rm M_\odot$</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <label for="single-secondary-mass" class="form-label">Secondary
-                                                        Mass</label>
-                                                    <div class="input-group">
-                                                        <input type="number" step="any" min="0" class="form-control"
-                                                            id="single-secondary-mass" required>
-                                                        <span class="input-group-text">$\rm M_\odot$</span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-text">Masses should be in units of solar masses</div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-12 col-md-8 mb-3 mb-md-0">
-                                                    <label for="single-frequency" class="form-label">Orbital frequency
-                                                        or Separation</label>
-                                                    <div class="input-group">
-                                                        <input type="number" step="any" class="form-control"
-                                                            id="single-frequency">
-                                                        <span class="input-group-text">$\rm mHz$</span>
-                                                        <input type="number" step="any" min="0" class="form-control"
-                                                            id="single-separation">
-                                                        <span class="input-group-text">$\rm AU$</span>
-                                                    </div>
-                                                    <div class="form-text">Only frequency <i>or</i> separation is
-                                                        required </div>
-                                                </div>
-                                                <div class="col-12 col-md-4">
-                                                    <label for="single-eccentricity"
-                                                        class="form-label">Eccentricity</label>
-                                                    <input type="number" step="any" min="0" max="1" class="form-control"
-                                                        id="single-eccentricity" required>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-12 col-md-6">
-                                                    <label for="single-distance" class="form-label">Distance</label>
-                                                    <div class="input-group">
-                                                        <input type="number" step="any" min="0" class="form-control"
-                                                            id="single-distance">
-                                                        <span class="input-group-text">$\rm kpc$</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="tab-pane fade" id="input-csv-sources" role="tabpanel"
-                                        tabindex="0">
-                                        <div class="row mb-4">
-                                            <div class="col"> The following columns are required for your CSV file:
-                                                <code>m_1</code>, <code>m_2</code>, <code>f_orb</code> and/or
-                                                <code>a</code>, <code>dist</code>, <code>ecc</code>. The units of these
-                                                columns are $\rm M_\odot$, $\rm M_\odot$, $\rm Hz$ or $\rm AU$, $\rm
-                                                kpc$ and None respectively. </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col file-drop-box-container">
-                                                <div class="file-drop-box">
-                                                    <div class="message pre-upload">
-                                                        <i class="fa fa-upload fa-3x d-block mb-3"></i>
-                                                        <input type="file" id="source-csv-file"
-                                                            class="file-drop-box-choose">
-                                                        <label id="source-csv-file-label"
-                                                            for="source-csv-file"><strong>Choose a file</strong><span
-                                                                class=""> or drag it here</span></label>
-                                                    </div>
-                                                    <div class="message ready-to-drop hide">
-                                                        <i class="fa fa-upload fa-3x d-block mb-3"></i>
-                                                        <p>Ooh nice file, now just let go!</p>
-                                                    </div>
-                                                    <div class="message uploading hide">
-                                                        <i class="fa fa-spin fa-circle-o-notch d-block"></i>
-                                                        <label>Looks like some great sources, uploading them
-                                                            now!</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="input-random-sources" role="tabpanel" tabindex="0">
-                                        TODO </div>
-                                </div>
-                                <hr>
-                                <h3>Detector</h3>
-                                <form>
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <label for="detector" class="form-label">Sensitivity Curve</label>
-                                            <select id="detector" class="form-select">
-                                                <option selected value="lisa">LISA</option>
-                                                <option value="tianqin">TianQin</option>
-                                            </select>
-                                        </div>
-                                        <div class="col">
-                                            <label for="duration" class="form-label">Mission Duration</label>
-                                            <div class="input-group">
-                                                <input type="number" class="form-control" min="0" id="duration"
-                                                    value="4">
-                                                <span class="input-group-text">$\rm years$</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3 text-center">
-                                        <div class="col">
-                                            <div class="form-check form-check-inline form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="confusion-noise" checked="true">
-                                                <label class="form-check-label" for="confusion-noise">Include confusion
-                                                    noise? <span class="helper"
-                                                        title="Whether to include the Galactic confusion noise in the sensitivity curve"></span>
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="approximate-response">
-                                                <label class="form-check-label" for="approximate-response">Approximate
-                                                    response function? <span class="helper"
-                                                        title="Whether to use an approximation for the LISA response function rather than the exact expression (approximation removes 'bumps' at high frequency)"></span></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-6">
-                                            <label for="confusion-model" class="form-label">Confusion Noise Model <span
-                                                    class="helper"
-                                                    title="Model to use for the Galactic confusion noise. Robson+19 and Thiele+19 are meant for LISA, Huang+20 for TianQin.<br><br>Use the Python package if you want to use a custom confusion noise model."></span></label>
-                                            <select id="confusion-model" class="form-select">
-                                                <option selected value="robson">Robson+19</option>
-                                                <option value="huang">Huang+20</option>
-                                                <option value="huang">Thiele+21</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </form>
-                                <h3>Settings</h3>
-                                <form>
-                                    <div class="row mb-3 align-items-end">
-                                        <div class="col-12 col-md-4 mb-3 mb-md-0">
-                                            <label for="gw-lum-tol" class="form-label">Gravitational Wave Luminosity
-                                                Tolerance <span class="helper"
-                                                    title="Allowed error on the GW luminosity when calculating SNRs - used for calculating how many harmonics are necessary for eccentric sources"></span></label>
-                                            <input type="number" step="any" min="0" class="form-control" id="gw-lum-tol"
-                                                value="0.05" required>
-                                        </div>
-                                        <div class="col-12 col-md-4 mb-3 mb-md-0">
-                                            <label for="stat-tol" class="form-label">Stationary Tolerance <span
-                                                    class="helper"
-                                                    title="Fractional change in frequency over the mission duration below which a binary should be considered stationary"></span></label>
-                                            <input type="number" step="any" min="0" class="form-control" id="stat-tol"
-                                                value="0.01" required>
-                                        </div>
-                                        <div class="col-12 col-md-4 align-self-end align-items-end">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="interpolate-sc" checked="true">
-                                                <label class="form-check-label" for="interpolate-sc">Interpolate
-                                                    sensitivity curve? <span class="helper"
-                                                        title="Whether to interpolate the sensitivity for speed ups in calculating SNRs. Recommend always true."></span></label>
-                                            </div>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="interpolate-g">
-                                                <label class="form-check-label" for="interpolate-g">Interpolate $g(n,
-                                                    e)$? <span class="helper"
-                                                        title="Whether to interpolate the $g(n, e)$ function - this will speed up the strain/SNR calculations but takes time so it's only worth it for large collections of sources"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                                <button id="init" class="btn btn-lg btn-primary w-100">Initialise inputs</button>
-                            </div>
-                        </div>
-                    </div>
+{% block css_imports %}
+<link href="../static/css/main.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 mb-3 mb-md-0">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Inputs</h2>
                 </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Results</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col">
-                                <h4>Calculations</h4>
-                                <div class="btn-group w-100">
-                                    <button class="btn btn-primary">Signal-to-Noise Ratio</button>
-                                    <button class="btn btn-primary">Merger Time</button>
-                                    <button class="btn btn-primary">Strain</button>
-                                    <button class="btn btn-primary">Characteristic Strain</button>
+                <div class="card-body">
+                    <h3>Sources</h3>
+                    <div class="row">
+                        <div class="col">
+                            <nav>
+                                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                    <button class="nav-link active" id="input-single-source-tab" data-bs-toggle="tab"
+                                        data-bs-target="#input-single-source" type="button" role="tab">Single Source
+                                    </button>
+                                    <button class="nav-link" id="input-csv-sources-tab" data-bs-toggle="tab"
+                                        data-bs-target="#input-csv-sources" type="button" role="tab">Sources from
+                                        CSV </button>
+                                    <button class="nav-link" id="input-random-sources-tab" data-bs-toggle="tab"
+                                        data-bs-target="#input-random-sources" type="button" role="tab">Random
+                                        sources </button>
                                 </div>
-                                <div class="form-text">Results will appear in the data table below</div>
+                            </nav>
+                            <div class="tab-content mt-2" id="nav-tabContent">
+                                <div class="tab-pane fade active show" id="input-single-source" role="tabpanel" tabindex="0">
+                                    <form>
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label for="single-primary-mass" class="form-label">Primary
+                                                    Mass</label>
+                                                <div class="input-group">
+                                                    <input type="number" step="any" min="0" class="form-control"
+                                                        id="single-primary-mass" required>
+                                                    <span class="input-group-text">$\rm M_\odot$</span>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label for="single-secondary-mass" class="form-label">Secondary
+                                                    Mass</label>
+                                                <div class="input-group">
+                                                    <input type="number" step="any" min="0" class="form-control"
+                                                        id="single-secondary-mass" required>
+                                                    <span class="input-group-text">$\rm M_\odot$</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-text">Masses should be in units of solar masses</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12 col-md-8 mb-3 mb-md-0">
+                                                <label for="single-frequency" class="form-label">Orbital frequency
+                                                    or Separation</label>
+                                                <div class="input-group">
+                                                    <input type="number" step="any" class="form-control"
+                                                        id="single-frequency">
+                                                    <span class="input-group-text">$\rm mHz$</span>
+                                                    <input type="number" step="any" min="0" class="form-control"
+                                                        id="single-separation">
+                                                    <span class="input-group-text">$\rm AU$</span>
+                                                </div>
+                                                <div class="form-text">Only frequency <i>or</i> separation is
+                                                    required </div>
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <label for="single-eccentricity"
+                                                    class="form-label">Eccentricity</label>
+                                                <input type="number" step="any" min="0" max="1" class="form-control"
+                                                    id="single-eccentricity" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12 col-md-6">
+                                                <label for="single-distance" class="form-label">Distance</label>
+                                                <div class="input-group">
+                                                    <input type="number" step="any" min="0" class="form-control"
+                                                        id="single-distance">
+                                                    <span class="input-group-text">$\rm kpc$</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="input-csv-sources" role="tabpanel"
+                                    tabindex="0">
+                                    <div class="row mb-4">
+                                        <div class="col"> The following columns are required for your CSV file:
+                                            <code>m_1</code>, <code>m_2</code>, <code>f_orb</code> and/or
+                                            <code>a</code>, <code>dist</code>, <code>ecc</code>. The units of these
+                                            columns are $\rm M_\odot$, $\rm M_\odot$, $\rm Hz$ or $\rm AU$, $\rm
+                                            kpc$ and None respectively. </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col file-drop-box-container">
+                                            <div class="file-drop-box">
+                                                <div class="message pre-upload">
+                                                    <i class="fa fa-upload fa-3x d-block mb-3"></i>
+                                                    <input type="file" id="source-csv-file"
+                                                        class="file-drop-box-choose">
+                                                    <label id="source-csv-file-label"
+                                                        for="source-csv-file"><strong>Choose a file</strong><span
+                                                            class=""> or drag it here</span></label>
+                                                </div>
+                                                <div class="message ready-to-drop hide">
+                                                    <i class="fa fa-upload fa-3x d-block mb-3"></i>
+                                                    <p>Ooh nice file, now just let go!</p>
+                                                </div>
+                                                <div class="message uploading hide">
+                                                    <i class="fa fa-spin fa-circle-o-notch d-block"></i>
+                                                    <label>Looks like some great sources, uploading them
+                                                        now!</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="input-random-sources" role="tabpanel" tabindex="0">
+                                    TODO </div>
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <h4>Evolution</h4>
-                                <div class="row">
-                                    <div class="col d-flex align-items-center">
+                            <hr>
+                            <h3>Detector</h3>
+                            <form>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <label for="detector" class="form-label">Sensitivity Curve</label>
+                                        <select id="detector" class="form-select">
+                                            <option selected value="lisa">LISA</option>
+                                            <option value="tianqin">TianQin</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="duration" class="form-label">Mission Duration</label>
                                         <div class="input-group">
-                                            <input class="form-control">
-                                            <span class="input-group-text">years</span>
+                                            <input type="number" class="form-control" min="0" id="duration"
+                                                value="4">
+                                            <span class="input-group-text">$\rm years$</span>
                                         </div>
                                     </div>
-                                    <div class="col-3">
-                                        <button class="btn btn-primary w-100">Evolve sources</button>
+                                </div>
+                                <div class="row mb-3 text-center">
+                                    <div class="col">
+                                        <div class="form-check form-check-inline form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                id="confusion-noise" checked="true">
+                                            <label class="form-check-label" for="confusion-noise">Include confusion
+                                                noise? <span class="helper"
+                                                    title="Whether to include the Galactic confusion noise in the sensitivity curve"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                id="approximate-response">
+                                            <label class="form-check-label" for="approximate-response">Approximate
+                                                response function? <span class="helper"
+                                                    title="Whether to use an approximation for the LISA response function rather than the exact expression (approximation removes 'bumps' at high frequency)"></span></label>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <label for="confusion-model" class="form-label">Confusion Noise Model <span
+                                                class="helper"
+                                                title="Model to use for the Galactic confusion noise. Robson+19 and Thiele+19 are meant for LISA, Huang+20 for TianQin.<br><br>Use the Python package if you want to use a custom confusion noise model."></span></label>
+                                        <select id="confusion-model" class="form-select">
+                                            <option selected value="robson">Robson+19</option>
+                                            <option value="huang">Huang+20</option>
+                                            <option value="huang">Thiele+21</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                            <h3>Settings</h3>
+                            <form>
+                                <div class="row mb-3 align-items-end">
+                                    <div class="col-12 col-md-4 mb-3 mb-md-0">
+                                        <label for="gw-lum-tol" class="form-label">Gravitational Wave Luminosity
+                                            Tolerance <span class="helper"
+                                                title="Allowed error on the GW luminosity when calculating SNRs - used for calculating how many harmonics are necessary for eccentric sources"></span></label>
+                                        <input type="number" step="any" min="0" class="form-control" id="gw-lum-tol"
+                                            value="0.05" required>
+                                    </div>
+                                    <div class="col-12 col-md-4 mb-3 mb-md-0">
+                                        <label for="stat-tol" class="form-label">Stationary Tolerance <span
+                                                class="helper"
+                                                title="Fractional change in frequency over the mission duration below which a binary should be considered stationary"></span></label>
+                                        <input type="number" step="any" min="0" class="form-control" id="stat-tol"
+                                            value="0.01" required>
+                                    </div>
+                                    <div class="col-12 col-md-4 align-self-end align-items-end">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                id="interpolate-sc" checked="true">
+                                            <label class="form-check-label" for="interpolate-sc">Interpolate
+                                                sensitivity curve? <span class="helper"
+                                                    title="Whether to interpolate the sensitivity for speed ups in calculating SNRs. Recommend always true."></span></label>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                id="interpolate-g">
+                                            <label class="form-check-label" for="interpolate-g">Interpolate $g(n,
+                                                e)$? <span class="helper"
+                                                    title="Whether to interpolate the $g(n, e)$ function - this will speed up the strain/SNR calculations but takes time so it's only worth it for large collections of sources"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <button id="init" class="btn btn-lg btn-primary w-100">Initialise inputs</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Results</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <h4>Calculations</h4>
+                            <div class="btn-group w-100">
+                                <button class="btn btn-primary">Signal-to-Noise Ratio</button>
+                                <button class="btn btn-primary">Merger Time</button>
+                                <button class="btn btn-primary">Strain</button>
+                                <button class="btn btn-primary">Characteristic Strain</button>
+                            </div>
+                            <div class="form-text">Results will appear in the data table below</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <h4>Evolution</h4>
+                            <div class="row">
+                                <div class="col d-flex align-items-center">
+                                    <div class="input-group">
+                                        <input class="form-control">
+                                        <span class="input-group-text">years</span>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-primary w-100">Evolve sources</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <h4>Plots</h4>
-                                <div class="mb-3">
-                                    <label>Plot Type</label>
-                                    <select class="form-select">
-                                        <option selected value="">Sensitivity curve</option>
-                                    </select>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h4>Plots</h4>
+                            <div class="mb-3">
+                                <label>Plot Type</label>
+                                <select class="form-select">
+                                    <option selected value="">Sensitivity curve</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 text-center">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary btn-lg">Create new plot</button>
+                                    <button class="btn btn-primary btn-lg">Download current plot</button>
                                 </div>
-                                <div class="mb-3 text-center">
-                                    <div class="btn-group">
-                                        <button class="btn btn-primary btn-lg">Create new plot</button>
-                                        <button class="btn btn-primary btn-lg">Download current plot</button>
+                            </div>
+                            <figure>
+                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2"
+                                    data-bs-toggle="modal" data-bs-target="#gal_modal">
+                                    <img src="../static/img/legwork.png" class="img-fluid zoom-figure">
+                                    <div class="img-overlay">
+                                        <p class="m-0 fw-bold">Click to Zoom</p>
                                     </div>
                                 </div>
-                                <figure>
-                                    <div class="img-fluid-limited float-start position-relative zoom-figure me-2"
-                                        data-bs-toggle="modal" data-bs-target="#gal_modal">
-                                        <img src="../static/img/legwork.png" class="img-fluid zoom-figure">
-                                        <div class="img-overlay">
-                                            <p class="m-0 fw-bold">Click to Zoom</p>
-                                        </div>
-                                    </div>
-                                    <div class="modal fade" id="gal_modal" tabindex="-1">
-                                        <div class="modal-dialog modal-fullscreen">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body text-center">
-                                                    <img src="../static/img/legwork.png" class="img-fluid">
-                                                </div>
+                                <div class="modal fade" id="gal_modal" tabindex="-1">
+                                    <div class="modal-dialog modal-fullscreen">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <img src="../static/img/legwork.png" class="img-fluid">
                                             </div>
                                         </div>
                                     </div>
-                                </figure>
-                                <div class="text-center">
-                                    <h4>Plots appear here <i class="fa fa-arrow-up"></i></h4>
                                 </div>
+                            </figure>
+                            <div class="text-center">
+                                <h4>Plots appear here <i class="fa fa-arrow-up"></i></h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Data</h2>
-                    </div>
-                    <div class="card-body">
-                        <div id="sources-table" class="table-responsive"> Nothing yet! </div>
-                    </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Data</h2>
+                </div>
+                <div class="card-body">
+                    <div id="sources-table" class="table-responsive"> Nothing yet! </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container-fluid">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-4 border-top">
-            <div class="col-md-4 d-flex align-items-center">
-                <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-                    <img src="../static/img/legwork_shoe.png" width="30px">
-                </a>
-                <span class="text-muted">© 2021 Tom Wagg</span>
-            </div>
-            <ul class="nav col-md-4 justify-content-end">
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
-                <li class="nav-item"><a href="https://legwork.readthedocs.io/en/latest/cite.html"
-                        class="nav-link px-2 text-muted">Citing LEGWORK</a></li>
-                <li class="nav-item"><a href="https://legwork.readthedocs.io/en/latest/"
-                        class="nav-link px-2 text-muted">Python Package</a></li>
-            </ul>
-        </footer>
-    </div>
-    <div id="javascriptbox">
-        <script src="../static/js/jquery.slim.min.js"></script>
-        <script type="module" src="../static/js/main.js"></script>
-
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
-    </div>
-    <span id="helper-template" class="fa-stack" data-bs-toggle="tooltip" data-bs-html="true" title=""
-        style="font-size: 8px; vertical-align: top;">
-        <i class="fa fa-circle fa-stack-2x"></i>
-        <i class="fa fa-question fa-stack-1x fa-inverse"></i>
-    </span>
-</body>
+</div>
+{% endblock %}

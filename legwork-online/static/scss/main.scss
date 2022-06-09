@@ -1,27 +1,4 @@
-$primary: lightblue;
-$nav-link-color: #369BDE;
-
-@import "bootstrap.scss";
-
-body {
-    font-family: 'Signika Negative', sans-serif
-}
-
-.hide {
-    display: none;
-}
-
-.title {
-    font-size: 30px;
-    font-weight: bold;
-}
-
-.form-box {
-    border: 1px solid grey;
-    border-color: rgba(0, 0, 0, 0.25);
-    border-radius: 5px;
-    padding: 1rem;
-}
+@import "./base.scss";
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -33,28 +10,6 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
     -moz-appearance: textfield;
-}
-
-#nav-toggler {
-    right: 0;
-    top: 0;
-}
-
-.offcanvas {
-    transition: transform .2s ease-in-out;
-    background-color: #555;
-    background-clip: border-box;
-    color: white;
-}
-
-.offcanvas-title {
-    font-size: 50px;
-    font-weight: bolder;
-}
-
-.offcanvas-backdrop.show {
-    background-color: white;
-    opacity: 0.7;
 }
 
 .helper {
@@ -101,11 +56,6 @@ input[type=number] {
 .zoom-figure {
     cursor: zoom-in;
 }
-
-// .img-fluid-limited {
-//     max-width: min(500px, 100%);
-//     height: auto;
-// }
 
 .img-overlay {
     text-align: center;
