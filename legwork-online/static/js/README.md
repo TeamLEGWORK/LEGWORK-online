@@ -1,0 +1,1 @@
+Note to self: External JS (currently jQuery and Bootstrap) need to be copied from node_modules/x/dist/js/ after running npm install.
