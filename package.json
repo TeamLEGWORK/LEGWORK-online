@@ -5,10 +5,10 @@
     "main": "main.js",
     "scripts": {
         "build": "npm run css",
-        "css-compile": "node-sass --include-path node_modules --source-map true --output-style compressed --source-map-contents true --precision 6 scss -o css/",
+        "css-compile": "node-sass --include-path node_modules --source-map true --output-style compressed --source-map-contents true --precision 6 static/scss -o static/css/",
         "css-lint": "stylelint scss/",
-        "css-prefix": "postcss --replace css/main.css --use autoprefixer --map",
-        "css-purge": "purgecss --keyframes --css css/main.css --content html/main.html \"node_modules/bootstrap/js/dist/{util,modal}.js\" --output css/",
+        "css-prefix": "postcss --replace static/css/main.css --use autoprefixer --map",
+        "css-purge": "purgecss --keyframes --css static/css/main.css --content templates/main.html \"node_modules/bootstrap/js/dist/{util,modal}.js\" --output static/css/",
         "css": "npm-run-all css-compile css-prefix",
         "server": "serve --listen 3000",
         "start": "npm-run-all --parallel watch server",

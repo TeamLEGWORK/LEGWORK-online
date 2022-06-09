@@ -1,4 +1,4 @@
-import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 
 window.MathJax = {
     tex: {
@@ -85,7 +85,7 @@ window.addEventListener("load", function () {
             Success! <strong>Upload another file?</strong></label>
         `;
 
-        dropped_file = e.dataTransfer.files[0];
+        const dropped_file = e.dataTransfer.files[0];
         
         const fileReader = new FileReader();
         fileReader.readAsText(dropped_file);
@@ -126,38 +126,38 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
     });
 
 function create_table(rows) {
-    table = document.createElement("table");
+    let table = document.createElement("table");
     table.classList.add("table", "table-striped");
 
-    thead = document.createElement("thead");
+    let thead = document.createElement("thead");
     table.appendChild(thead);
 
-    thead_tr = document.createElement("tr");
+    let thead_tr = document.createElement("tr");
     thead.appendChild(thead_tr);
 
-    th = document.createElement("th");
+    let th = document.createElement("th");
     th.innerText = "Source ID";
     thead.appendChild(th);
 
-    for (i = 0; i < rows[0].length; i++) {
-        th = document.createElement("th");
+    for (let i = 0; i < rows[0].length; i++) {
+        let th = document.createElement("th");
         th.innerText = rows[0][i];
         thead.appendChild(th);
     }
 
-    tbody = document.createElement("tbody");
+    let tbody = document.createElement("tbody");
     table.appendChild(tbody);
 
-    for (i = 1; i < rows.length; i++) {
+    for (let i = 1; i < rows.length; i++) {
         if (rows[i].length > 1) {
-            tr = document.createElement("tr");
-            th = document.createElement("th");
+            let tr = document.createElement("tr");
+            let th = document.createElement("th");
             th.setAttribute("scope", "row");
             th.innerText = i - 1;
             tr.appendChild(th);
 
-            for (j = 0; j < rows[i].length; j++) {
-                td = document.createElement("td");
+            for (let j = 0; j < rows[i].length; j++) {
+                let td = document.createElement("td");
                 td.innerText = rows[i][j];
                 tr.appendChild(td);
             }
