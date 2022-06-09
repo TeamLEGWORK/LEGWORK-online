@@ -1,3 +1,5 @@
+import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
+
 window.MathJax = {
     tex: {
         inlineMath: [
@@ -19,12 +21,12 @@ window.MathJax = {
 
 window.addEventListener("load", function () {
     // grab the template for later use
-    template = document.getElementById("helper-template");
+    const template = document.getElementById("helper-template");
 
     // loop over each helper
     this.document.querySelectorAll(".helper").forEach(function (el) {
         // clone the template and reveal it
-        helper = template.cloneNode(true);
+        let helper = template.cloneNode(true);
         helper.id = "";
 
         // cut and paste the title

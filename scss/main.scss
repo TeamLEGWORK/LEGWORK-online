@@ -1,0 +1,98 @@
+$primary: lightblue;
+$nav-link-color: #369BDE;
+
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+body {
+    font-family: 'Signika Negative', sans-serif
+}
+
+.hide {
+    display: none;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.form-box {
+    border: 1px solid grey;
+    border-color: rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+#nav-toggler {
+    right: 0;
+    top: 0;
+}
+
+.offcanvas {
+    transition: transform .2s ease-in-out;
+    background-color: #555;
+    color: white;
+}
+
+.offcanvas-title {
+    font-size: 50px;
+    font-weight: bolder;
+}
+
+.offcanvas-backdrop.show {
+    background-color: white;
+    opacity: 0.7;
+}
+
+.helper {
+    color: rgba(0, 0, 0, 0.25);
+}
+
+#helper-template {
+    display: none !important;
+}
+
+.file-drop-box-container {
+    background-color: lightblue;
+    margin: 1rem;
+    padding: 70px 1rem;
+    outline: 2px dashed rgba(0, 0, 0, 0.25);
+    outline-offset: -10px;
+    transition: 0.2s ease-in-out;
+}
+
+.file-drop-box-container.file-is-over {
+    outline-offset: -20px;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.file-drop-box {
+    color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-size: 18px;
+}
+
+.file-drop-box-choose {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+#source-csv-file-label strong {
+    cursor: pointer;
+}
