@@ -5,10 +5,10 @@
     "main": "main.js",
     "scripts": {
         "build": "npm run css",
-        "css-compile": "node-sass --include-path node_modules --source-map true --output-style compressed --source-map-contents true --precision 6 legwork-online/static/scss -o legwork-online/static/css/",
+        "css-compile": "node-sass --include-path node_modules --source-map true --output-style compressed --source-map-contents true --precision 6 scss/ -o css/",
         "css-lint": "stylelint scss/",
-        "css-prefix": "postcss --replace legwork-online/static/css/main.css --use autoprefixer --map",
-        "css-purge": "purgecss --keyframes --css legwork-online/static/css/main.css --content legwork-online/templates/main.html \"node_modules/bootstrap/js/dist/{util,modal}.js\" --output legwork-online/static/css/",
+        "css-prefix": "postcss --replace css/main.css --use autoprefixer --map",
+        "css-purge": "purgecss --keyframes --css css/main.css --content ../templates/main.html \"node_modules/bootstrap/js/dist/{util,modal}.js\" --output css/",
         "css": "npm-run-all css-compile css-prefix",
         "server": "serve --listen 3000",
         "start": "npm-run-all --parallel watch server",
