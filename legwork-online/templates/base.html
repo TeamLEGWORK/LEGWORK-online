@@ -75,22 +75,13 @@
                 </a>
                 <span class="text-muted">© 2022 Tom Wagg</span>
             </div>
-            <ul class="nav col-md-4 justify-content-end">
+            <ul class="nav col-md-6 justify-content-end">
                 {% for href, id, caption in navigation_bar %}
                     <li class="nav-item">
                         <a{% if id == active_page %} class="active nav-link px-2"{% else %} class="nav-link px-2 text-muted"{% endif
                     %} href="{{ href|e }}">{{ caption|e }}</a>
                     </li>
                 {% endfor %}
-
-
-                <!-- <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
-                <li class="nav-item"><a href="/tool" class="nav-link px-2 text-muted">Online Calculator</a></li>
-                <li class="nav-item"><a href="/about" class="nav-link px-2 text-muted">About</a></li>
-                <li class="nav-item"><a href="https://legwork.readthedocs.io/en/latest/cite.html"
-                        class="nav-link px-2 text-muted">Citing LEGWORK</a></li>
-                <li class="nav-item"><a href="https://legwork.readthedocs.io/en/latest/"
-                        class="nav-link px-2 text-muted">Python Package</a></li> -->
             </ul>
         </div>
         </footer>
