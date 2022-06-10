@@ -3,6 +3,7 @@
 .headshot {
     border-radius: 100%;
     border: 5px solid $primary;
+    max-width: calc(min(100%, 250px));
 }
 
 .headshot-name {
