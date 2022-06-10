@@ -1,0 +1,11 @@
+@import "./base.scss";
+
+.headshot {
+    border-radius: 100%;
+    border: 5px solid $primary;
+}
+
+.headshot-name {
+    font-size: 2.5rem;
+    font-weight: 500;
+}

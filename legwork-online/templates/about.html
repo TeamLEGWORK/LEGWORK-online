@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% set active_page = "about" %}
+
+{% block title %}
+    About
+{% endblock %}
+
+{% block css_imports %}
+<link href="../static/css/about.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center mb-4">
+        <div class="col">
+            <div class="display-4 fw-bolder">
+                About LEGWORK Online
+            </div>
+            <p>Lots and lots of text</p>
+        </div>
+    </div>
+    <div class="row text-center justify-content-center">
+        <div id="me-headshot-col" class="col-12 col-md-3 hide">
+            <img class="img headshot me-3" src="../static/img/circle_me.png" style="max-width: 250px;">
+            <div class="headshot-name">Tom Wagg</div>
+            <div class="text-center">
+                <a href="https://www.tomwagg.com/" target="_blank" class="btn bg-transparent rounded link-primary">
+                    <i class="fas fa-link fa-2x" ></i><span class="sr-only">Website</span>
+                </a>
+                <a href="https://github.com/TomWagg/" target="_blank" class="btn bg-transparent rounded link-primary">
+                    <i class="fab fa-github fa-2x"></i><span class="sr-only">GitHub</span>
+                </a>
+            </div>
+        </div>
+        <div id="katie-headshot-col" class="col-12 col-md-3 hide">
+            <img class="img headshot" src="../static/img/circle_katie.jpeg" style="max-width: 250px;">
+            <div class="headshot-name">Katie Breivik</div>
+            <p class="text-center">
+                <a href="https://katiebreivik.github.io/" target="_blank" class="btn bg-transparent rounded link-primary">
+                    <i class="fas fa-link fa-2x" ></i><span class="sr-only">Website</span>
+                </a>
+                <a href="https://github.com/katiebreivik/" target="_blank" class="btn bg-transparent rounded link-primary">
+                    <i class="fab fa-github fa-2x"></i><span class="sr-only">GitHub</span>
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_imports %}
+<script type="module" src="../static/js/about.js"></script>
+{% endblock %}

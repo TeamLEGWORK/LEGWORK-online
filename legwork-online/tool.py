@@ -5,6 +5,7 @@ from werkzeug.exceptions import abort
 
 bp = Blueprint('blog', __name__)
 
+
 @bp.route('/')
 def index():
     return render_template('home.html')
@@ -13,3 +14,8 @@ def index():
 @bp.route('/tool', methods=("GET", "POST"))
 def tool():
     return render_template('tool.html')
+
+
+@bp.route('/about')
+def about():
+    return render_template('about.html')
