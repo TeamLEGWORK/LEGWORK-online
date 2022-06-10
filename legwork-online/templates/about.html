@@ -1,31 +1,51 @@
 {% extends 'base.html' %}
 {% set active_page = "about" %}
 
-{% block title %}
-    About
-{% endblock %}
+{% block title %} About {% endblock %}
 
 {% block css_imports %}
-<link href="../static/css/about.css" rel="stylesheet">
-{% endblock %}
-
-{% block content %}
-<div class="container">
-    <div class="row text-center mb-4">
+<link href="../static/css/about.css" rel="stylesheet"> {% endblock %} {% block content %} <div class="container">
+    <div class="row mb-3">
         <div class="col">
-            <div class="display-4 fw-bolder">
-                About LEGWORK Online
-            </div>
-            <p>Lots and lots of text</p>
+            <div class="display-5 fw-bold"> What's LEGWORK? </div>
+            <p class="fs-4">
+                LEGWORK (<b>L</b>ISA <b>E</b>volution and <b>G</b>ravitational <b>W</b>ave <b>OR</b>bit
+                <b>K</b>it) is an open-source Python package for making predictions about stellar-origin gravitational
+                wave sources and their detectability in LISA or other space-based gravitational wave detectors. LEGWORK
+                can be used to evolve the orbits of sources due to gravitational wave emission, calculate gravitational
+                wave strains (using post-Newtonian approximations), compute signal-to-noise ratios and visualise the
+                results!
+            </p>
+            <p class="fs-4">
+                We designed this open-source package with the hope of enabling and accelerating future studies triggered
+                by the rapidly growing interest in gravitational waves. We aim for it to make the field more accessible to
+                newcomers whilst giving experts an opportunity to collaborate.
+            </p>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <div class="display-5 fw-bold"> Okay so what's LEGWORK <i>Online</i>? </div>
+            <p class="fs-4">
+                Downloading a whole Python package and understanding how to make it work isn't everyone's cup of tea - that's
+                where LEGWORK Online comes in! This online tool gives you the ability to access all of the functionality of
+                the package, all from the comfort of your browser.
+            </p>
+            <p class="fs-4">
+                We give you the option of inputting a specific source, a csv file full of sources, or a parameter space from
+                which to sample. Go <a href="/tool" class="link-primary">check it out</a> to see more details!
+            </p>
         </div>
     </div>
     <div class="row text-center justify-content-center">
+        <div class="display-5 fw-bold text-start"> Who made all of this? </div>
         <div id="me-headshot-col" class="col-12 col-md-3 hide">
             <img id="me-headshot" class="img headshot me-3" src="../static/img/circle_me.png" style="max-width: 250px;">
             <div class="headshot-name">Tom Wagg</div>
+            <div class="fs-5 mb-2">PhD student at University of Washington</div>
             <div class="text-center">
                 <a href="https://www.tomwagg.com/" target="_blank" class="btn bg-transparent rounded link-primary">
-                    <i class="fas fa-link fa-2x" ></i><span class="sr-only">Website</span>
+                    <i class="fas fa-link fa-2x"></i><span class="sr-only">Website</span>
                 </a>
                 <a href="https://github.com/TomWagg/" target="_blank" class="btn bg-transparent rounded link-primary">
                     <i class="fab fa-github fa-2x"></i><span class="sr-only">GitHub</span>
@@ -33,21 +53,20 @@
             </div>
         </div>
         <div id="katie-headshot-col" class="col-12 col-md-3 hide">
-            <img id="katie-headshot" class="img headshot" src="../static/img/circle_katie.jpeg" style="max-width: 250px;">
+            <img id="katie-headshot" class="img headshot" src="../static/img/circle_katie.jpeg"
+                style="max-width: 250px;">
             <div class="headshot-name">Katie Breivik</div>
+            <div class="fs-5 mb-2">Postdoc at Flatiron Institute</div>
             <p class="text-center">
-                <a href="https://katiebreivik.github.io/" target="_blank" class="btn bg-transparent rounded link-primary">
-                    <i class="fas fa-link fa-2x" ></i><span class="sr-only">Website</span>
+                <a href="https://katiebreivik.github.io/" target="_blank"
+                    class="btn bg-transparent rounded link-primary">
+                    <i class="fas fa-link fa-2x"></i><span class="sr-only">Website</span>
                 </a>
-                <a href="https://github.com/katiebreivik/" target="_blank" class="btn bg-transparent rounded link-primary">
+                <a href="https://github.com/katiebreivik/" target="_blank"
+                    class="btn bg-transparent rounded link-primary">
                     <i class="fab fa-github fa-2x"></i><span class="sr-only">GitHub</span>
                 </a>
             </p>
         </div>
     </div>
-</div>
-{% endblock %}
-
-{% block js_imports %}
-<script type="module" src="../static/js/about.js"></script>
-{% endblock %}
+</div> {% endblock %} {% block js_imports %} <script type="module" src="../static/js/about.js"></script> {% endblock %}
