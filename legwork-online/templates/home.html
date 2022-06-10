@@ -15,7 +15,7 @@
 <div class="container-fluid py-5 mt-auto">
     <div class="row">
         <div class="col text-center">
-            <img src="../static/img/legwork_waveform.png">
+            <img id="biglogo" src="../static/img/legwork_waveform.png">
             <div class="display-0 fw-bold">
                 LEGWORK Online
             </div>
@@ -28,9 +28,13 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-md-8 fs-2 text-center">
-            <button class="btn btn-lg btn-primary fs-2">Start calculating</button>
-            <button class="btn btn-lg btn-primary fs-2 me-2">Learn More</button>
+            <button id="goto-tool" class="btn btn-lg btn-primary fs-2">Start calculating</button>
+            <button id="goto-about" class="btn btn-lg btn-primary fs-2 me-2">Learn More</button>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block js_imports %}
+<script type="module" src="../static/js/home.js"></script>
 {% endblock %}

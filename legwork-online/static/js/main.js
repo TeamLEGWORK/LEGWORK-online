@@ -1,23 +1,5 @@
-import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
+import {animateCSS} from "./base.js"
 
-window.MathJax = {
-    tex: {
-        inlineMath: [
-            ['$', '$'],
-            ['\\(', '\\)']
-        ]
-    },
-    inTabOrder: false,
-    startup: {
-        pageReady: function () {
-            return MathJax.startup.defaultPageReady().then(function () {
-                document.querySelectorAll(".input-group-text .MathJax").forEach(function (el) {
-                    el.setAttribute("tabindex", "-1")
-                })
-            })
-        }
-    }
-};
 
 window.addEventListener("load", function () {
     // grab the template for later use
