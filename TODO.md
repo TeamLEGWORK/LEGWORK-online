@@ -8,11 +8,11 @@
     - [ ] Perhaps add sliders?
 - [ ] Initial data box
     - [ ] Display the initial sources (even if it's just one) in the data box
-- [ ] Results pane
-    - [ ] Calculate strain
-    - [ ] Calculate SNR
-    - [ ] Calculate merger time
-    - [ ] Evolve sources
+- [x] Results pane buttons/inputs
+    - [x] Calculate strain
+    - [x] Calculate SNR
+    - [x] Calculate merger time
+    - [x] Evolve sources
     - [ ] Plot sensitivity curve (with or without sources)
     - [ ] Plot 1/2D distributions of sources with the usual variables
 - [ ] Export data
@@ -20,5 +20,5 @@
 - [ ] About page
     - [ ] Add a page with our faces and a description of what this is, where it came from, acknowledge people etc
 - [ ] Server side
-    - [ ] Actually make the server for this welp
-    - [ ] Considering Flask but may need something fancier?
+    - [x] Actually make the server for this welp
+    - [ ] Connect it to LEGWORK!
