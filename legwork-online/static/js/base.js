@@ -20,7 +20,7 @@ window.MathJax = {
 };
 
 
-export const animateCSS = (element, animation, prefix = 'animate__') =>
+export const animateCSS = (element, animation, prefix = 'animate__', callback=null) =>
     // We create a Promise and return it
     new Promise((resolve, reject) => {
         const animationName = `${prefix}${animation}`;
@@ -33,6 +33,9 @@ export const animateCSS = (element, animation, prefix = 'animate__') =>
             event.stopPropagation();
             node.classList.remove(`${prefix}animated`, animationName);
             resolve('Animation ended');
+            if (callback !== null) {
+                callback();
+            }
         }
 
         node.addEventListener('animationend', handleAnimationEnd, {
