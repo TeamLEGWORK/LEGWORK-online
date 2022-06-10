@@ -6,7 +6,7 @@ window.addEventListener("load", function () {
     const template = document.getElementById("helper-template");
 
     // loop over each helper
-    this.document.querySelectorAll(".helper").forEach(function (el) {
+    document.querySelectorAll(".helper").forEach(function (el) {
         // clone the template and reveal it
         let helper = template.cloneNode(true);
         helper.id = "";
@@ -19,7 +19,7 @@ window.addEventListener("load", function () {
         el.appendChild(helper);
     });
 
-    this.document.getElementById("confusion-noise").addEventListener("click", function () {
+    document.getElementById("confusion-noise").addEventListener("click", function () {
         document.getElementById("confusion-model").toggleAttribute("disabled");
     });
 
@@ -79,10 +79,34 @@ window.addEventListener("load", function () {
             create_table(rows);
         };
 
+
         this.querySelectorAll(".file-drop-box .message").forEach(function (el) {
             el.classList.add("hide")
         });
         this.querySelector(".file-drop-box .pre-upload").classList.remove("hide");
+    });
+
+    const carousel = new bootstrap.Carousel('#plot-carousel');
+    document.querySelectorAll("#plot-carousel-tabs .nav-link").forEach(function(el) {
+        el.addEventListener("click", function() {
+            document.querySelectorAll("#plot-carousel-tabs .nav-link").forEach(function(el) {
+                el.classList.remove("active");
+            });
+            this.classList.add("active");
+
+            carousel.to(this.getAttribute("data-bs-slide-to"));
+        });
+    });
+
+    document.querySelector("#sc-plot-fill-colour-label input").addEventListener("change", function() {
+        document.querySelector("#sc-plot-fill-colour-label").style.backgroundColor = this.value;
+    });
+
+    document.querySelector("#sc-plot-fill").addEventListener("click", function() {
+        document.querySelector(".colour-container").classList.toggle("bg-white");
+        document.querySelector("#sc-plot-fill-colour-label").classList.toggle("disabled");
+        document.querySelector("#sc-plot-fill-colour").toggleAttribute("disabled");
+        document.querySelector("#sc-plot-fill-opacity").toggleAttribute("disabled");
     });
 });
 

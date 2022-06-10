@@ -1,16 +1,6 @@
-{% extends 'base.html' %}
-{% set active_page = "tool" %}
-
-{% block title %}
-Calculator
-{% endblock %}
-
+{% extends 'base.html' %} {% set active_page = "tool" %} {% block title %} Calculator {% endblock %}
 {% block css_imports %}
-<link href="../static/css/tool.css" rel="stylesheet">
-{% endblock %}
-
-{% block content %}
-<div class="container">
+<link href="../static/css/tool.css" rel="stylesheet"> {% endblock %} {% block content %} <div class="container">
     <div class="row">
         <div class="col-12 col-md-6 mb-3 mb-md-0">
             <div class="card">
@@ -27,20 +17,20 @@ Calculator
                                         data-bs-target="#input-single-source" type="button" role="tab">Single Source
                                     </button>
                                     <button class="nav-link" id="input-csv-sources-tab" data-bs-toggle="tab"
-                                        data-bs-target="#input-csv-sources" type="button" role="tab">Sources from
-                                        CSV </button>
+                                        data-bs-target="#input-csv-sources" type="button" role="tab">Sources from CSV
+                                    </button>
                                     <button class="nav-link" id="input-random-sources-tab" data-bs-toggle="tab"
-                                        data-bs-target="#input-random-sources" type="button" role="tab">Random
-                                        sources </button>
+                                        data-bs-target="#input-random-sources" type="button" role="tab">Random sources
+                                    </button>
                                 </div>
                             </nav>
                             <div class="tab-content mt-2" id="nav-tabContent">
-                                <div class="tab-pane fade active show" id="input-single-source" role="tabpanel" tabindex="0">
+                                <div class="tab-pane fade active show" id="input-single-source" role="tabpanel"
+                                    tabindex="0">
                                     <form>
                                         <div class="row mb-3">
                                             <div class="col">
-                                                <label for="single-primary-mass" class="form-label">Primary
-                                                    Mass</label>
+                                                <label for="single-primary-mass" class="form-label">Primary Mass</label>
                                                 <div class="input-group">
                                                     <input type="number" step="any" min="0" class="form-control"
                                                         id="single-primary-mass" required>
@@ -60,8 +50,8 @@ Calculator
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-12 col-md-8 mb-3 mb-md-0">
-                                                <label for="single-frequency" class="form-label">Orbital frequency
-                                                    or Separation</label>
+                                                <label for="single-frequency" class="form-label">Orbital frequency or
+                                                    Separation</label>
                                                 <div class="input-group">
                                                     <input type="number" step="any" class="form-control"
                                                         id="single-frequency">
@@ -70,12 +60,11 @@ Calculator
                                                         id="single-separation">
                                                     <span class="input-group-text">$\rm AU$</span>
                                                 </div>
-                                                <div class="form-text">Only frequency <i>or</i> separation is
-                                                    required </div>
+                                                <div class="form-text">Only frequency <i>or</i> separation is required
+                                                </div>
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="single-eccentricity"
-                                                    class="form-label">Eccentricity</label>
+                                                <label for="single-eccentricity" class="form-label">Eccentricity</label>
                                                 <input type="number" step="any" min="0" max="1" class="form-control"
                                                     id="single-eccentricity" required>
                                             </div>
@@ -92,14 +81,13 @@ Calculator
                                         </div>
                                     </form>
                                 </div>
-                                <div class="tab-pane fade" id="input-csv-sources" role="tabpanel"
-                                    tabindex="0">
+                                <div class="tab-pane fade" id="input-csv-sources" role="tabpanel" tabindex="0">
                                     <div class="row mb-4">
                                         <div class="col"> The following columns are required for your CSV file:
                                             <code>m_1</code>, <code>m_2</code>, <code>f_orb</code> and/or
                                             <code>a</code>, <code>dist</code>, <code>ecc</code>. The units of these
-                                            columns are $\rm M_\odot$, $\rm M_\odot$, $\rm Hz$ or $\rm AU$, $\rm
-                                            kpc$ and None respectively. </div>
+                                            columns are $\rm M_\odot$, $\rm M_\odot$, $\rm Hz$ or $\rm AU$, $\rm kpc$
+                                            and None respectively. </div>
                                     </div>
                                     <div class="row">
                                         <div class="col file-drop-box-container">
@@ -118,15 +106,14 @@ Calculator
                                                 </div>
                                                 <div class="message uploading hide">
                                                     <i class="fa fa-spin fa-circle-o-notch d-block"></i>
-                                                    <label>Looks like some great sources, uploading them
-                                                        now!</label>
+                                                    <label>Looks like some great sources, uploading them now!</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="input-random-sources" role="tabpanel" tabindex="0">
-                                    TODO </div>
+                                <div class="tab-pane fade" id="input-random-sources" role="tabpanel" tabindex="0"> TODO
+                                </div>
                             </div>
                             <hr>
                             <h3>Detector</h3>
@@ -142,8 +129,7 @@ Calculator
                                     <div class="col">
                                         <label for="duration" class="form-label">Mission Duration</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" min="0" id="duration"
-                                                value="4">
+                                            <input type="number" class="form-control" min="0" id="duration" value="4">
                                             <span class="input-group-text">$\rm years$</span>
                                         </div>
                                     </div>
@@ -197,21 +183,21 @@ Calculator
                                         <input type="number" step="any" min="0" class="form-control" id="stat-tol"
                                             value="0.01" required>
                                     </div>
-                                </div>                                    
+                                </div>
                                 <div class="row mb-3 text-center">
                                     <div class="col">
                                         <div class="form-check form-check-inline form-switch">
                                             <input class="form-check-input" type="checkbox" role="switch"
                                                 id="interpolate-sc" checked="true">
-                                            <label class="form-check-label" for="interpolate-sc">Interpolate
-                                                sensitivity curve? <span class="helper"
+                                            <label class="form-check-label" for="interpolate-sc">Interpolate sensitivity
+                                                curve? <span class="helper"
                                                     title="Whether to interpolate the sensitivity for speed ups in calculating SNRs. Recommend always true."></span></label>
                                         </div>
                                         <div class="form-check form-check-inline form-switch">
                                             <input class="form-check-input" type="checkbox" role="switch"
                                                 id="interpolate-g">
-                                            <label class="form-check-label" for="interpolate-g">Interpolate $g(n,
-                                                e)$? <span class="helper"
+                                            <label class="form-check-label" for="interpolate-g">Interpolate $g(n, e)$?
+                                                <span class="helper"
                                                     title="Whether to interpolate the $g(n, e)$ function - this will speed up the strain/SNR calculations but takes time so it's only worth it for large collections of sources"></span>
                                             </label>
                                         </div>
@@ -263,9 +249,196 @@ Calculator
                             <h4>Plots</h4>
                             <div class="mb-3">
                                 <label>Plot Type</label>
-                                <select class="form-select">
-                                    <option selected value="">Sensitivity curve</option>
-                                </select>
+                                <ul id="plot-carousel-tabs" class="nav nav-tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-slide-to="0">None</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-bs-slide-to="1">Sensitivity Curve</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-slide-to="2">1D Distributions</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-slide-to="3">2D Distributions</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="plot-carousel" class="carousel slide" data-bs-ride="false"
+                                data-bs-interval="false">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item">
+                                        <figure class="mb-3">
+                                            <div class="img-fluid-limited float-start position-relative zoom-figure me-2"
+                                                data-bs-toggle="modal" data-bs-target="#placeholder-plot">
+                                                <img src="../static/img/legwork.png" class="img-fluid zoom-figure">
+                                                <div class="img-overlay">
+                                                    <p class="m-0 fw-bold">Click to Zoom</p>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="placeholder-plot" tabindex="-1">
+                                                <div class="modal-dialog modal-fullscreen">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <img src="../static/img/legwork.png" class="img-fluid">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </figure>
+                                    </div>
+                                    <div class="carousel-item active">
+                                        <div class="row mb-3">
+                                            <div class="col-12 col-md-8 mb-3 mb-md-0">
+                                                <label for="sc-plot-f-range-lower" class="form-label">Frequency
+                                                    Range</label>
+                                                <div class="input-group">
+                                                    <input type="number" step="any" class="form-control"
+                                                        id="sc-plot-f-range-lower" value="0.01">
+                                                    <input type="number" step="any" class="form-control"
+                                                        id="sc-plot-f-range-upper" value="10">
+                                                    <span class="input-group-text">$\rm mHz$</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <label for="sc-plot-y-quanity" class="form-label">Y Axis
+                                                    Quantity</label>
+                                                <select class="form-select" id="sc-plot-y-quantity">
+                                                    <option value="asd">ASD</option>
+                                                    <option value="h_c">Characteristic Strain</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12 col-md-6 mb-3 mb-md-0">
+                                                <label class="form-label">Fill below curve? (If yes, colour and
+                                                    opacity)</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-text">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                role="switch" id="sc-plot-fill" checked="true">
+                                                        </div>
+                                                    </div>
+                                                    <div class="colour-container input-group-text bg-white">
+                                                        <label id="sc-plot-fill-colour-label">
+                                                            <input id="sc-plot-fill-colour" type="color"
+                                                                value="#18068b">
+                                                        </label>
+                                                    </div>
+                                                    <input id="sc-plot-fill-opacity" class="form-control" type="number"
+                                                        min="0" max="1" value="0.2">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6 mb-3 mb-md-0">
+                                                <label class="form-label">Linewidth</label>
+                                                <input class="form-control" id="sc-plot-lw" value="1" type="number">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12 col-md-6 mb-3 mb-md-0">
+                                                <label class="form-label">Include your sources on plot? <span class="helper" title="This will only work for stationary sources"></span></label>
+                                                <div class="input-group">
+                                                    <div class="input-group-text">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                role="switch" id="sc-plot-add-sources" checked="true">
+                                                        </div>
+                                                    </div>
+                                                    <select id="sc-plot-sources-disttype" class="form-select">
+                                                        <option value="scatter">Scatter</option>
+                                                        <option value="kde">KDE (will be slow for large number of
+                                                            sources)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6 mb-3 mb-md-0 d-flex align-items-center">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        id="sc-plot-add-sources" checked="true">
+                                                </div>
+                                                <label class="form-label">Include verification binaries?</label>
+                                            </div>
+                                        </div>
+                                        <figure class="mb-3">
+                                            <div class="img-fluid-limited float-start position-relative zoom-figure me-2"
+                                                data-bs-toggle="modal" data-bs-target="#sensitivity-curve-plot">
+                                                <img src="../static/img/dcos_on_sc.png" class="img-fluid zoom-figure">
+                                                <div class="img-overlay">
+                                                    <p class="m-0 fw-bold">Click to Zoom</p>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="sensitivity-curve-plot" tabindex="-1">
+                                                <div class="modal-dialog modal-fullscreen">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <img src="../static/img/dcos_on_sc.png" class="img-fluid">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </figure>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <figure class="mb-3">
+                                            <div class="img-fluid-limited float-start position-relative zoom-figure me-2"
+                                                data-bs-toggle="modal" data-bs-target="#one-d-dist-plot">
+                                                <img src="../static/img/one_d_dist.png" class="img-fluid zoom-figure">
+                                                <div class="img-overlay">
+                                                    <p class="m-0 fw-bold">Click to Zoom</p>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="one-d-dist-plot" tabindex="-1">
+                                                <div class="modal-dialog modal-fullscreen">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <img src="../static/img/one_d_dist.png" class="img-fluid">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </figure>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <figure class="mb-3">
+                                            <div class="img-fluid-limited float-start position-relative zoom-figure me-2"
+                                                data-bs-toggle="modal" data-bs-target="#two-d-dist-plot">
+                                                <img src="../static/img/snr_vs_forb.png" class="img-fluid zoom-figure">
+                                                <div class="img-overlay">
+                                                    <p class="m-0 fw-bold">Click to Zoom</p>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="two-d-dist-plot" tabindex="-1">
+                                                <div class="modal-dialog modal-fullscreen">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <img src="../static/img/snr_vs_forb.png" class="img-fluid">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </figure>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mb-4">
+                                <h4>Plots appear here <i class="fa fa-arrow-up"></i></h4>
                             </div>
                             <div class="mb-3 text-center">
                                 <div class="btn-group">
@@ -273,38 +446,13 @@ Calculator
                                     <button class="btn btn-primary btn-lg">Download current plot</button>
                                 </div>
                             </div>
-                            <figure>
-                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2"
-                                    data-bs-toggle="modal" data-bs-target="#gal_modal">
-                                    <img src="../static/img/legwork.png" class="img-fluid zoom-figure">
-                                    <div class="img-overlay">
-                                        <p class="m-0 fw-bold">Click to Zoom</p>
-                                    </div>
-                                </div>
-                                <div class="modal fade" id="gal_modal" tabindex="-1">
-                                    <div class="modal-dialog modal-fullscreen">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-center">
-                                                <img src="../static/img/legwork.png" class="img-fluid">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </figure>
-                            <div class="text-center">
-                                <h4>Plots appear here <i class="fa fa-arrow-up"></i></h4>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row mt-3">
+    <div class="row mt-3 mb-3">
         <div class="col">
             <div class="card">
                 <div class="card-header">
@@ -318,13 +466,9 @@ Calculator
     </div>
 </div>
 <span id="helper-template" class="fa-stack" data-bs-toggle="tooltip" data-bs-html="true" title=""
-style="font-size: 8px; vertical-align: top;">
+    style="font-size: 8px; vertical-align: top;">
     <i class="fa fa-circle fa-stack-2x"></i>
     <i class="fa fa-question fa-stack-1x fa-inverse"></i>
-</span>
-{% endblock %}
-
-{% block js_imports %}
-<script src="../static/node_modules/jquery/dist/jquery.slim.min.js"></script>
-<script type="module" src="../static/js/tool.js"></script>
-{% endblock %}
+</span> {% endblock %} {% block js_imports %} <script src="../static/node_modules/jquery/dist/jquery.slim.min.js">
+</script>
+<script type="module" src="../static/js/tool.js"></script> {% endblock %}

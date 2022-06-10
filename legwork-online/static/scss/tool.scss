@@ -78,3 +78,26 @@ input[type=number] {
 .img-fluid:hover .img-overlay {
     opacity: 0.8;
 }
+
+#plot-carousel-tabs .nav-item {
+    cursor: pointer;
+}
+
+#sc-plot-fill-colour-label input {
+    visibility: hidden;
+}
+
+#sc-plot-fill-colour-label {
+    background-color: #18068b;
+    height: 15px;
+    width: 15px;
+    cursor: pointer;
+}
+
+#sc-plot-fill-colour-label.disabled {
+    cursor: unset;
+}
+
+.input-group-text .form-switch {
+    margin-right: -0.5rem;
+}
