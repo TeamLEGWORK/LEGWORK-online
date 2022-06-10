@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% set active_page = "tool" %}
 
 {% block title %}
 Calculator
@@ -314,4 +315,14 @@ Calculator
         </div>
     </div>
 </div>
+<span id="helper-template" class="fa-stack" data-bs-toggle="tooltip" data-bs-html="true" title=""
+style="font-size: 8px; vertical-align: top;">
+    <i class="fa fa-circle fa-stack-2x"></i>
+    <i class="fa fa-question fa-stack-1x fa-inverse"></i>
+</span>
+{% endblock %}
+
+{% block js_imports %}
+<script src="../static/node_modules/jquery/dist/jquery.slim.min.js"></script>
+<script type="module" src="../static/js/main.js"></script>
 {% endblock %}

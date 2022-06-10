@@ -1,17 +1,36 @@
 {% extends 'base.html' %}
+{% set active_page = "home" %}
 
 {% block title %}
+    Home
 {% endblock %}
 
 {% block css_imports %}
 <link href="../static/css/home.css" rel="stylesheet">
 {% endblock %}
 
-<div class="p-5 mb-4 bg-light rounded-3">
-    <div class="container-fluid py-5">
-        <div class="display-1 fw-bold">
-            <img src="../static/img/legwork_shoe.png" height="40px"> LEGWORK Online</div>
-        <p class="col-md-8 fs-4"> a one stop shop for analysing stellar-origin gravitational-wave sources for
-            space-based detectors </p>
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5 mt-auto">
+    <div class="row">
+        <div class="col text-center">
+            <img src="../static/img/legwork_waveform.png">
+            <div class="display-0 fw-bold">
+                LEGWORK Online
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8 fs-3 text-center">
+            a one stop shop for analysing stellar-origin gravitational-wave sources in space-based detectors
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8 fs-2 text-center">
+            <button class="btn btn-lg btn-primary fs-2">Start calculating</button>
+            <button class="btn btn-lg btn-primary fs-2 me-2">Learn More</button>
+        </div>
     </div>
 </div>
+{% endblock %}
