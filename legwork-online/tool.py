@@ -12,4 +12,4 @@ def index():
 
 @bp.route('/tool', methods=("GET", "POST"))
 def tool():
-    return render_template('main.html')
+    return render_template('tool.html')
