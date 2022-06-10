@@ -1,9 +1,23 @@
 @import "./base.scss";
 
 .display-0 {
-    font-size: 7rem;
-    margin-bottom: -1.5rem;
+    font-size: 5rem;
 }
+
+@include media-breakpoint-up(sm) {
+    .display-0 {
+        font-size: 6rem;
+        margin-bottom: -0.5rem;
+    }
+}
+
+@include media-breakpoint-up(md) {
+    .display-0 {
+        font-size: 7rem;
+        margin-bottom: -1.5rem;
+    }
+}
+
 
 main {
     margin-top: auto;
@@ -11,4 +25,5 @@ main {
 
 #biglogo {
     cursor: pointer;
+    max-width: 100%;
 }
