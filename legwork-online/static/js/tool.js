@@ -1,4 +1,34 @@
-import {animateCSS} from "./base.js"
+import {
+    animateCSS
+} from "./base.js"
+
+
+let data = {
+    "single_source": true,
+    "sources": {
+        "m_1": null,
+        "m_2": null,
+        "f_orb": null,
+        "ecc": null,
+        "dist": null,
+        "t_merge": null,
+        "h_0": null,
+        "h_c": null,
+        "snr": null
+    },
+    "detector": {
+        "instrument": "lisa",
+        "duration": "4",
+        "approximate_response_function": false,
+        "confusion_noise_model": "robson19"
+    },
+    "settings": {
+        "gw_lum_tol": 0.05,
+        "stat_tol": 0.1,
+        "interpolate_g": false,
+        "interpolate_sc": true
+    }
+}
 
 
 window.addEventListener("load", function () {
@@ -68,11 +98,11 @@ window.addEventListener("load", function () {
         `;
 
         const dropped_file = e.dataTransfer.files[0];
-        
+
         const fileReader = new FileReader();
         fileReader.readAsText(dropped_file);
 
-        fileReader.onload = function() {
+        fileReader.onload = function () {
             const dataset = fileReader.result;
             const rows = dataset.split('\n').map(data => data.split(','));
 
@@ -86,10 +116,23 @@ window.addEventListener("load", function () {
         this.querySelector(".file-drop-box .pre-upload").classList.remove("hide");
     });
 
+    document.querySelector("#init").addEventListener("click", function () {
+        update_inputs();
+        $.ajax({
+            type: "POST",
+            url: "/tool",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    });
+
     const carousel = new bootstrap.Carousel('#plot-carousel');
-    document.querySelectorAll("#plot-carousel-tabs .nav-link").forEach(function(el) {
-        el.addEventListener("click", function() {
-            document.querySelectorAll("#plot-carousel-tabs .nav-link").forEach(function(el) {
+    document.querySelectorAll("#plot-carousel-tabs .nav-link").forEach(function (el) {
+        el.addEventListener("click", function () {
+            document.querySelectorAll("#plot-carousel-tabs .nav-link").forEach(function (el) {
                 el.classList.remove("active");
             });
             this.classList.add("active");
@@ -98,11 +141,11 @@ window.addEventListener("load", function () {
         });
     });
 
-    document.querySelector("#sc-plot-fill-colour-label input").addEventListener("change", function() {
+    document.querySelector("#sc-plot-fill-colour-label input").addEventListener("change", function () {
         document.querySelector("#sc-plot-fill-colour-label").style.backgroundColor = this.value;
     });
 
-    document.querySelector("#sc-plot-fill").addEventListener("click", function() {
+    document.querySelector("#sc-plot-fill").addEventListener("click", function () {
         document.querySelector(".colour-container").classList.toggle("bg-white");
         document.querySelector("#sc-plot-fill-colour-label").classList.toggle("disabled");
         document.querySelector("#sc-plot-fill-colour").toggleAttribute("disabled");
@@ -152,4 +195,50 @@ function create_table(rows) {
     }
     document.getElementById("sources-table").innerHTML = "";
     document.getElementById("sources-table").appendChild(table);
+}
+
+
+function update_inputs() {
+    set_defaults();
+
+    data["sources"]["m_1"] = document.getElementById("single-primary-mass").value;
+    data["sources"]["m_2"] = document.getElementById("single-secondary-mass").value;
+    data["sources"]["f_orb"] = document.getElementById("single-frequency").value;
+    data["sources"]["ecc"] = document.getElementById("single-eccentricity").value;
+    data["sources"]["dist"] = document.getElementById("single-distance").value;
+
+    data["detector"]["instrument"] = document.getElementById("detector").value;
+    data["detector"]["duration"] = document.getElementById("duration").value;
+    data["detector"]["approximate_response_function"] = document.getElementById("approximate-response").checked;
+
+    if (document.getElementById("confusion-noise").checked) {
+        data["detector"]["confusion_noise_model"] = document.getElementById("confusion-model").value;
+    } else {
+        data["detector"]["confusion_noise_model"] = "None";
+    }
+
+    data["settings"]["gw_lum_tol"] = document.getElementById("gw-lum-tol").value;
+    data["settings"]["stat_tol"] = document.getElementById("stat-tol").value;
+    data["settings"]["interpolate_sc"] = document.getElementById("interpolate-sc").checked;
+    data["settings"]["interpolate_g"] = document.getElementById("interpolate-g").checked;
+}
+
+function set_defaults() {
+    update_if_blank("duration", 4);
+    update_if_blank("gw-lum-tol", 0.05);
+    update_if_blank("stat-tol", 0.01);
+
+    // DEVELOPMENT
+    update_if_blank("single-primary-mass", 10);
+    update_if_blank("single-secondary-mass", 5);
+    update_if_blank("single-frequency", 0.1);
+    update_if_blank("single-eccentricity", 0.2);
+    update_if_blank("single-distance", 8);
+}
+
+function update_if_blank(id, value) {
+    const el = document.getElementById(id);
+    if (el.value == "") {
+        el.value = value;
+    }
 }

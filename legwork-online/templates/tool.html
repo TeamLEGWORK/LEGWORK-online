@@ -49,18 +49,12 @@
                                             <div class="form-text">Masses should be in units of solar masses</div>
                                         </div>
                                         <div class="row mb-3">
-                                            <div class="col-12 col-md-8 mb-3 mb-md-0">
-                                                <label for="single-frequency" class="form-label">Orbital frequency or
-                                                    Separation</label>
+                                            <div class="col-12 col-md-4 mb-3 mb-md-0">
+                                                <label for="single-frequency" class="form-label">Orbital frequency</label>
                                                 <div class="input-group">
                                                     <input type="number" step="any" class="form-control"
                                                         id="single-frequency">
                                                     <span class="input-group-text">$\rm mHz$</span>
-                                                    <input type="number" step="any" min="0" class="form-control"
-                                                        id="single-separation">
-                                                    <span class="input-group-text">$\rm AU$</span>
-                                                </div>
-                                                <div class="form-text">Only frequency <i>or</i> separation is required
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4">
@@ -68,9 +62,7 @@
                                                 <input type="number" step="any" min="0" max="1" class="form-control"
                                                     id="single-eccentricity" required>
                                             </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-12 col-md-6">
+                                            <div class="col-12 col-md-4 mb-3 mb-md-0">
                                                 <label for="single-distance" class="form-label">Distance</label>
                                                 <div class="input-group">
                                                     <input type="number" step="any" min="0" class="form-control"
@@ -84,9 +76,9 @@
                                 <div class="tab-pane fade" id="input-csv-sources" role="tabpanel" tabindex="0">
                                     <div class="row mb-4">
                                         <div class="col"> The following columns are required for your CSV file:
-                                            <code>m_1</code>, <code>m_2</code>, <code>f_orb</code> and/or
-                                            <code>a</code>, <code>dist</code>, <code>ecc</code>. The units of these
-                                            columns are $\rm M_\odot$, $\rm M_\odot$, $\rm Hz$ or $\rm AU$, $\rm kpc$
+                                            <code>m_1</code>, <code>m_2</code>, <code>f_orb</code>,
+                                            <code>dist</code>, <code>ecc</code>. The units of these
+                                            columns are $\rm M_\odot$, $\rm M_\odot$, $\rm mHz$, $\rm kpc$
                                             and None respectively. </div>
                                     </div>
                                     <div class="row">
@@ -122,8 +114,8 @@
                                     <div class="col">
                                         <label for="detector" class="form-label">Sensitivity Curve</label>
                                         <select id="detector" class="form-select">
-                                            <option selected value="lisa">LISA</option>
-                                            <option value="tianqin">TianQin</option>
+                                            <option selected value="LISA">LISA</option>
+                                            <option value="TianQin">TianQin</option>
                                         </select>
                                     </div>
                                     <div class="col">
@@ -159,9 +151,9 @@
                                                 class="helper"
                                                 title="Model to use for the Galactic confusion noise. Robson+19 and Thiele+19 are meant for LISA, Huang+20 for TianQin.<br><br>Use the Python package if you want to use a custom confusion noise model."></span></label>
                                         <select id="confusion-model" class="form-select">
-                                            <option selected value="robson">Robson+19</option>
-                                            <option value="huang">Huang+20</option>
-                                            <option value="huang">Thiele+21</option>
+                                            <option selected value="robson19">Robson+19</option>
+                                            <option value="huang20">Huang+20</option>
+                                            <option value="thiele21">Thiele+21</option>
                                         </select>
                                     </div>
                                 </div>
