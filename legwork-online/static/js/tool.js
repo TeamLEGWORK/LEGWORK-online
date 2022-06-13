@@ -3,6 +3,15 @@ import {
 } from "./base.js"
 
 
+const header_to_longname = {
+    "m_1": "Primary Mass [M<sub>⊙</sub>]",
+    "m_2": "Secondary Mass [M<sub>⊙</sub>]",
+    "f_orb": "Orbital Frequency [mHz]",
+    "ecc": "Eccentricity",
+    "dist": "Distance [kpc]"
+}
+
+
 let data = {
     "single_source": true,
     "sources": {
@@ -119,7 +128,8 @@ window.addEventListener("load", function () {
     document.querySelector("#init").addEventListener("click", function () {
         update_inputs();
 
-        const rows = [["m_1", "m_2", "f_orb", "ecc", "dist"],
+        const rows = [["Primary Mass [M<sub>⊙</sub>]", "Secondary Mass [M<sub>⊙</sub>]",
+                        "Orbital Frequency [mHz]", "Eccentricity", "Distance [kpc]"],
                       [data["sources"]["m_1"], data["sources"]["m_2"], data["sources"]["f_orb"],
                        data["sources"]["ecc"], data["sources"]["dist"]]]
         create_table(rows)
@@ -179,7 +189,13 @@ function create_table(rows) {
 
     for (let i = 0; i < rows[0].length; i++) {
         let th = document.createElement("th");
-        th.innerText = rows[0][i];
+
+        if (rows[0][i] in header_to_longname) {
+            th.innerHTML = header_to_longname[rows[0][i]]
+        }
+        else {
+            th.innerHTML = rows[0][i];
+        }
         thead_tr.appendChild(th);
     }
 

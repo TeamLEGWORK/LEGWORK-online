@@ -1,7 +1,7 @@
 # TODO List
 
 - [ ] Results pane plot inputs
-    - [ ] Plot sensitivity curve (with or without sources)
+    - [x] Plot sensitivity curve (with or without sources)
     - [ ] Plot 1/2D distributions of sources with the usual variables
 - [ ] Server side
     - [ ] Connect it to LEGWORK!
