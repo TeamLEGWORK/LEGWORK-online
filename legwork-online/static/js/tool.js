@@ -118,6 +118,14 @@ window.addEventListener("load", function () {
 
     document.querySelector("#init").addEventListener("click", function () {
         update_inputs();
+
+        const rows = [["m_1", "m_2", "f_orb", "ecc", "dist"],
+                      [data["sources"]["m_1"], data["sources"]["m_2"], data["sources"]["f_orb"],
+                       data["sources"]["ecc"], data["sources"]["dist"]]]
+        create_table(rows)
+    });
+
+    document.querySelector("#snr").addEventListener("click", function() {
         $.ajax({
             type: "POST",
             url: "/tool",
@@ -125,6 +133,7 @@ window.addEventListener("load", function () {
             contentType: "application/json; charset=utf-8",
             success: function (response) {
                 console.log(response);
+                insert_column("snr", response["snr"]);
             }
         });
     });
@@ -166,12 +175,12 @@ function create_table(rows) {
 
     let th = document.createElement("th");
     th.innerText = "Source ID";
-    thead.appendChild(th);
+    thead_tr.appendChild(th);
 
     for (let i = 0; i < rows[0].length; i++) {
         let th = document.createElement("th");
         th.innerText = rows[0][i];
-        thead.appendChild(th);
+        thead_tr.appendChild(th);
     }
 
     let tbody = document.createElement("tbody");
@@ -195,6 +204,22 @@ function create_table(rows) {
     }
     document.getElementById("sources-table").innerHTML = "";
     document.getElementById("sources-table").appendChild(table);
+}
+
+function insert_column(header, data) {
+    const table = document.querySelector("#sources-table table");
+
+    const th = document.createElement("th");
+    th.innerText = header;
+    table.querySelector("thead tr").appendChild(th);
+
+    let rows = table.querySelectorAll("tbody tr");
+    for (let i = 0; i < data.length; i++) {
+        let td = document.createElement("td");
+        td.innerText = data[i];
+
+        rows[i].appendChild(td);
+    }
 }
 
 
