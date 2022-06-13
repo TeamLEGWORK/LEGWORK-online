@@ -50,7 +50,8 @@
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-12 col-md-4 mb-3 mb-md-0">
-                                                <label for="single-frequency" class="form-label">Orbital frequency</label>
+                                                <label for="single-frequency" class="form-label">Orbital
+                                                    frequency</label>
                                                 <div class="input-group">
                                                     <input type="number" step="any" class="form-control"
                                                         id="single-frequency">
@@ -76,10 +77,9 @@
                                 <div class="tab-pane fade" id="input-csv-sources" role="tabpanel" tabindex="0">
                                     <div class="row mb-4">
                                         <div class="col"> The following columns are required for your CSV file:
-                                            <code>m_1</code>, <code>m_2</code>, <code>f_orb</code>,
-                                            <code>dist</code>, <code>ecc</code>. The units of these
-                                            columns are $\rm M_\odot$, $\rm M_\odot$, $\rm mHz$, $\rm kpc$
-                                            and None respectively. </div>
+                                            <code>m_1</code>, <code>m_2</code>, <code>f_orb</code>, <code>dist</code>,
+                                            <code>ecc</code>. The units of these columns are $\rm M_\odot$, $\rm
+                                            M_\odot$, $\rm mHz$, $\rm kpc$ and None respectively. </div>
                                     </div>
                                     <div class="row">
                                         <div class="col file-drop-box-container">
@@ -215,7 +215,8 @@
                                 <button id="snr" class="btn btn-primary">Signal-to-Noise Ratio</button>
                                 <button id="merger-time" class="btn btn-primary">Merger Time</button>
                                 <button id="strain" class="btn btn-primary">Strain</button>
-                                <button id="characteristic_strain" class="btn btn-primary">Characteristic Strain</button>
+                                <button id="characteristic_strain" class="btn btn-primary">Characteristic
+                                    Strain</button>
                             </div>
                             <div class="form-text">Results will appear in the data table below</div>
                         </div>
@@ -333,7 +334,9 @@
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-12 col-md-6 mb-3 mb-md-0">
-                                                <label class="form-label">Include your sources on plot? <span class="helper" title="This will only work for stationary sources"></span></label>
+                                                <label class="form-label">Include your sources on plot? <span
+                                                        class="helper"
+                                                        title="This will only work for stationary sources"></span></label>
                                                 <div class="input-group">
                                                     <div class="input-group-text">
                                                         <div class="form-check form-switch">
@@ -457,6 +460,18 @@
         </div>
     </div>
 </div>
+<div id="toaster" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+<div id="toast-template" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="8000">
+    <div class="toast-header">
+        <img src="../static/img/legwork_shoe.png" class="rounded me-2" width="30px">
+        <strong class="me-auto">LEGWORK Bot</strong>
+        <small class="toast-status">11 mins ago</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">Hello, world! This is a toast message.</div>
+</div>
+
 <span id="helper-template" class="fa-stack" data-bs-toggle="tooltip" data-bs-html="true" title=""
     style="font-size: 8px; vertical-align: top;">
     <i class="fa fa-circle fa-stack-2x"></i>

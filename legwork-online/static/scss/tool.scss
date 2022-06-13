@@ -1,3 +1,6 @@
+// increase opacity
+$toast-background-color: rgba(white, .95);
+
 @import "./base.scss";
 
 /* Chrome, Safari, Edge, Opera */
@@ -100,4 +103,8 @@ input[type=number] {
 
 .input-group-text .form-switch {
     margin-right: -0.5rem;
+}
+
+.toast {
+    backdrop-filter: blur(2px);
 }

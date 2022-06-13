@@ -128,7 +128,7 @@ window.addEventListener("load", function () {
     });
 
     // handle them choosing a file directly
-    document.querySelector(".file-drop-box-choose").addEventListener("change", function(e) {
+    document.querySelector(".file-drop-box-choose").addEventListener("change", function (e) {
         const fileReader = new FileReader();
         fileReader.readAsText(e.target.files[0]);
 
@@ -144,15 +144,21 @@ window.addEventListener("load", function () {
     document.querySelector("#init").addEventListener("click", function () {
         update_inputs();
 
-        const rows = [["Primary Mass [M<sub>⊙</sub>]", "Secondary Mass [M<sub>⊙</sub>]",
-                        "Orbital Frequency [mHz]", "Eccentricity", "Distance [kpc]"],
-                      [data["sources"]["m_1"], data["sources"]["m_2"], data["sources"]["f_orb"],
-                       data["sources"]["ecc"], data["sources"]["dist"]]]
+        const rows = [
+            ["Primary Mass [M<sub>⊙</sub>]", "Secondary Mass [M<sub>⊙</sub>]",
+                "Orbital Frequency [mHz]", "Eccentricity", "Distance [kpc]"
+            ],
+            [data["sources"]["m_1"], data["sources"]["m_2"], data["sources"]["f_orb"],
+                data["sources"]["ecc"], data["sources"]["dist"]
+            ]
+        ]
         create_table(rows)
+        
+        inject_toast("Initialised inputs - Ready to begin calculating!")
     });
 
     // calculate the SNR using the API
-    document.querySelector("#snr").addEventListener("click", function() {
+    document.querySelector("#snr").addEventListener("click", function () {
         $.ajax({
             type: "POST",
             url: "/tool",
@@ -212,8 +218,7 @@ function create_table(rows) {
 
         if (rows[0][i] in header_to_longname) {
             th.innerHTML = header_to_longname[rows[0][i]]
-        }
-        else {
+        } else {
             th.innerHTML = rows[0][i];
         }
         thead_tr.appendChild(th);
@@ -258,7 +263,6 @@ function insert_column(header, data) {
     }
 }
 
-
 function update_inputs() {
     set_defaults();
 
@@ -302,4 +306,16 @@ function update_if_blank(id, value) {
     if (el.value == "") {
         el.value = value;
     }
+}
+
+function inject_toast(message, small_text="") {
+    const toast_el = document.getElementById("toast-template").cloneNode(true);
+    toast_el.id = ""
+    toast_el.querySelector(".toast-body").innerText = message;
+    toast_el.querySelector(".toast-status").innerText = small_text;
+    toast_el.classList.remove("hide");
+    document.querySelector("#toaster").appendChild(toast_el);
+
+    const toast = new bootstrap.Toast(toast_el);
+    toast.show()
 }
