@@ -160,15 +160,18 @@ window.addEventListener("load", function () {
 
     // calculate the SNR using the API
     document.querySelector("#snr").addEventListener("click", function () {
+        const button = this;
+        const original_html = button.innerHTML;
+        add_loader(button, "Calculating...");
         $.ajax({
             type: "POST",
             url: "/tool/snr",
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
             success: function (response) {
-                console.log(response);
                 insert_column("snr", response["snr"]);
                 inject_toast("Signal-to-noise ratio calculated! See table for results.", response["runtime"])
+                button.innerHTML = original_html;
             }
         });
     });
@@ -320,4 +323,11 @@ function inject_toast(message, small_text="") {
 
     const toast = new bootstrap.Toast(toast_el);
     toast.show()
+}
+
+function add_loader(el, message) {
+    el.innerHTML = `
+        <span class='message'></span> <i class="fa fa-spin fa-circle-o-notch"></i>
+    `
+    el.querySelector(".message").innerText = message;
 }
