@@ -5,6 +5,7 @@ from werkzeug.exceptions import abort
 
 import legwork
 import astropy.units as u
+import time
 
 import os
 import matplotlib
@@ -58,19 +59,23 @@ def index():
 
 @bp.route('/tool', methods=("GET", "POST"))
 def tool():
-    if request.method == "GET":
-        return render_template('tool.html')
-    else:
-        data = request.get_json()
-        sources = data_to_Source(data)
+    return render_template('tool.html')
 
-        sources.get_snr()
 
-        json = {
-            "snr": list(sources.snr)
-        }
+@bp.route('/tool/snr', methods=["POST"])
+def snr():
+    start = time.time()
+    data = request.get_json()
+    sources = data_to_Source(data)
 
-        return json
+    sources.get_snr()
+
+    json = {
+        "snr": list(sources.snr),
+        "runtime": f"Runtime: {time.time() - start:1.2f}s"
+    }
+
+    return json
 
 
 @bp.route('/about')

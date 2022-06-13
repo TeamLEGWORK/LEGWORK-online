@@ -9,7 +9,8 @@ const header_to_longname = {
     "m_2": "Secondary Mass [M<sub>⊙</sub>]",
     "f_orb": "Orbital Frequency [mHz]",
     "ecc": "Eccentricity",
-    "dist": "Distance [kpc]"
+    "dist": "Distance [kpc]",
+    "snr": "Signal-to-Noise Ratio"
 }
 
 // stores current input data
@@ -161,12 +162,13 @@ window.addEventListener("load", function () {
     document.querySelector("#snr").addEventListener("click", function () {
         $.ajax({
             type: "POST",
-            url: "/tool",
+            url: "/tool/snr",
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
             success: function (response) {
                 console.log(response);
                 insert_column("snr", response["snr"]);
+                inject_toast("Signal-to-noise ratio calculated! See table for results.", response["runtime"])
             }
         });
     });
