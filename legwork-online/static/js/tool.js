@@ -3,6 +3,7 @@ import {
 } from "./base.js"
 
 
+// for converting csv headings to nice html things
 const header_to_longname = {
     "m_1": "Primary Mass [M<sub>⊙</sub>]",
     "m_2": "Secondary Mass [M<sub>⊙</sub>]",
@@ -11,7 +12,7 @@ const header_to_longname = {
     "dist": "Distance [kpc]"
 }
 
-
+// stores current input data
 let data = {
     "single_source": true,
     "sources": {
@@ -58,6 +59,7 @@ window.addEventListener("load", function () {
         el.appendChild(helper);
     });
 
+    // only allow choice of confusion models when its turned on
     document.getElementById("confusion-noise").addEventListener("click", function () {
         document.getElementById("confusion-model").toggleAttribute("disabled");
     });
@@ -125,6 +127,20 @@ window.addEventListener("load", function () {
         this.querySelector(".file-drop-box .pre-upload").classList.remove("hide");
     });
 
+    // handle them choosing a file directly
+    document.querySelector(".file-drop-box-choose").addEventListener("change", function(e) {
+        const fileReader = new FileReader();
+        fileReader.readAsText(e.target.files[0]);
+
+        fileReader.onload = function () {
+            const dataset = fileReader.result;
+            const rows = dataset.split('\n').map(data => data.split(','));
+
+            create_table(rows);
+        };
+    });
+
+    // input initialisation (basically just updated the global variable and add to output table)
     document.querySelector("#init").addEventListener("click", function () {
         update_inputs();
 
@@ -135,6 +151,7 @@ window.addEventListener("load", function () {
         create_table(rows)
     });
 
+    // calculate the SNR using the API
     document.querySelector("#snr").addEventListener("click", function() {
         $.ajax({
             type: "POST",
@@ -148,6 +165,7 @@ window.addEventListener("load", function () {
         });
     });
 
+    // set up the carousel and buttons to move it
     const carousel = new bootstrap.Carousel('#plot-carousel');
     document.querySelectorAll("#plot-carousel-tabs .nav-link").forEach(function (el) {
         el.addEventListener("click", function () {
@@ -160,10 +178,12 @@ window.addEventListener("load", function () {
         });
     });
 
+    // sneaky colour selection
     document.querySelector("#sc-plot-fill-colour-label input").addEventListener("change", function () {
         document.querySelector("#sc-plot-fill-colour-label").style.backgroundColor = this.value;
     });
 
+    // disable/enable stuff after switch is flipped
     document.querySelector("#sc-plot-fill").addEventListener("click", function () {
         document.querySelector(".colour-container").classList.toggle("bg-white");
         document.querySelector("#sc-plot-fill-colour-label").classList.toggle("disabled");
