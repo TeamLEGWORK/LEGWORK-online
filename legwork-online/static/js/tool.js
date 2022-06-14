@@ -169,7 +169,7 @@ window.addEventListener("load", function () {
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
             success: function (response) {
-                insert_column("snr", response["snr"]);
+                insert_or_update_column("snr", response["snr"]);
                 inject_toast("Signal-to-noise ratio calculated! See table for results.", response["runtime"])
                 button.innerHTML = original_html;
             }
@@ -252,19 +252,41 @@ function create_table(rows) {
     document.getElementById("sources-table").appendChild(table);
 }
 
-function insert_column(header, data) {
+function insert_or_update_column(header, data) {
     const table = document.querySelector("#sources-table table");
 
-    const th = document.createElement("th");
-    th.innerText = header;
-    table.querySelector("thead tr").appendChild(th);
+    let translated_header = header;
+    if (header in header_to_longname) {
+        translated_header = header_to_longname[header];
+    }
 
-    let rows = table.querySelectorAll("tbody tr");
-    for (let i = 0; i < data.length; i++) {
-        let td = document.createElement("td");
-        td.innerText = data[i];
+    let ths = table.querySelectorAll("th");
+    let col_index = -1
+    for (let i = 1; i < ths.length; i++) {
+        if (ths[i].innerHTML == translated_header) {
+            col_index = i - 1;
+            break;
+        }
+    }
 
-        rows[i].appendChild(td);
+    // if the column is not already present
+    if (col_index < 0) {
+        const th = document.createElement("th");
+        th.innerText = translated_header;
+        table.querySelector("thead tr").appendChild(th);
+
+        const rows = table.querySelectorAll("tbody tr");
+        for (let i = 0; i < data.length; i++) {
+            let td = document.createElement("td");
+            td.innerText = data[i];
+
+            rows[i].appendChild(td);
+        }
+    } else {
+        const rows = table.querySelectorAll("tbody tr");
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].querySelectorAll("td")[col_index].innerText = data[i];
+        }
     }
 }
 
