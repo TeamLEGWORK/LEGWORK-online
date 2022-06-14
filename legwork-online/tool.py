@@ -67,14 +67,24 @@ def snr():
     start = time.time()
     data = request.get_json()
     sources = data_to_Source(data)
-
     sources.get_snr()
-
     json = {
         "snr": list(sources.snr),
         "runtime": f"Runtime: {time.time() - start:1.2f}s"
     }
+    return json
 
+
+@bp.route('/tool/t_merge', methods=["POST"])
+def t_merge():
+    start = time.time()
+    data = request.get_json()
+    sources = data_to_Source(data)
+    sources.get_merger_time()
+    json = {
+        "t_merge": list(sources.t_merge.to(u.Myr).value),
+        "runtime": f"Runtime: {time.time() - start:1.2f}s"
+    }
     return json
 
 
@@ -92,18 +102,11 @@ def data_to_Source(data):
         "confusion_noise": confusion_noise
     }
 
-    if data["single_source"]:
-        m_1 = float(data["sources"]["m_1"]) * u.Msun
-        m_2 = float(data["sources"]["m_2"]) * u.Msun
-        f_orb = float(data["sources"]["f_orb"]) * u.mHz
-        ecc = float(data["sources"]["ecc"])
-        dist = float(data["sources"]["dist"]) * u.kpc
-    else:
-        m_1 = list(map(float, data["sources"]["m_1"])) * u.Msun
-        m_2 = list(map(float, data["sources"]["m_2"])) * u.Msun
-        f_orb = list(map(float, data["sources"]["f_orb"])) * u.mHz
-        ecc = list(map(float, data["sources"]["ecc"]))
-        dist = list(map(float, data["sources"]["dist"])) * u.kpc
+    m_1 = data["sources"]["m_1"] * u.Msun
+    m_2 = data["sources"]["m_2"] * u.Msun
+    f_orb = data["sources"]["f_orb"] * u.mHz
+    ecc = data["sources"]["ecc"]
+    dist = data["sources"]["dist"] * u.kpc
 
     sources = legwork.source.Source(m_1=m_1,
                                     m_2=m_2,

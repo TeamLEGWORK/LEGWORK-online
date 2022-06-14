@@ -10,7 +10,8 @@ const header_to_longname = {
     "f_orb": "Orbital Frequency [mHz]",
     "ecc": "Eccentricity",
     "dist": "Distance [kpc]",
-    "snr": "Signal-to-Noise Ratio"
+    "snr": "Signal-to-Noise Ratio",
+    "t_merge": "Time until merger [Myr]"
 }
 
 // stores current input data
@@ -129,7 +130,7 @@ window.addEventListener("load", function () {
                 if (rows[0][i] in header_to_longname) {
                     let source_prop = []
                     for (let j = 1; j < rows.length; j++) {
-                        source_prop.push(rows[j][i]);
+                        source_prop.push(parseFloat(rows[j][i]));
                     }
                     data["sources"][rows[0][i]] = source_prop
                 } else {
@@ -196,6 +197,8 @@ window.addEventListener("load", function () {
                 insert_or_update_column("snr", response["snr"]);
                 inject_toast("Signal-to-noise ratio calculated! See table for results.", response["runtime"])
                 button.innerHTML = original_html;
+                data["sources"]["snr"] = response["snr"];
+                console.log(data);
             },
             error: function (response) {
                 const parser = new DOMParser()
@@ -205,6 +208,38 @@ window.addEventListener("load", function () {
                 button.innerHTML = original_html;
             }
         });
+    });
+
+    document.querySelector("#merger-time").addEventListener("click", function () {
+        const button = this;
+        const original_html = button.innerHTML;
+        add_loader(button, "Calculating...");
+        $.ajax({
+            type: "POST",
+            url: "/tool/t_merge",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                insert_or_update_column("t_merge", response["t_merge"]);
+                inject_toast("Merger time calculated! See table for results.", response["runtime"])
+                button.innerHTML = original_html;
+                data["sources"]["t_merge"] = response["t_merge"];
+                console.log(data);
+            },
+            error: function (response) {
+                const parser = new DOMParser()
+                const doc = parser.parseFromString(response.responseText, 'text/html')
+                alert_user("Error: Merger time calculation failed", doc.querySelector(".errormsg").innerHTML,
+                           response.responseText);
+                button.innerHTML = original_html;
+            }
+        });
+    });
+
+    document.querySelector("#toggle-plots").addEventListener("click", function() {
+        let i = this.querySelector("i");
+        i.classList.toggle("fa-chevron-up");
+        i.classList.toggle("fa-chevron-down");
     });
 
     // set up the carousel and buttons to move it
@@ -325,15 +360,15 @@ function update_inputs() {
     set_defaults();
 
     if (document.querySelector("#input-single-source-tab").classList.contains("active")) {
-        data["sources"]["m_1"] = document.getElementById("single-primary-mass").value;
-        data["sources"]["m_2"] = document.getElementById("single-secondary-mass").value;
-        data["sources"]["f_orb"] = document.getElementById("single-frequency").value;
-        data["sources"]["ecc"] = document.getElementById("single-eccentricity").value;
-        data["sources"]["dist"] = document.getElementById("single-distance").value;
+        data["sources"]["m_1"] = [parseFloat(document.getElementById("single-primary-mass").value)];
+        data["sources"]["m_2"] = [parseFloat(document.getElementById("single-secondary-mass").value)];
+        data["sources"]["f_orb"] = [parseFloat(document.getElementById("single-frequency").value)];
+        data["sources"]["ecc"] = [parseFloat(document.getElementById("single-eccentricity").value)];
+        data["sources"]["dist"] = [parseFloat(document.getElementById("single-distance").value)];
     }
 
     data["detector"]["instrument"] = document.getElementById("detector").value;
-    data["detector"]["duration"] = document.getElementById("duration").value;
+    data["detector"]["duration"] = parseFloat(document.getElementById("duration").value);
     data["detector"]["approximate_response_function"] = document.getElementById("approximate-response").checked;
 
     if (document.getElementById("confusion-noise").checked) {
@@ -342,8 +377,8 @@ function update_inputs() {
         data["detector"]["confusion_noise_model"] = "None";
     }
 
-    data["settings"]["gw_lum_tol"] = document.getElementById("gw-lum-tol").value;
-    data["settings"]["stat_tol"] = document.getElementById("stat-tol").value;
+    data["settings"]["gw_lum_tol"] = parseFloat(document.getElementById("gw-lum-tol").value);
+    data["settings"]["stat_tol"] = parseFloat(document.getElementById("stat-tol").value);
     data["settings"]["interpolate_sc"] = document.getElementById("interpolate-sc").checked;
     data["settings"]["interpolate_g"] = document.getElementById("interpolate-g").checked;
 }
