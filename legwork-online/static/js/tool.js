@@ -105,22 +105,13 @@ window.addEventListener("load", function () {
         this.querySelector(".file-drop-box .uploading").classList.remove("hide");
         animateCSS(".file-drop-box .uploading", "bounceIn");
 
-        document.getElementById("source-csv-file-label").innerHTML = `
-            Success! <strong>Upload another file?</strong></label>
-        `;
-
         const dropped_file = e.dataTransfer.files[0];
         read_csv_input(dropped_file);
-
-        this.querySelectorAll(".file-drop-box .message").forEach(function (el) {
-            el.classList.add("hide")
-        });
-        this.querySelector(".file-drop-box .pre-upload").classList.remove("hide");
-
-        animateCSS(".file-drop-box-container", "jello");
     });
 
     function read_csv_input(file) {
+        let success = true;
+
         const fileReader = new FileReader();
         fileReader.readAsText(file);
 
@@ -142,24 +133,36 @@ window.addEventListener("load", function () {
                     }
                     data["sources"][rows[0][i]] = source_prop
                 } else {
-                    alert_user("Unknown header detected in csv file:", rows[0][i]);
+                    alert_user("Unknown header detected in csv file: " + rows[0][i].toString());
+                    success = false;
                 }
             }
 
             data["single_source"] = false;
 
-            create_table(rows);
-            inject_toast("File upload complete, check out your data in the table below!", "", "3000");
+            if (success) {
+                create_table(rows);
+                inject_toast("File upload complete, check out your data in the table below!", "", "3000");
+                document.getElementById("source-csv-file-label").innerHTML = `
+                    Success! <strong>Upload another file?</strong></label>
+                `;
+                animateCSS(".file-drop-box-container", "jello");
+            } else {
+                document.getElementById("source-csv-file-label").innerHTML = `
+                    Uh oh, there's a problem with your file! <strong>Try again?</strong></label>
+                `;
+                animateCSS(".file-drop-box-container", "headShake");
+            }
+            document.querySelectorAll(".file-drop-box .message").forEach(function (el) {
+                el.classList.add("hide")
+            });
+            document.querySelector(".file-drop-box .pre-upload").classList.remove("hide");
         };
     }
 
     // handle them choosing a file directly
     document.querySelector(".file-drop-box-choose").addEventListener("change", function (e) {
         read_csv_input(e.target.files[0]);
-        document.getElementById("source-csv-file-label").innerHTML = `
-            Success! <strong>Upload another file?</strong></label>
-        `;
-        animateCSS(".file-drop-box-container", "jello");
     });
 
     // input initialisation (basically just updated the global variable and add to output table)
@@ -192,6 +195,13 @@ window.addEventListener("load", function () {
             success: function (response) {
                 insert_or_update_column("snr", response["snr"]);
                 inject_toast("Signal-to-noise ratio calculated! See table for results.", response["runtime"])
+                button.innerHTML = original_html;
+            },
+            error: function (response) {
+                const parser = new DOMParser()
+                const doc = parser.parseFromString(response.responseText, 'text/html')
+                alert_user("Error: SNR calculation failed", doc.querySelector(".errormsg").innerHTML,
+                           response.responseText);
                 button.innerHTML = original_html;
             }
         });
@@ -371,6 +381,7 @@ function inject_toast(message, small_text="", delay=null) {
 
     const toast = new bootstrap.Toast(toast_el);
     toast.show()
+    return toast_el;
 }
 
 function add_loader(el, message) {
@@ -380,7 +391,36 @@ function add_loader(el, message) {
     el.querySelector(".message").innerText = message;
 }
 
-function alert_user(message) {
-    // TODO
+function alert_user(message, error=null, traceback_doc=null) {
+    if (error == null && traceback_doc == null) {
+        console.log(message);
+        let toast = inject_toast(message, "", "20000")
+        toast.classList.add("bg-danger", "text-white");
+        return
+    }
+
+    let toast = inject_toast("", "", "20000")
+    toast.classList.add("bg-danger", "text-white");
+
+    let bold = document.createElement("b");
+    bold.innerHTML = message;
+
+    let link = document.createElement("a");
+    link.classList.add("link-light");
+    link.href = "#";
+    link.addEventListener("click", function() {
+        const new_win = window.open();
+        new_win.document.write(traceback_doc);
+    });
+    link.innerText = "View trackback";
+
+    let p = document.createElement("p");
+    p.appendChild(bold);
+    p.innerHTML += "<br>"
+    p.innerHTML += error
+    p.innerHTML += "<br>"
+    p.appendChild(link);
+
+    toast.querySelector(".toast-body").appendChild(p);
     return;
 }
