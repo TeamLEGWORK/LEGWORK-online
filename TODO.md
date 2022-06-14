@@ -1,5 +1,8 @@
 # TODO List
 
+- [ ] Update inputs
+    - [ ] Change automatically on change of values in single source
+    - [x] Actually update sources dict when uploading CSVs
 - [ ] Results pane plot inputs
     - [x] Plot sensitivity curve (with or without sources)
     - [ ] Plot 1/2D distributions of sources with the usual variables
@@ -12,6 +15,7 @@
     - [ ] Define ranges and distributions (start with just uniform, add normal/lognormal later)
     - [ ] Perhaps add sliders?
     - [ ] Update initial data box
+    - [ ] Update sources dict
 
 ### Done
 - [x] Calculation buttons

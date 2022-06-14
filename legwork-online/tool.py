@@ -84,19 +84,35 @@ def about():
 
 
 def data_to_Source(data):
-    sources = legwork.source.Source(m_1=float(data["sources"]["m_1"]) * u.Msun,
-                                    m_2=float(data["sources"]["m_2"]) * u.Msun,
-                                    f_orb=float(data["sources"]["f_orb"]) * u.mHz,
-                                    ecc=float(data["sources"]["ecc"]),
-                                    dist=float(data["sources"]["dist"]) * u.kpc,
+    confusion_noise = None if data["detector"]["confusion_noise_model"] == "None" else data["detector"]["confusion_noise_model"]
+    sc_params = {
+        "instrument": data["detector"]["instrument"],
+        "t_obs": float(data["detector"]["duration"]) * u.yr,
+        "approximate_R": bool(data["detector"]["approximate_response_function"]),
+        "confusion_noise": confusion_noise
+    }
+
+    if data["single_source"]:
+        m_1 = float(data["sources"]["m_1"]) * u.Msun
+        m_2 = float(data["sources"]["m_2"]) * u.Msun
+        f_orb = float(data["sources"]["f_orb"]) * u.mHz
+        ecc = float(data["sources"]["ecc"])
+        dist = float(data["sources"]["dist"]) * u.kpc
+    else:
+        m_1 = list(map(float, data["sources"]["m_1"])) * u.Msun
+        m_2 = list(map(float, data["sources"]["m_2"])) * u.Msun
+        f_orb = list(map(float, data["sources"]["f_orb"])) * u.mHz
+        ecc = list(map(float, data["sources"]["ecc"]))
+        dist = list(map(float, data["sources"]["dist"])) * u.kpc
+
+    sources = legwork.source.Source(m_1=m_1,
+                                    m_2=m_2,
+                                    f_orb=f_orb,
+                                    ecc=ecc,
+                                    dist=dist,
                                     gw_lum_tol=float(data["settings"]["gw_lum_tol"]),
                                     stat_tol=float(data["settings"]["stat_tol"]),
                                     interpolate_g=bool(data["settings"]["interpolate_g"]),
                                     interpolate_sc=bool(data["settings"]["interpolate_sc"]),
-                                    sc_params={
-                                        "instrument": data["detector"]["instrument"],
-                                        "t_obs": float(data["detector"]["duration"]) * u.yr,
-                                        "approximate_R": bool(data["detector"]["approximate_response_function"]),
-                                        "confusion_noise": None if data["detector"]["confusion_noise_model"] == "None" else data["detector"]["confusion_noise_model"]
-                                    })
+                                    sc_params=sc_params)
     return sources

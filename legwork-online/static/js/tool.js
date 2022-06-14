@@ -28,7 +28,7 @@ let data = {
         "snr": null
     },
     "detector": {
-        "instrument": "lisa",
+        "instrument": "LISA",
         "duration": "4",
         "approximate_response_function": false,
         "confusion_noise_model": "robson19"
@@ -110,17 +110,7 @@ window.addEventListener("load", function () {
         `;
 
         const dropped_file = e.dataTransfer.files[0];
-
-        const fileReader = new FileReader();
-        fileReader.readAsText(dropped_file);
-
-        fileReader.onload = function () {
-            const dataset = fileReader.result;
-            const rows = dataset.split('\n').map(data => data.split(','));
-
-            create_table(rows);
-        };
-
+        read_csv_input(dropped_file);
 
         this.querySelectorAll(".file-drop-box .message").forEach(function (el) {
             el.classList.add("hide")
@@ -128,17 +118,41 @@ window.addEventListener("load", function () {
         this.querySelector(".file-drop-box .pre-upload").classList.remove("hide");
     });
 
-    // handle them choosing a file directly
-    document.querySelector(".file-drop-box-choose").addEventListener("change", function (e) {
+    function read_csv_input(file) {
         const fileReader = new FileReader();
-        fileReader.readAsText(e.target.files[0]);
+        fileReader.readAsText(file);
 
         fileReader.onload = function () {
             const dataset = fileReader.result;
             const rows = dataset.split('\n').map(data => data.split(','));
 
+            for (let i = 0; i < rows.length; i++) {
+                if (rows[i].length !== rows[0].length) {
+                    rows.splice(i, 1);
+                }
+            }
+
+            for (let i = 0; i < rows[0].length; i++) {
+                if (rows[0][i] in header_to_longname) {
+                    let source_prop = []
+                    for (let j = 1; j < rows.length; j++) {
+                        source_prop.push(rows[j][i]);
+                    }
+                    data["sources"][rows[0][i]] = source_prop
+                } else {
+                    alert_user("Unknown header detected in csv file:", rows[0][i]);
+                }
+            }
+
+            data["single_source"] = false;
+
             create_table(rows);
         };
+    }
+
+    // handle them choosing a file directly
+    document.querySelector(".file-drop-box-choose").addEventListener("change", function (e) {
+        read_csv_input(e.target.files[0]);
     });
 
     // input initialisation (basically just updated the global variable and add to output table)
@@ -293,11 +307,13 @@ function insert_or_update_column(header, data) {
 function update_inputs() {
     set_defaults();
 
-    data["sources"]["m_1"] = document.getElementById("single-primary-mass").value;
-    data["sources"]["m_2"] = document.getElementById("single-secondary-mass").value;
-    data["sources"]["f_orb"] = document.getElementById("single-frequency").value;
-    data["sources"]["ecc"] = document.getElementById("single-eccentricity").value;
-    data["sources"]["dist"] = document.getElementById("single-distance").value;
+    if (document.querySelector("#input-single-source-tab").classList.contains("active")) {
+        data["sources"]["m_1"] = document.getElementById("single-primary-mass").value;
+        data["sources"]["m_2"] = document.getElementById("single-secondary-mass").value;
+        data["sources"]["f_orb"] = document.getElementById("single-frequency").value;
+        data["sources"]["ecc"] = document.getElementById("single-eccentricity").value;
+        data["sources"]["dist"] = document.getElementById("single-distance").value;
+    }
 
     data["detector"]["instrument"] = document.getElementById("detector").value;
     data["detector"]["duration"] = document.getElementById("duration").value;
@@ -355,4 +371,9 @@ function add_loader(el, message) {
         <span class='message'></span> <i class="fa fa-spin fa-circle-o-notch"></i>
     `
     el.querySelector(".message").innerText = message;
+}
+
+function alert_user(message) {
+    // TODO
+    return;
 }

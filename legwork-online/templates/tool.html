@@ -46,7 +46,6 @@
                                                     <span class="input-group-text">$\rm M_\odot$</span>
                                                 </div>
                                             </div>
-                                            <div class="form-text">Masses should be in units of solar masses</div>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-12 col-md-4 mb-3 mb-md-0">
@@ -190,7 +189,7 @@
                                                 id="interpolate-g">
                                             <label class="form-check-label" for="interpolate-g">Interpolate $g(n, e)$?
                                                 <span class="helper"
-                                                    title="Whether to interpolate the $g(n, e)$ function - this will speed up the strain/SNR calculations but takes time so it's only worth it for large collections of sources"></span>
+                                                    title="Whether to interpolate the g(n, e) function - this will speed up the strain/SNR calculations but takes time so it's only worth it for large collections of sources"></span>
                                             </label>
                                         </div>
                                     </div>
@@ -210,13 +209,35 @@
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col">
-                            <h4>Calculations</h4>
+                            <h4>General Calculations</h4>
                             <div class="btn-group w-100">
                                 <button id="snr" class="btn btn-primary">Signal-to-Noise Ratio</button>
                                 <button id="merger-time" class="btn btn-primary">Merger Time</button>
-                                <button id="strain" class="btn btn-primary">Strain</button>
-                                <button id="characteristic_strain" class="btn btn-primary">Characteristic
+                                <button id="strain" class="btn btn-primary">Total Strain</button>
+                                <button id="characteristic-strain" class="btn btn-primary">Total Characteristic
                                     Strain</button>
+                            </div>
+                            <div class="form-text">Results will appear in the data table below</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <h4>Gravitational Wave Strains</h4>
+                            <label for="harmonics" class="form-label">
+                                Harmonics (value or comma separated list)
+                                <span class="helper" title="Harmonics for which to calculate the strain. For circular sources only the n=2 harmonic will have nonzero values but as sources become more eccentric, more harmonics are necessary to capture the full strain."></span></label>
+                            <div class="row">
+                                <div class="col">
+                                    <input id="harmonics" class="form-control"
+                                        placeholder="e.g. 2 or 1,2,3,4,5,8,10,20">
+                                </div>
+                                <div class="col d-flex align-items-end">
+                                    <div class="btn-group w-100">
+                                        <button id="strain-harmonic" class="btn btn-primary">Strain</button>
+                                        <button id="characteristic-strain-harmonic"
+                                            class="btn btn-primary">Characteristic Strain</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-text">Results will appear in the data table below</div>
                         </div>
@@ -461,7 +482,6 @@
     </div>
 </div>
 <div id="toaster" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
-
 <div id="toast-template" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
         <img src="../static/img/legwork_shoe.png" class="rounded me-2" width="30px">
@@ -471,7 +491,6 @@
     </div>
     <div class="toast-body">Hello, world! This is a toast message.</div>
 </div>
-
 <span id="helper-template" class="fa-stack" data-bs-toggle="tooltip" data-bs-html="true" title=""
     style="font-size: 8px; vertical-align: top;">
     <i class="fa fa-circle fa-stack-2x"></i>
