@@ -12,7 +12,8 @@ const header_to_longname = {
     "dist": "Distance [kpc]",
     "snr": "Signal-to-Noise Ratio",
     "t_merge": "Time until merger [Myr]",
-    "log_total_strain": "log<sub>10</sub>(Total strain)"
+    "log_total_strain": "log<sub>10</sub>(Total strain)",
+    "log_total_char_strain": "log<sub>10</sub>(Total characteristic strain)"
 }
 
 // stores current input data
@@ -195,6 +196,11 @@ window.addEventListener("load", function () {
 
     document.querySelector("#total-strain").addEventListener("click", function () {
         make_calculation("#total-strain", "log_total_strain", "Total strain");
+    });
+
+    document.querySelector("#total-characteristic-strain").addEventListener("click", function () {
+        make_calculation("#total-characteristic-strain", "log_total_char_strain",
+                         "Total characteristic strain");
     });
 
     document.querySelector("#toggle-plots").addEventListener("click", function() {

@@ -89,9 +89,19 @@ def t_merge():
     return json
 
 @bp.route('/tool/log_total_strain', methods=["POST"])
-def strain():
+def log_total_strain():
     start = time.time()
     data = request.get_json()
+    return total_strains(data, "log_total_strain", start)
+
+@bp.route('/tool/log_total_char_strain', methods=["POST"])
+def log_total_char_strain():
+    start = time.time()
+    data = request.get_json()
+    return total_strains(data, "log_total_char_strain", start)
+
+
+def total_strains(data, which, start):
     sources = data_to_Source(data)
 
     strain_vals = np.zeros(sources.n_sources)
@@ -99,11 +109,14 @@ def strain():
     harmonic_groups = [(1, 10), (10, 100), (100, 1000), (1000, 10000)]
     for lower, upper in harmonic_groups:
         harm_mask = np.logical_and(harmonics_required > lower, harmonics_required <= upper)
-        specific_strains = sources.get_h_0_n(harmonics=np.arange(1, upper + 1), which_sources=harm_mask)
+        if which == "log_total_strain":
+            specific_strains = sources.get_h_0_n(harmonics=np.arange(1, upper + 1), which_sources=harm_mask)
+        else:
+            specific_strains = sources.get_h_c_n(harmonics=np.arange(1, upper + 1), which_sources=harm_mask)
         strain_vals[harm_mask] = specific_strains.sum(axis=1)
 
     json = {
-        "log_total_strain": list(np.log10(strain_vals)),
+        which: list(np.log10(strain_vals)),
         "runtime": f"Runtime: {time.time() - start:1.2f}s"
     }
     return json
