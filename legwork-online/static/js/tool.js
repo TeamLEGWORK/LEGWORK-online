@@ -116,6 +116,8 @@ window.addEventListener("load", function () {
             el.classList.add("hide")
         });
         this.querySelector(".file-drop-box .pre-upload").classList.remove("hide");
+
+        animateCSS(".file-drop-box-container", "jello");
     });
 
     function read_csv_input(file) {
@@ -147,12 +149,17 @@ window.addEventListener("load", function () {
             data["single_source"] = false;
 
             create_table(rows);
+            inject_toast("File upload complete, check out your data in the table below!", "", "3000");
         };
     }
 
     // handle them choosing a file directly
     document.querySelector(".file-drop-box-choose").addEventListener("change", function (e) {
         read_csv_input(e.target.files[0]);
+        document.getElementById("source-csv-file-label").innerHTML = `
+            Success! <strong>Upload another file?</strong></label>
+        `;
+        animateCSS(".file-drop-box-container", "jello");
     });
 
     // input initialisation (basically just updated the global variable and add to output table)
