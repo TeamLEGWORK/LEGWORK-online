@@ -4,6 +4,7 @@ from flask import (
 from werkzeug.exceptions import abort
 
 import legwork
+import numpy as np
 import astropy.units as u
 import time
 
@@ -83,6 +84,26 @@ def t_merge():
     sources.get_merger_time()
     json = {
         "t_merge": list(sources.t_merge.to(u.Myr).value),
+        "runtime": f"Runtime: {time.time() - start:1.2f}s"
+    }
+    return json
+
+@bp.route('/tool/log_total_strain', methods=["POST"])
+def strain():
+    start = time.time()
+    data = request.get_json()
+    sources = data_to_Source(data)
+
+    strain_vals = np.zeros(sources.n_sources)
+    harmonics_required = sources.harmonics_required(sources.ecc)
+    harmonic_groups = [(1, 10), (10, 100), (100, 1000), (1000, 10000)]
+    for lower, upper in harmonic_groups:
+        harm_mask = np.logical_and(harmonics_required > lower, harmonics_required <= upper)
+        specific_strains = sources.get_h_0_n(harmonics=np.arange(1, upper + 1), which_sources=harm_mask)
+        strain_vals[harm_mask] = specific_strains.sum(axis=1)
+
+    json = {
+        "log_total_strain": list(np.log10(strain_vals)),
         "runtime": f"Runtime: {time.time() - start:1.2f}s"
     }
     return json

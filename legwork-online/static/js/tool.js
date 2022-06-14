@@ -11,7 +11,8 @@ const header_to_longname = {
     "ecc": "Eccentricity",
     "dist": "Distance [kpc]",
     "snr": "Signal-to-Noise Ratio",
-    "t_merge": "Time until merger [Myr]"
+    "t_merge": "Time until merger [Myr]",
+    "log_total_strain": "log<sub>10</sub>(Total strain)"
 }
 
 // stores current input data
@@ -185,55 +186,15 @@ window.addEventListener("load", function () {
 
     // calculate the SNR using the API
     document.querySelector("#snr").addEventListener("click", function () {
-        const button = this;
-        const original_html = button.innerHTML;
-        add_loader(button, "Calculating...");
-        $.ajax({
-            type: "POST",
-            url: "/tool/snr",
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            success: function (response) {
-                insert_or_update_column("snr", response["snr"]);
-                inject_toast("Signal-to-noise ratio calculated! See table for results.", response["runtime"])
-                button.innerHTML = original_html;
-                data["sources"]["snr"] = response["snr"];
-                console.log(data);
-            },
-            error: function (response) {
-                const parser = new DOMParser()
-                const doc = parser.parseFromString(response.responseText, 'text/html')
-                alert_user("Error: SNR calculation failed", doc.querySelector(".errormsg").innerHTML,
-                           response.responseText);
-                button.innerHTML = original_html;
-            }
-        });
+        make_calculation("#snr", "snr", "Signal-to-noise ratio");
     });
 
     document.querySelector("#merger-time").addEventListener("click", function () {
-        const button = this;
-        const original_html = button.innerHTML;
-        add_loader(button, "Calculating...");
-        $.ajax({
-            type: "POST",
-            url: "/tool/t_merge",
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            success: function (response) {
-                insert_or_update_column("t_merge", response["t_merge"]);
-                inject_toast("Merger time calculated! See table for results.", response["runtime"])
-                button.innerHTML = original_html;
-                data["sources"]["t_merge"] = response["t_merge"];
-                console.log(data);
-            },
-            error: function (response) {
-                const parser = new DOMParser()
-                const doc = parser.parseFromString(response.responseText, 'text/html')
-                alert_user("Error: Merger time calculation failed", doc.querySelector(".errormsg").innerHTML,
-                           response.responseText);
-                button.innerHTML = original_html;
-            }
-        });
+        make_calculation("#merger-time", "t_merge", "Merger time");
+    });
+
+    document.querySelector("#total-strain").addEventListener("click", function () {
+        make_calculation("#total-strain", "log_total_strain", "Total strain");
     });
 
     document.querySelector("#toggle-plots").addEventListener("click", function() {
@@ -338,7 +299,7 @@ function insert_or_update_column(header, data) {
     // if the column is not already present
     if (col_index < 0) {
         const th = document.createElement("th");
-        th.innerText = translated_header;
+        th.innerHTML = translated_header;
         table.querySelector("thead tr").appendChild(th);
 
         const rows = table.querySelectorAll("tbody tr");
@@ -458,4 +419,29 @@ function alert_user(message, error=null, traceback_doc=null) {
 
     toast.querySelector(".toast-body").appendChild(p);
     return;
+}
+
+function make_calculation(button_selector, method, text_version) {
+    const button = document.querySelector(button_selector);
+    const original_html = button.innerHTML;
+    add_loader(button, "Calculating...");
+    $.ajax({
+        type: "POST",
+        url: "/tool/" + method,
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            insert_or_update_column(method, response[method]);
+            inject_toast(text_version + " calculated! See table for results.", response["runtime"])
+            button.innerHTML = original_html;
+            data["sources"][method] = response[method];
+        },
+        error: function (response) {
+            const parser = new DOMParser()
+            const doc = parser.parseFromString(response.responseText, 'text/html')
+            alert_user("Error: " + text_version + " calculation failed", doc.querySelector(".errormsg").innerHTML,
+                       response.responseText);
+            button.innerHTML = original_html;
+        }
+    });
 }
