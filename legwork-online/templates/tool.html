@@ -220,7 +220,7 @@
                             <div class="form-text">Results will appear in the data table below</div>
                         </div>
                     </div>
-                    <div class="row mb-3">
+                    <!-- <div class="row mb-3">
                         <div class="col">
                             <h4>Gravitational Wave Strains</h4>
                             <label for="harmonics" class="form-label">
@@ -241,7 +241,7 @@
                             </div>
                             <div class="form-text">Results will appear in the data table below</div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row mb-3">
                         <div class="col">
                             <h4>Evolution</h4>
@@ -260,19 +260,21 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <h4 class="d-inline-block">Plots</h4>
-                            <button id="toggle-plots" data-bs-toggle="collapse" data-bs-target="#plot-collapse" class="float-end btn text-secondary">
-                                <i class="fa fa-lg fa-chevron-down"></i>
-                            </button>
-                            <div id="plot-collapse" class="collapse">
+                            <div id="toggle-plots" data-bs-toggle="collapse" data-bs-target="#plot-collapse">
+                                <h4 class="d-inline-block">Plots</h4>
+                                <button class="float-end btn text-secondary">
+                                    <i class="fa fa-lg fa-chevron-up"></i>
+                                </button>
+                            </div>
+                            <div id="plot-collapse" class="collapse show">
                                 <div class="mb-3">
                                     <label>Plot Type</label>
                                     <ul id="plot-carousel-tabs" class="nav nav-tabs">
                                         <li class="nav-item">
-                                            <a class="nav-link" data-bs-slide-to="0">None</a>
+                                            <a class="nav-link active" data-bs-slide-to="0">None</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" data-bs-slide-to="1">Sensitivity Curve</a>
+                                            <a class="nav-link" data-bs-slide-to="1">Sensitivity Curve</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" data-bs-slide-to="2">1D Distributions</a>
@@ -285,11 +287,11 @@
                                 <div id="plot-carousel" class="carousel slide" data-bs-ride="false"
                                     data-bs-interval="false">
                                     <div class="carousel-inner">
-                                        <div class="carousel-item">
+                                        <div class="carousel-item active">
                                             <figure class="mb-3">
-                                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2"
+                                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2 text-center"
                                                     data-bs-toggle="modal" data-bs-target="#placeholder-plot">
-                                                    <img src="../static/img/legwork.png" class="img-fluid zoom-figure">
+                                                    <img src="../static/img/legwork.png" class="img-fluid zoom-figure w-50">
                                                     <div class="img-overlay">
                                                         <p class="m-0 fw-bold">Click to Zoom</p>
                                                     </div>
@@ -309,7 +311,7 @@
                                                 </div>
                                             </figure>
                                         </div>
-                                        <div class="carousel-item active">
+                                        <div class="carousel-item">
                                             <div class="row mb-3">
                                                 <div class="col-12 col-md-8 mb-3 mb-md-0">
                                                     <label for="sc-plot-f-range-lower" class="form-label">Frequency
