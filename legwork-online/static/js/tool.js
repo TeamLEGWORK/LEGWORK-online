@@ -155,7 +155,7 @@ window.addEventListener("load", function () {
         ]
         create_table(rows)
         
-        inject_toast("Initialised inputs - Ready to begin calculating!")
+        inject_toast("Inputs updated!", "", "2000")
     });
 
     // calculate the SNR using the API
@@ -335,11 +335,14 @@ function update_if_blank(id, value) {
     }
 }
 
-function inject_toast(message, small_text="") {
+function inject_toast(message, small_text="", delay=null) {
     const toast_el = document.getElementById("toast-template").cloneNode(true);
     toast_el.id = ""
     toast_el.querySelector(".toast-body").innerText = message;
     toast_el.querySelector(".toast-status").innerText = small_text;
+    if (delay != null) {
+        toast_el.setAttribute("data-bs-delay", delay);
+    }
     toast_el.classList.remove("hide");
     document.querySelector("#toaster").appendChild(toast_el);
 
