@@ -482,7 +482,14 @@
                     <h2>Data</h2>
                 </div>
                 <div class="card-body">
-                    <div id="sources-table" class="table-responsive"> Nothing yet! </div>
+                    <div id="sources-table" class="table-responsive mb-3">No data added yet! </div>
+                    <label for="data-precision" class="form-label">Display precision <span class="helper" title="How many decimal places to use when displaying data"></span></label>
+                    <div class="row">
+                        <div class="col col-md-2">
+                            <input id="data-precision" class="form-control" type="number" min=0 value="2">
+                        </div>
+                    </div>
+                    <div class="form-text">This is just for display purposes, exported tables will still have un-rounded numbers</div>
                 </div>
             </div>
         </div>

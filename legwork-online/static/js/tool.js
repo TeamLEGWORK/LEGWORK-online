@@ -234,6 +234,17 @@ window.addEventListener("load", function () {
         document.querySelector("#sc-plot-fill-colour").toggleAttribute("disabled");
         document.querySelector("#sc-plot-fill-opacity").toggleAttribute("disabled");
     });
+
+    ["keyup", "change"].forEach(function(e) {
+        document.querySelector("#data-precision").addEventListener(e, function() {
+            const precision = parseInt(this.value);
+            if (precision != NaN && precision >= 0) {
+                document.querySelectorAll("table tbody td").forEach(function(el) {
+                    el.innerText = parseFloat(el.getAttribute("data-unrounded")).toFixed(precision);
+                });
+            }
+        });
+    });
 });
 
 
@@ -265,6 +276,8 @@ function create_table(rows) {
     let tbody = document.createElement("tbody");
     table.appendChild(tbody);
 
+    const precision = parseInt(document.querySelector("#data-precision").value);
+
     for (let i = 1; i < rows.length; i++) {
         if (rows[i].length > 1) {
             let tr = document.createElement("tr");
@@ -275,7 +288,8 @@ function create_table(rows) {
 
             for (let j = 0; j < rows[i].length; j++) {
                 let td = document.createElement("td");
-                td.innerText = rows[i][j];
+                td.setAttribute("data-unrounded", rows[i][j]);
+                td.innerText = parseFloat(rows[i][j]).toFixed(precision);
                 tr.appendChild(td);
             }
             tbody.appendChild(tr);
@@ -302,6 +316,8 @@ function insert_or_update_column(header, data) {
         }
     }
 
+    const precision = parseInt(document.querySelector("#data-precision").value);
+
     // if the column is not already present
     if (col_index < 0) {
         const th = document.createElement("th");
@@ -311,14 +327,17 @@ function insert_or_update_column(header, data) {
         const rows = table.querySelectorAll("tbody tr");
         for (let i = 0; i < data.length; i++) {
             let td = document.createElement("td");
-            td.innerText = data[i];
+            td.setAttribute("data-unrounded", data[i]);
+            td.innerText = parseFloat(data[i]).toFixed(precision);
 
             rows[i].appendChild(td);
         }
     } else {
         const rows = table.querySelectorAll("tbody tr");
         for (let i = 0; i < rows.length; i++) {
-            rows[i].querySelectorAll("td")[col_index].innerText = data[i];
+            const td = rows[i].querySelectorAll("td")[col_index];
+            td.setAttribute("data-unrounded", data[i]);
+            td.innerText = parseFloat(data[i]).toFixed(precision);
         }
     }
 }
