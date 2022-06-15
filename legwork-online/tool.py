@@ -85,6 +85,28 @@ def total_strains(data, which, start):
     return json
 
 
+@bp.route('/tool/evolve', methods=["POST"])
+def evolve():
+    start = time.time()
+    data = request.get_json()
+    sources = data_to_Source(data, dont_bother=True)
+
+    print(data["sources"]["t_merge"])
+
+    if data["sources"]["t_merge"] is not None:
+        sources.t_merge = data["sources"]["t_merge"] * u.Myr
+
+    sources.evolve_sources(data["t_evol"] * u.Myr)
+    json = {
+        "f_orb": list(sources.f_orb.to(u.mHz).value),
+        "ecc": list(sources.ecc),
+        "t_merge": list(sources.t_merge.to(u.Myr).value),
+        "merged": [int(flip) for flip in sources.merged],
+        "runtime": f"Runtime: {time.time() - start:1.2f}s"
+    }
+    return json
+
+
 @bp.route('/about')
 def about():
     return render_template('about.html')

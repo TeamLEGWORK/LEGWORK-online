@@ -13,7 +13,8 @@ const header_to_longname = {
     "snr": "Signal-to-Noise Ratio",
     "t_merge": "Time until merger [Myr]",
     "log_total_strain": "log<sub>10</sub>(Total strain)",
-    "log_total_char_strain": "log<sub>10</sub>(Total characteristic strain)"
+    "log_total_char_strain": "log<sub>10</sub>(Total characteristic strain)",
+    "merged": "Source has merged?"
 }
 
 // stores current input data
@@ -148,6 +149,64 @@ window.addEventListener("load", function () {
     document.querySelector("#total-characteristic-strain").addEventListener("click", function () {
         make_calculation("#total-characteristic-strain", "log_total_char_strain",
                          "Total characteristic strain");
+    });
+
+    document.querySelector("#evolve").addEventListener("click", function() {
+        if (!enforce_inputs()) {
+            return;
+        }
+
+        const time_string = document.querySelector("#evolve-time").value;
+        let time = 0;
+        if (time_string.includes(",")) {
+            time = [];
+            time_string.split(",").forEach(el => time.push(parseFloat(el)));
+
+
+            if (time.length != data["sources"]["m_1"].length) {
+                alert_user("Number of evolution times does not match number of sources.");
+                return;
+            }
+            for (let i = 0; i < time.length; i++) {
+                if (time[i] < 0 || isNaN(time[i])) {
+                    alert_user("Invalid evolution time detected: " + time[i]);
+                    return;
+                }
+            }
+        } else {
+            time = parseFloat(time_string);
+            if (time < 0 || isNaN(time)) {
+                alert_user("Invalid evolution time detected: " + time);
+                return;
+            }
+        }
+
+        data["t_evol"] = time;
+
+        const button = document.querySelector("#evolve");
+        const original_html = button.innerHTML;
+        add_loader(button, "Evolving...");
+        $.ajax({
+            type: "POST",
+            url: "/tool/evolve",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                ["f_orb", "ecc", "t_merge", "merged"].forEach(prop => {
+                    insert_or_update_column(prop, response[prop]);
+                    data["sources"][prop] = response[prop];
+                });
+                inject_toast("Evolution complete! See table for results.", response["runtime"])
+                button.innerHTML = original_html;
+            },
+            error: function (response) {
+                const parser = new DOMParser()
+                const doc = parser.parseFromString(response.responseText, 'text/html')
+                alert_user("Error: evolution failed", doc.querySelector(".errormsg").innerHTML,
+                           response.responseText);
+                button.innerHTML = original_html;
+            }
+        });
     });
 
     document.querySelector("#toggle-plots").addEventListener("click", function() {
