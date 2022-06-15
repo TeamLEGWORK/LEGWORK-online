@@ -28,9 +28,8 @@ def snr():
     start = time.time()
     data = request.get_json()
     sources = data_to_Source(data)
-    sources.get_snr()
     json = {
-        "snr": list(sources.snr),
+        "snr": list(sources.get_snr()),
         "runtime": f"Runtime: {time.time() - start:1.2f}s"
     }
     return json
@@ -91,11 +90,6 @@ def evolve():
     data = request.get_json()
     sources = data_to_Source(data, dont_bother=True)
 
-    print(data["sources"]["t_merge"])
-
-    if data["sources"]["t_merge"] is not None:
-        sources.t_merge = data["sources"]["t_merge"] * u.Myr
-
     sources.evolve_sources(data["t_evol"] * u.Myr)
     json = {
         "f_orb": list(sources.f_orb.to(u.mHz).value),
@@ -133,4 +127,11 @@ def data_to_Source(data, dont_bother=False):
                                     interpolate_g=interpolate_g,
                                     interpolate_sc=bool(data["settings"]["interpolate_sc"]),
                                     sc_params=sc_params)
+
+    if data["sources"]["t_merge"] is not None:
+        sources.t_merge = data["sources"]["t_merge"] * u.Myr
+
+    if data["sources"]["merged"] is not None:
+        sources.merged = np.array(data["sources"]["merged"]).astype(bool)
+    print(sources.merged)
     return sources
