@@ -112,57 +112,6 @@ window.addEventListener("load", function () {
         read_csv_input(dropped_file);
     });
 
-    function read_csv_input(file) {
-        let success = true;
-
-        const fileReader = new FileReader();
-        fileReader.readAsText(file);
-
-        fileReader.onload = function () {
-            const dataset = fileReader.result;
-            const rows = dataset.split('\n').map(data => data.split(','));
-
-            for (let i = 0; i < rows.length; i++) {
-                if (rows[i].length !== rows[0].length) {
-                    rows.splice(i, 1);
-                }
-            }
-
-            for (let i = 0; i < rows[0].length; i++) {
-                if (rows[0][i] in header_to_longname) {
-                    let source_prop = []
-                    for (let j = 1; j < rows.length; j++) {
-                        source_prop.push(parseFloat(rows[j][i]));
-                    }
-                    data["sources"][rows[0][i]] = source_prop
-                } else {
-                    alert_user("Unknown header detected in csv file: " + rows[0][i].toString());
-                    success = false;
-                }
-            }
-
-            data["single_source"] = false;
-
-            if (success) {
-                create_table(rows);
-                inject_toast("File upload complete, check out your data in the table below!", "", "3000");
-                document.getElementById("source-csv-file-label").innerHTML = `
-                    Success! <strong>Upload another file?</strong></label>
-                `;
-                animateCSS(".file-drop-box-container", "jello");
-            } else {
-                document.getElementById("source-csv-file-label").innerHTML = `
-                    Uh oh, there's a problem with your file! <strong>Try again?</strong></label>
-                `;
-                animateCSS(".file-drop-box-container", "headShake");
-            }
-            document.querySelectorAll(".file-drop-box .message").forEach(function (el) {
-                el.classList.add("hide")
-            });
-            document.querySelector(".file-drop-box .pre-upload").classList.remove("hide");
-        };
-    }
-
     // handle them choosing a file directly
     document.querySelector(".file-drop-box-choose").addEventListener("change", function (e) {
         read_csv_input(e.target.files[0]);
@@ -246,6 +195,60 @@ window.addEventListener("load", function () {
         });
     });
 });
+
+
+
+
+function read_csv_input(file) {
+    let success = true;
+
+    const fileReader = new FileReader();
+    fileReader.readAsText(file);
+
+    fileReader.onload = function () {
+        const dataset = fileReader.result;
+        const rows = dataset.split('\n').map(data => data.split(','));
+
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i].length !== rows[0].length) {
+                rows.splice(i, 1);
+            }
+        }
+
+        for (let i = 0; i < rows[0].length; i++) {
+            if (rows[0][i] in header_to_longname) {
+                let source_prop = []
+                for (let j = 1; j < rows.length; j++) {
+                    source_prop.push(parseFloat(rows[j][i]));
+                }
+                data["sources"][rows[0][i]] = source_prop
+            } else {
+                alert_user("Unknown header detected in csv file: " + rows[0][i].toString());
+                success = false;
+            }
+        }
+
+        data["single_source"] = false;
+
+        if (success) {
+            create_table(rows);
+            inject_toast("File upload complete, check out your data in the table below!", "", "3000");
+            document.getElementById("source-csv-file-label").innerHTML = `
+                Success! <strong>Upload another file?</strong></label>
+            `;
+            animateCSS(".file-drop-box-container", "jello");
+        } else {
+            document.getElementById("source-csv-file-label").innerHTML = `
+                Uh oh, there's a problem with your file! <strong>Try again?</strong></label>
+            `;
+            animateCSS(".file-drop-box-container", "headShake");
+        }
+        document.querySelectorAll(".file-drop-box .message").forEach(function (el) {
+            el.classList.add("hide")
+        });
+        document.querySelector(".file-drop-box .pre-upload").classList.remove("hide");
+    };
+}
 
 
 function create_table(rows) {
