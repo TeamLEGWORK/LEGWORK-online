@@ -417,7 +417,6 @@ function add_loader(el, message) {
 
 function alert_user(message, error=null, traceback_doc=null) {
     if (error == null && traceback_doc == null) {
-        console.log(message);
         let toast = inject_toast(message, "", "20000")
         toast.classList.add("bg-danger", "text-white");
         return
@@ -450,6 +449,9 @@ function alert_user(message, error=null, traceback_doc=null) {
 }
 
 function make_calculation(button_selector, method, text_version) {
+    if (!enforce_inputs()) {
+        return;
+    }
     const button = document.querySelector(button_selector);
     const original_html = button.innerHTML;
     add_loader(button, "Calculating...");
@@ -472,4 +474,15 @@ function make_calculation(button_selector, method, text_version) {
             button.innerHTML = original_html;
         }
     });
+}
+
+function enforce_inputs() {
+    const required = ["m_1", "m_2", "f_orb", "ecc", "dist"];
+    for (let i = 0; i < required.length; i++) {
+        if (data["sources"][required[i]] == null) {
+            alert_user("Can't complete calculation, you're missing a required input! Make sure you've supplied a value for `" + required[i] + "` (there may be more, this was just the first missing one).");
+            return false;
+        }
+    }
+    return true;
 }
