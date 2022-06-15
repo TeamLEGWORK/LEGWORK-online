@@ -71,11 +71,12 @@ def total_strains(data, which, start):
     harmonic_groups = [(1, 10), (10, 100), (100, 1000), (1000, 10000)]
     for lower, upper in harmonic_groups:
         harm_mask = np.logical_and(harmonics_required > lower, harmonics_required <= upper)
-        if which == "log_total_strain":
-            specific_strains = sources.get_h_0_n(harmonics=np.arange(1, upper + 1), which_sources=harm_mask)
-        else:
-            specific_strains = sources.get_h_c_n(harmonics=np.arange(1, upper + 1), which_sources=harm_mask)
-        strain_vals[harm_mask] = specific_strains.sum(axis=1)
+        if harm_mask.any():
+            if which == "log_total_strain":
+                specific_strains = sources.get_h_0_n(harmonics=np.arange(1, upper + 1), which_sources=harm_mask)
+            else:
+                specific_strains = sources.get_h_c_n(harmonics=np.arange(1, upper + 1), which_sources=harm_mask)
+            strain_vals[harm_mask] = specific_strains.sum(axis=1)
 
     json = {
         which: list(np.log10(strain_vals)),
