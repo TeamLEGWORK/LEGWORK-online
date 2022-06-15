@@ -122,9 +122,7 @@ window.addEventListener("load", function () {
         update_inputs();
 
         const rows = [
-            ["Primary Mass [M<sub>⊙</sub>]", "Secondary Mass [M<sub>⊙</sub>]",
-                "Orbital Frequency [mHz]", "Eccentricity", "Distance [kpc]"
-            ],
+            ["m_1", "m_2", "f_orb", "ecc", "dist"],
             [data["sources"]["m_1"], data["sources"]["m_2"], data["sources"]["f_orb"],
                 data["sources"]["ecc"], data["sources"]["dist"]
             ]
@@ -194,6 +192,8 @@ window.addEventListener("load", function () {
             }
         });
     });
+
+    document.querySelector("#download").addEventListener("click", download_table);
 });
 
 
@@ -263,6 +263,7 @@ function create_table(rows) {
 
     let th = document.createElement("th");
     th.innerText = "Source ID";
+    th.setAttribute("data-csv-header", "id")
     thead_tr.appendChild(th);
 
     for (let i = 0; i < rows[0].length; i++) {
@@ -273,6 +274,7 @@ function create_table(rows) {
         } else {
             th.innerHTML = rows[0][i];
         }
+        th.setAttribute("data-csv-header", rows[0][i])
         thead_tr.appendChild(th);
     }
 
@@ -286,6 +288,7 @@ function create_table(rows) {
             let tr = document.createElement("tr");
             let th = document.createElement("th");
             th.setAttribute("scope", "row");
+            th.setAttribute("data-unrounded", i - 1);
             th.innerText = i - 1;
             tr.appendChild(th);
 
@@ -325,6 +328,7 @@ function insert_or_update_column(header, data) {
     if (col_index < 0) {
         const th = document.createElement("th");
         th.innerHTML = translated_header;
+        th.setAttribute("data-csv-header", header)
         table.querySelector("thead tr").appendChild(th);
 
         const rows = table.querySelectorAll("tbody tr");
@@ -485,4 +489,38 @@ function enforce_inputs() {
         }
     }
     return true;
+}
+
+function download_table() {
+    if (document.querySelector("table") == null) {
+        alert_user("Download aborted: You haven't added any inputs/performed calculations yet!");
+        return;
+    }
+    let csv_file = "";
+
+    let header_list = [];
+    document.querySelectorAll("table thead th").forEach(function(header) {
+        header_list.push(header.getAttribute("data-csv-header"))
+    });
+    csv_file += header_list.join(",") + "\r\n";
+
+    document.querySelectorAll("table tbody tr").forEach(function(row) {
+        let row_list = [];
+        row.querySelectorAll("th,td").forEach(function(cell) {
+            row_list.push(cell.getAttribute("data-unrounded"));
+        });
+        csv_file += row_list.join(",") + "\r\n";
+    });
+
+    let blob = new Blob([csv_file], { type: 'text/csv;charset=utf-8;' });
+    let link = document.createElement("a");
+
+    link.setAttribute("href", URL.createObjectURL(blob));
+    link.setAttribute("download", 'legwork-online-results.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    inject_toast("Download complete! File is called `legwork-online-results.csv`.");
 }

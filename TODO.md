@@ -8,8 +8,6 @@
     - [x] Calculations (snr etc.)
     - [ ] Evolution
     - [ ] Plots
-- [ ] Export data
-    - [ ] Add a download button for the final data
 - [ ] Random sources tab
     - [ ] Define ranges and distributions (start with just uniform, add normal/lognormal later)
     - [ ] Perhaps add sliders?
@@ -29,3 +27,5 @@
     - [x] Add a page with our faces and a description of what this is, where it came from, acknowledge people etc
 - [x] Update inputs
     - [x] Actually update sources dict when uploading CSVs
+- [x] Export data
+    - [x] Add a download button for the final data
