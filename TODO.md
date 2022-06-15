@@ -1,14 +1,13 @@
 # TODO List
 
-- [ ] Update inputs
-    - [ ] Change automatically on change of values in single source
-    - [x] Actually update sources dict when uploading CSVs
 - [ ] Results pane plot inputs
     - [x] Plot sensitivity curve (with or without sources)
     - [ ] Plot 1/2D distributions of sources with the usual variables
 - [ ] Server side
-    - [ ] Connect it to LEGWORK!
-        - need to elaborate on this but later
+    - [x] Connect it to LEGWORK!
+    - [x] Calculations (snr etc.)
+    - [ ] Evolution
+    - [ ] Plots
 - [ ] Export data
     - [ ] Add a download button for the final data
 - [ ] Random sources tab
@@ -28,3 +27,5 @@
     - [x] Browse button
 - [x] About page
     - [x] Add a page with our faces and a description of what this is, where it came from, acknowledge people etc
+- [x] Update inputs
+    - [x] Actually update sources dict when uploading CSVs
