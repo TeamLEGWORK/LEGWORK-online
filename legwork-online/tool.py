@@ -40,7 +40,7 @@ def snr():
 def t_merge():
     start = time.time()
     data = request.get_json()
-    sources = data_to_Source(data)
+    sources = data_to_Source(data, dont_bother=True)
     sources.get_merger_time()
     json = {
         "t_merge": list(sources.t_merge.to(u.Myr).value),
@@ -90,7 +90,7 @@ def about():
     return render_template('about.html')
 
 
-def data_to_Source(data):
+def data_to_Source(data, dont_bother=False):
     confusion_noise = None if data["detector"]["confusion_noise_model"] == "None" else data["detector"]["confusion_noise_model"]
     sc_params = {
         "instrument": data["detector"]["instrument"],
@@ -99,20 +99,16 @@ def data_to_Source(data):
         "confusion_noise": confusion_noise
     }
 
-    m_1 = data["sources"]["m_1"] * u.Msun
-    m_2 = data["sources"]["m_2"] * u.Msun
-    f_orb = data["sources"]["f_orb"] * u.mHz
-    ecc = data["sources"]["ecc"]
-    dist = data["sources"]["dist"] * u.kpc
+    interpolate_g = False if dont_bother else bool(data["settings"]["interpolate_g"])
 
-    sources = legwork.source.Source(m_1=m_1,
-                                    m_2=m_2,
-                                    f_orb=f_orb,
-                                    ecc=ecc,
-                                    dist=dist,
+    sources = legwork.source.Source(m_1=data["sources"]["m_1"] * u.Msun,
+                                    m_2=data["sources"]["m_2"] * u.Msun,
+                                    f_orb=data["sources"]["f_orb"] * u.mHz,
+                                    ecc=data["sources"]["ecc"],
+                                    dist=data["sources"]["dist"] * u.kpc,
                                     gw_lum_tol=float(data["settings"]["gw_lum_tol"]),
                                     stat_tol=float(data["settings"]["stat_tol"]),
-                                    interpolate_g=bool(data["settings"]["interpolate_g"]),
+                                    interpolate_g=interpolate_g,
                                     interpolate_sc=bool(data["settings"]["interpolate_sc"]),
                                     sc_params=sc_params)
     return sources
