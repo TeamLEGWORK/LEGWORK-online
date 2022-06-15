@@ -1,13 +1,11 @@
 # TODO List
 
-- [ ] Results pane plot inputs
-    - [x] Plot sensitivity curve (with or without sources)
-    - [ ] Plot 1/2D distributions of sources with the usual variables
-- [ ] Server side
-    - [x] Connect it to LEGWORK!
-    - [x] Calculations (snr etc.)
-    - [ ] Evolution
-    - [ ] Plots
+- [ ] Use scientific notation everywhere (turns out JS is smarter than I thought)
+- [ ] Plots
+    - [ ] Inputs
+        - [x] Plot sensitivity curve (with or without sources)
+        - [ ] Plot 1/2D distributions of sources with the usual variables
+    - [ ] Server side
 - [ ] Random sources tab
     - [ ] Define ranges and distributions (start with just uniform, add normal/lognormal later)
     - [ ] Perhaps add sliders?
@@ -29,3 +27,7 @@
     - [x] Actually update sources dict when uploading CSVs
 - [x] Export data
     - [x] Add a download button for the final data
+- [x] Server side
+    - [x] Connect it to LEGWORK!
+    - [x] Calculations (snr etc.)
+    - [x] Evolution
