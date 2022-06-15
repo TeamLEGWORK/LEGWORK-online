@@ -29,7 +29,8 @@ let data = {
         "t_merge": null,
         "h_0": null,
         "h_c": null,
-        "snr": null
+        "snr": null,
+        "merged": null
     },
     "detector": {
         "instrument": "LISA",
@@ -196,6 +197,14 @@ window.addEventListener("load", function () {
                     insert_or_update_column(prop, response[prop]);
                     data["sources"][prop] = response[prop];
                 });
+
+                const table_rows = document.querySelectorAll("table tbody tr");
+                for (let i = 0; i < response["merged"].length; i++) {
+                    if (response["merged"][i] == 1) {
+                        table_rows[i].classList.add("source-merged")
+                    }
+                }
+
                 inject_toast("Evolution complete! See table for results.", response["runtime"])
                 button.innerHTML = original_html;
             },
