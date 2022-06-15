@@ -198,6 +198,8 @@ window.addEventListener("load", function () {
                     data["sources"][prop] = response[prop];
                 });
 
+                delete_column(["snr", "log_total_strain", "log_total_char_strain"]);
+
                 const table_rows = document.querySelectorAll("table tbody tr");
                 for (let i = 0; i < response["merged"].length; i++) {
                     if (response["merged"][i] == 1) {
@@ -414,6 +416,34 @@ function insert_or_update_column(header, data) {
             td.setAttribute("data-unrounded", data[i]);
             td.innerText = parseFloat(data[i]).toFixed(precision);
         }
+    }
+}
+
+function delete_column(headers) {
+    const table = document.querySelector("#sources-table table");
+
+    let translated_headers = [];
+    headers.forEach(header => translated_headers.push(header_to_longname[header]));
+
+    const ths = table.querySelectorAll("th");
+    let col_indices = []
+
+    translated_headers.forEach(header => {
+        for (let i = 1; i < ths.length; i++) {
+            if (ths[i].innerHTML == header) {
+                col_indices.push(i - 1);
+                ths[i].parentElement.removeChild(ths[i]);
+                break;
+            }
+        }
+    });
+
+    const rows = table.querySelectorAll("tbody tr");
+    for (let i = 0; i < rows.length; i++) {
+        col_indices.forEach(col_index => {
+            const td = rows[i].querySelectorAll("td")[col_index];
+            td.parentElement.removeChild(td);
+        });
     }
 }
 
