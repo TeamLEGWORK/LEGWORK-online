@@ -120,7 +120,6 @@ def plot_sc():
     confusion_noise = None if data["detector"]["confusion_noise_model"] == "None"\
         else data["detector"]["confusion_noise_model"]
     fig, ax = plot_sensitivity_curve(frequency_range=frequency_range,
-                                     y_quantity=data["plot_params"]["y_quantity"],
                                      fill=bool(data["plot_params"]["fill"]),
                                      color=data["plot_params"]["fill_colour"],
                                      alpha=data["plot_params"]["fill_opacity"],
@@ -139,12 +138,14 @@ def plot_sc():
 
         if data["plot_params"]["sources_dist"] == "kde" and sources.n_sources > 1:
             fig, ax = sources.plot_sources_on_sc(fig=fig, ax=ax, show=False, disttype="kde",
-                                                 fill=True, thresh=0.1, zorder=2, bw_adjust=0.9)
+                                                 fill=True, color=data["plot_params"]["sources_colour"],
+                                                 thresh=0.1, zorder=2, bw_adjust=0.9)
 
             # SUPER HACKY FIX: seaborn is creating an extra dodgy level that I'm just hiding
             ax.collections[1 if bool(data["plot_params"]["fill"]) else 0].set_alpha(0)
         else:
-            sources.plot_sources_on_sc(fig=fig, ax=ax, show=False, disttype="scatter")
+            sources.plot_sources_on_sc(fig=fig, ax=ax, show=False, disttype="scatter",
+                                       color=data["plot_params"]["sources_colour"])
 
     if bool(data["plot_params"]["include_vbs"]):
         vbs = VerificationBinaries()

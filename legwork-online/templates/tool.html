@@ -209,28 +209,6 @@ block content %}
                             <div class="form-text">Results will appear in the data table below</div>
                         </div>
                     </div>
-                    <!-- <div class="row mb-3">
-                        <div class="col">
-                            <h4>Gravitational Wave Strains</h4>
-                            <label for="harmonics" class="form-label">
-                                Harmonics (value or comma separated list)
-                                <span class="helper" title="Harmonics for which to calculate the strain. For circular sources only the n=2 harmonic will have nonzero values but as sources become more eccentric, more harmonics are necessary to capture the full strain."></span></label>
-                            <div class="row">
-                                <div class="col">
-                                    <input id="harmonics" class="form-control"
-                                        placeholder="e.g. 2 or 1,2,3,4,5,8,10,20">
-                                </div>
-                                <div class="col d-flex align-items-end">
-                                    <div class="btn-group w-100">
-                                        <button id="strain-harmonic" class="btn btn-primary">Strain</button>
-                                        <button id="characteristic-strain-harmonic"
-                                            class="btn btn-primary">Characteristic Strain</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-text">Results will appear in the data table below</div>
-                        </div>
-                    </div> -->
                     <div class="row mb-3">
                         <div class="col">
                             <h4>Evolution</h4>
@@ -315,16 +293,13 @@ block content %}
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
-                                                    <label for="sc-plot-y-quanity" class="form-label">Y Axis Quantity</label>
-                                                    <select class="form-select" id="sc-plot-y-quantity">
-                                                        <option value="ASD">ASD</option>
-                                                        <option value="h_c">Characteristic Strain</option>
-                                                    </select>
+                                                    <label class="form-label">Linewidth</label>
+                                                    <input class="form-control" id="sc-plot-lw" value="1" type="number" />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-12 col-md-6 mb-3 mb-md-0">
-                                                    <label class="form-label">Fill below curve? (If yes, colour and opacity)</label>
+                                                    <label class="form-label">Fill area below curve? (If yes, colour and opacity)</label>
                                                     <div class="input-group">
                                                         <div class="input-group-text">
                                                             <div class="form-check form-switch">
@@ -332,7 +307,7 @@ block content %}
                                                             </div>
                                                         </div>
                                                         <div class="colour-container input-group-text bg-white">
-                                                            <label id="sc-plot-fill-colour-label">
+                                                            <label id="sc-plot-fill-colour-label" class="colour-label">
                                                                 <input id="sc-plot-fill-colour" type="color" value="#18068b" />
                                                             </label>
                                                         </div>
@@ -340,30 +315,39 @@ block content %}
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-6 mb-3 mb-md-0">
-                                                    <label class="form-label">Linewidth</label>
-                                                    <input class="form-control" id="sc-plot-lw" value="1" type="number" />
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3 text-center">
+                                                <div class="col">
+                                                    <div class="form-check form-check-inline form-switch">
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="sc-plot-include-sources" checked="true" />
+                                                        <label class="form-check-label" for="sc-plot-include-sources"
+                                                            >Include your sources on plot?
+                                                            <span class="helper" title="This is only implemented for stationary sources"></span
+                                                        ></label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline form-switch">
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="sc-plot-include-vbs" />
+                                                        <label class="form-check-label" for="sc-plot-include-vbs">Include LISA verification binaries?</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-12 col-md-6 mb-3 mb-md-0">
-                                                    <label class="form-label">Include your sources on plot? <span class="helper" title="This will only work for stationary sources"></span></label>
+                                                    <label for="sc-plot-sources-disttype">Type of plot for your sources <span class="helper" title="Kernel density estimators will be slow for large numbers of sources, your plot may timeout"></span></label>
                                                     <div class="input-group">
-                                                        <div class="input-group-text">
-                                                            <div class="form-check form-switch">
-                                                                <input class="form-check-input" type="checkbox" role="switch" id="sc-plot-include-sources"/>
-                                                            </div>
-                                                        </div>
                                                         <select id="sc-plot-sources-disttype" class="form-select">
-                                                            <option value="scatter">Scatter</option>
-                                                            <option value="kde">KDE (will be slow for large number of sources)</option>
+                                                            <option value="scatter">Scatter points</option>
+                                                            <option value="kde">Kernel density estimator</option>
                                                         </select>
-                                                    </div>
+                                                        <div class="colour-container input-group-text bg-white" style="width:fit-content">
+                                                            <label id="sc-plot-sources-colour-label" class="colour-label">
+                                                                <input id="sc-plot-sources-colour" type="color" class="form-control" value="#1f76b4" />
+                                                            </label>
+                                                        </div>
+                                                    </div> 
                                                 </div>
-                                                <div class="col-12 col-md-6 mb-3 mb-md-0 d-flex align-items-center">
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" role="switch" id="sc-plot-include-vbs" checked="true" />
-                                                    </div>
-                                                    <label class="form-label">Include verification binaries?</label>
+                                                <div class="col">
                                                 </div>
                                             </div>
                                             <figure class="mb-3">

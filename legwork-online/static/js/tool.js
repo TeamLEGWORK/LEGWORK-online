@@ -237,8 +237,10 @@ window.addEventListener("load", function () {
     });
 
     // sneaky colour selection
-    document.querySelector("#sc-plot-fill-colour-label input").addEventListener("change", function () {
-        document.querySelector("#sc-plot-fill-colour-label").style.backgroundColor = this.value;
+    document.querySelectorAll(".colour-label input").forEach(el => {
+        el.addEventListener("change", function () {
+            el.parentElement.style.backgroundColor = this.value;
+        });
     });
 
     // disable/enable stuff after switch is flipped
@@ -262,13 +264,13 @@ window.addEventListener("load", function () {
                 data["plot_params"] = {
                     frequency_range: [parseFloat(document.getElementById("sc-plot-f-range-lower").value),
                                       parseFloat(document.getElementById("sc-plot-f-range-upper").value)],
-                    y_quantity: document.getElementById("sc-plot-y-quantity").value,
                     fill: document.getElementById("sc-plot-fill").checked,
                     fill_colour: document.getElementById("sc-plot-fill-colour").value,
                     fill_opacity: parseFloat(document.getElementById("sc-plot-fill-opacity").value),
                     linewidth: parseFloat(document.getElementById("sc-plot-lw").value),
                     include_sources: document.getElementById("sc-plot-include-sources").checked,
                     sources_dist: document.getElementById("sc-plot-sources-disttype").value,
+                    sources_colour: document.getElementById("sc-plot-sources-colour").value,
                     include_vbs: document.getElementById("sc-plot-include-vbs").checked,
                 }
                 console.log(data);

@@ -87,18 +87,25 @@ input[type="number"] {
     cursor: pointer;
 }
 
-#sc-plot-fill-colour-label input {
+label input[type="color"] {
     visibility: hidden;
 }
 
-#sc-plot-fill-colour-label {
-    background-color: #18068b;
+.colour-label {
     height: 15px;
     width: 15px;
     cursor: pointer;
 }
 
-#sc-plot-fill-colour-label.disabled {
+#sc-plot-fill-colour-label {
+    background-color: #18068b;
+}
+
+#sc-plot-sources-colour-label {
+    background-color: #1f76b4;
+}
+
+.colour-label.disabled {
     cursor: unset;
 }
 
