@@ -116,13 +116,20 @@ def plot_sc():
     frequency_range = np.logspace(np.log10(data["plot_params"]["frequency_range"][0]),
                                   np.log10(data["plot_params"]["frequency_range"][1]),
                                   1000) * u.Hz
+    
+    confusion_noise = None if data["detector"]["confusion_noise_model"] == "None"\
+        else data["detector"]["confusion_noise_model"]
     fig, ax = plot_sensitivity_curve(frequency_range=frequency_range,
                                      y_quantity=data["plot_params"]["y_quantity"],
                                      fill=bool(data["plot_params"]["fill"]),
                                      color=data["plot_params"]["fill_colour"],
                                      alpha=data["plot_params"]["fill_opacity"],
                                      linewidth=data["plot_params"]["linewidth"],
-                                     show=False, label="Sensitivity Curve")
+                                     show=False, label="Sensitivity Curve",
+                                     instrument=data["detector"]["instrument"],
+                                     t_obs=data["detector"]["duration"] * u.yr,
+                                     approximate_R=bool(data["detector"]["approximate_response_function"]),
+                                     confusion_noise=confusion_noise)
 
     if bool(data["plot_params"]["include_sources"]):
         sources = data_to_Source(data)

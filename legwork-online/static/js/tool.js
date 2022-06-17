@@ -31,7 +31,7 @@ let data = {
     },
     detector: {
         instrument: "LISA",
-        duration: "4",
+        duration: 4,
         approximate_response_function: false,
         confusion_noise_model: "robson19",
     },
