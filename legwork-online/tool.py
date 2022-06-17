@@ -156,7 +156,7 @@ def plot_sc():
 
     ax.legend()
 
-    fig.savefig(temp_filepath, format="png")
+    fig.savefig(temp_filepath, format="png", bbox_inches="tight")
 
     with open(temp_filepath, "rb") as f:
         image_binary = f.read()
