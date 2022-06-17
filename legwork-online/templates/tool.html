@@ -285,7 +285,7 @@ block content %}
                                         <div class="carousel-item active">
                                             <figure class="mb-3">
                                                 <div class="img-fluid-limited float-start position-relative zoom-figure me-2 text-center" data-bs-toggle="modal" data-bs-target="#placeholder-plot">
-                                                    <img src="../static/img/legwork.png" class="img-fluid zoom-figure w-50" />
+                                                    <img id="plots-preview" src="../static/img/legwork.png" class="img-fluid zoom-figure w-50" />
                                                     <div class="img-overlay">
                                                         <p class="m-0 fw-bold">Click to Zoom</p>
                                                     </div>
@@ -438,8 +438,7 @@ block content %}
                                 </div>
                                 <div class="mb-3 text-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-primary btn-lg">Create new plot</button>
-                                        <button class="btn btn-primary btn-lg">Download current plot</button>
+                                        <button id="create-plot" class="btn btn-primary btn-lg">Create new plot</button>
                                     </div>
                                 </div>
                             </div>

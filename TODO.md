@@ -1,6 +1,5 @@
 # TODO List
 
-- [ ] Use scientific notation everywhere (turns out JS is smarter than I thought)
 - [ ] Plots
     - [ ] Inputs
         - [x] Plot sensitivity curve (with or without sources)
@@ -31,3 +30,4 @@
     - [x] Connect it to LEGWORK!
     - [x] Calculations (snr etc.)
     - [x] Evolution
+- [x] Use scientific notation everywhere (turns out JS is smarter than I thought)

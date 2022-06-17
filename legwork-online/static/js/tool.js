@@ -249,6 +249,23 @@ window.addEventListener("load", function () {
         document.querySelector("#sc-plot-fill-opacity").toggleAttribute("disabled");
     });
 
+    document.querySelector("#create-plot").addEventListener("click", function() {
+        $.ajax({
+            type: "POST",
+            url: "/tool/plot-sc",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                document.querySelectorAll("#plot-carousel .carousel-item.active img").forEach(el => {
+                    el.src = 'data:image/png;base64,' + response;
+                });
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+    });
+
     ["keyup", "change"].forEach(function (e) {
         document.querySelector("#data-precision").addEventListener(e, function () {
             const precision = parseInt(this.value);

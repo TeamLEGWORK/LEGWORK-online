@@ -1,11 +1,13 @@
 from flask import (
-    Blueprint, render_template, request
+    Blueprint, render_template, request, make_response
 )
+import base64
 
 import legwork
 import numpy as np
 import astropy.units as u
 import time
+import os
 
 import matplotlib
 matplotlib.use('Agg')
@@ -100,6 +102,27 @@ def evolve():
     }
     return json
 
+
+@bp.route('/tool/plot-sc', methods=["POST"])
+def plot_sc():
+    start = time.time()
+    data = request.get_json()
+    sources = data_to_Source(data, dont_bother=True)
+
+    temp_filepath = bp.root_path + "/static/img/tmp/test.png"
+    
+    fig, ax = legwork.visualisation.plot_sensitivity_curve(frequency_range=np.logspace(-5, -1, 1000) * u.Hz, show=False)
+    fig.savefig(temp_filepath)
+
+    with open(temp_filepath, "rb") as f:
+        image_binary = f.read()
+
+    os.remove(temp_filepath)
+
+    response = make_response(base64.b64encode(image_binary))
+    response.headers.set('Content-Type', 'image/png')
+    response.headers.set('Content-Disposition', 'attachment', filename='image.png')
+    return response
 
 @bp.route('/about')
 def about():
