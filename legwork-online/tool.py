@@ -126,7 +126,9 @@ def plot_sc():
 
     if bool(data["plot_params"]["include_sources"]):
         sources = data_to_Source(data)
-        sources.get_snr()
+
+        if sources.snr is None:
+            sources.get_snr()
 
         if data["plot_params"]["sources_dist"] == "kde" and sources.n_sources > 1:
             fig, ax = sources.plot_sources_on_sc(fig=fig, ax=ax, show=False, disttype="kde",
@@ -185,6 +187,9 @@ def data_to_Source(data, dont_bother=False):
                      interpolate_g=interpolate_g,
                      interpolate_sc=bool(data["settings"]["interpolate_sc"]),
                      sc_params=sc_params)
+
+    if data["sources"]["snr"] is not None:
+        sources.snr = np.array(data["sources"]["snr"])
 
     if data["sources"]["t_merge"] is not None:
         sources.t_merge = data["sources"]["t_merge"] * u.Myr
