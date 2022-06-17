@@ -1,5 +1,5 @@
 // increase opacity
-$toast-background-color: rgba(white, .95);
+$toast-background-color: rgba(white, 0.95);
 
 @import "./base.scss";
 
@@ -11,7 +11,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
     -moz-appearance: textfield;
 }
 
@@ -114,5 +114,5 @@ input[type=number] {
 }
 
 .source-merged td {
-    color: rgba(0, 0, 0, 0.25)!important;
+    color: rgba(0, 0, 0, 0.25) !important;
 }

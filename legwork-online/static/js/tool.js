@@ -1,51 +1,47 @@
-import {
-    animateCSS
-} from "./base.js"
-
+import {animateCSS} from "./base.js";
 
 // for converting csv headings to nice html things
 const header_to_longname = {
-    "m_1": "Primary Mass [M<sub>⊙</sub>]",
-    "m_2": "Secondary Mass [M<sub>⊙</sub>]",
-    "f_orb": "Orbital Frequency [mHz]",
-    "ecc": "Eccentricity",
-    "dist": "Distance [kpc]",
-    "snr": "Signal-to-Noise Ratio",
-    "t_merge": "Time until merger [Myr]",
-    "log_total_strain": "log<sub>10</sub>(Total strain)",
-    "log_total_char_strain": "log<sub>10</sub>(Total characteristic strain)",
-    "merged": "Source has merged?"
-}
+    m_1: "Primary Mass [M<sub>⊙</sub>]",
+    m_2: "Secondary Mass [M<sub>⊙</sub>]",
+    f_orb: "Orbital Frequency [mHz]",
+    ecc: "Eccentricity",
+    dist: "Distance [kpc]",
+    snr: "Signal-to-Noise Ratio",
+    t_merge: "Time until merger [Myr]",
+    log_total_strain: "log<sub>10</sub>(Total strain)",
+    log_total_char_strain: "log<sub>10</sub>(Total characteristic strain)",
+    merged: "Source has merged?",
+};
 
 // stores current input data
 let data = {
-    "single_source": true,
-    "sources": {
-        "m_1": null,
-        "m_2": null,
-        "f_orb": null,
-        "ecc": null,
-        "dist": null,
-        "t_merge": null,
-        "h_0": null,
-        "h_c": null,
-        "snr": null,
-        "merged": null
+    single_source: true,
+    sources: {
+        m_1: null,
+        m_2: null,
+        f_orb: null,
+        ecc: null,
+        dist: null,
+        t_merge: null,
+        h_0: null,
+        h_c: null,
+        snr: null,
+        merged: null,
     },
-    "detector": {
-        "instrument": "LISA",
-        "duration": "4",
-        "approximate_response_function": false,
-        "confusion_noise_model": "robson19"
+    detector: {
+        instrument: "LISA",
+        duration: "4",
+        approximate_response_function: false,
+        confusion_noise_model: "robson19",
     },
-    "settings": {
-        "gw_lum_tol": 0.05,
-        "stat_tol": 0.1,
-        "interpolate_g": false,
-        "interpolate_sc": true
-    }
-}
-
+    settings: {
+        gw_lum_tol: 0.05,
+        stat_tol: 0.1,
+        interpolate_g: false,
+        interpolate_sc: true,
+    },
+};
 
 window.addEventListener("load", function () {
     // grab the template for later use
@@ -59,7 +55,7 @@ window.addEventListener("load", function () {
 
         // cut and paste the title
         helper.setAttribute("title", el.getAttribute("title"));
-        el.setAttribute("title", "")
+        el.setAttribute("title", "");
 
         // attach it to the DOM
         el.appendChild(helper);
@@ -73,7 +69,7 @@ window.addEventListener("load", function () {
     // activate all of the tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
+        return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
     ["dragover", "dragenter"].forEach(function (et) {
@@ -82,7 +78,7 @@ window.addEventListener("load", function () {
             e.stopPropagation();
             this.classList.add("file-is-over");
             this.querySelectorAll(".file-drop-box .message").forEach(function (el) {
-                el.classList.add("hide")
+                el.classList.add("hide");
             });
             this.querySelector(".file-drop-box .ready-to-drop").classList.remove("hide");
         });
@@ -94,7 +90,7 @@ window.addEventListener("load", function () {
             e.stopPropagation();
             this.classList.remove("file-is-over");
             this.querySelectorAll(".file-drop-box .message").forEach(function (el) {
-                el.classList.add("hide")
+                el.classList.add("hide");
             });
             this.querySelector(".file-drop-box .pre-upload").classList.remove("hide");
         });
@@ -105,7 +101,7 @@ window.addEventListener("load", function () {
         e.stopPropagation();
         this.classList.remove("file-is-over");
         this.querySelectorAll(".file-drop-box .message").forEach(function (el) {
-            el.classList.add("hide")
+            el.classList.add("hide");
         });
         this.querySelector(".file-drop-box .uploading").classList.remove("hide");
         animateCSS(".file-drop-box .uploading", "bounceIn");
@@ -125,13 +121,11 @@ window.addEventListener("load", function () {
 
         const rows = [
             ["m_1", "m_2", "f_orb", "ecc", "dist"],
-            [data["sources"]["m_1"], data["sources"]["m_2"], data["sources"]["f_orb"],
-                data["sources"]["ecc"], data["sources"]["dist"]
-            ]
-        ]
-        create_table(rows)
-        
-        inject_toast("Inputs updated!", "", "2000")
+            [data["sources"]["m_1"], data["sources"]["m_2"], data["sources"]["f_orb"], data["sources"]["ecc"], data["sources"]["dist"]],
+        ];
+        create_table(rows);
+
+        inject_toast("Inputs updated!", "", "2000");
     });
 
     // calculate the SNR using the API
@@ -148,11 +142,10 @@ window.addEventListener("load", function () {
     });
 
     document.querySelector("#total-characteristic-strain").addEventListener("click", function () {
-        make_calculation("#total-characteristic-strain", "log_total_char_strain",
-                         "Total characteristic strain");
+        make_calculation("#total-characteristic-strain", "log_total_char_strain", "Total characteristic strain");
     });
 
-    document.querySelector("#evolve").addEventListener("click", function() {
+    document.querySelector("#evolve").addEventListener("click", function () {
         if (!enforce_inputs()) {
             return;
         }
@@ -161,8 +154,7 @@ window.addEventListener("load", function () {
         let time = 0;
         if (time_string.includes(",")) {
             time = [];
-            time_string.split(",").forEach(el => time.push(parseFloat(el)));
-
+            time_string.split(",").forEach((el) => time.push(parseFloat(el)));
 
             if (time.length != data["sources"]["m_1"].length) {
                 alert_user("Number of evolution times does not match number of sources.");
@@ -193,7 +185,7 @@ window.addEventListener("load", function () {
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
             success: function (response) {
-                ["f_orb", "ecc", "t_merge", "merged"].forEach(prop => {
+                ["f_orb", "ecc", "t_merge", "merged"].forEach((prop) => {
                     insert_or_update_column(prop, response[prop]);
                     data["sources"][prop] = response[prop];
                 });
@@ -203,31 +195,30 @@ window.addEventListener("load", function () {
                 const table_rows = document.querySelectorAll("table tbody tr");
                 for (let i = 0; i < response["merged"].length; i++) {
                     if (response["merged"][i] == 1) {
-                        table_rows[i].classList.add("source-merged")
+                        table_rows[i].classList.add("source-merged");
                     }
                 }
 
-                inject_toast("Evolution complete! See table for results.", response["runtime"])
+                inject_toast("Evolution complete! See table for results.", response["runtime"]);
                 button.innerHTML = original_html;
             },
             error: function (response) {
-                const parser = new DOMParser()
-                const doc = parser.parseFromString(response.responseText, 'text/html')
-                alert_user("Error: evolution failed", doc.querySelector(".errormsg").innerHTML,
-                           response.responseText);
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(response.responseText, "text/html");
+                alert_user("Error: evolution failed", doc.querySelector(".errormsg").innerHTML, response.responseText);
                 button.innerHTML = original_html;
-            }
+            },
         });
     });
 
-    document.querySelector("#toggle-plots").addEventListener("click", function() {
+    document.querySelector("#toggle-plots").addEventListener("click", function () {
         let i = this.querySelector("i");
         i.classList.toggle("fa-chevron-up");
         i.classList.toggle("fa-chevron-down");
     });
 
     // set up the carousel and buttons to move it
-    const carousel = new bootstrap.Carousel('#plot-carousel');
+    const carousel = new bootstrap.Carousel("#plot-carousel");
     document.querySelectorAll("#plot-carousel-tabs .nav-link").forEach(function (el) {
         el.addEventListener("click", function () {
             document.querySelectorAll("#plot-carousel-tabs .nav-link").forEach(function (el) {
@@ -252,11 +243,11 @@ window.addEventListener("load", function () {
         document.querySelector("#sc-plot-fill-opacity").toggleAttribute("disabled");
     });
 
-    ["keyup", "change"].forEach(function(e) {
-        document.querySelector("#data-precision").addEventListener(e, function() {
+    ["keyup", "change"].forEach(function (e) {
+        document.querySelector("#data-precision").addEventListener(e, function () {
             const precision = parseInt(this.value);
             if (precision != NaN && precision >= 0) {
-                document.querySelectorAll("table tbody td").forEach(function(el) {
+                document.querySelectorAll("table tbody td").forEach(function (el) {
                     el.innerText = parseFloat(el.getAttribute("data-unrounded")).toFixed(precision);
                 });
             }
@@ -266,9 +257,6 @@ window.addEventListener("load", function () {
     document.querySelector("#download").addEventListener("click", download_table);
 });
 
-
-
-
 function read_csv_input(file) {
     let success = true;
 
@@ -277,7 +265,7 @@ function read_csv_input(file) {
 
     fileReader.onload = function () {
         const dataset = fileReader.result;
-        const rows = dataset.split('\n').map(data => data.split(','));
+        const rows = dataset.split("\n").map((data) => data.split(","));
 
         for (let i = 0; i < rows.length; i++) {
             if (rows[i].length !== rows[0].length) {
@@ -287,11 +275,11 @@ function read_csv_input(file) {
 
         for (let i = 0; i < rows[0].length; i++) {
             if (rows[0][i] in header_to_longname) {
-                let source_prop = []
+                let source_prop = [];
                 for (let j = 1; j < rows.length; j++) {
                     source_prop.push(parseFloat(rows[j][i]));
                 }
-                data["sources"][rows[0][i]] = source_prop
+                data["sources"][rows[0][i]] = source_prop;
             } else {
                 alert_user("Unknown header detected in csv file: " + rows[0][i].toString());
                 success = false;
@@ -314,12 +302,11 @@ function read_csv_input(file) {
             animateCSS(".file-drop-box-container", "headShake");
         }
         document.querySelectorAll(".file-drop-box .message").forEach(function (el) {
-            el.classList.add("hide")
+            el.classList.add("hide");
         });
         document.querySelector(".file-drop-box .pre-upload").classList.remove("hide");
     };
 }
-
 
 function create_table(rows) {
     let table = document.createElement("table");
@@ -333,18 +320,18 @@ function create_table(rows) {
 
     let th = document.createElement("th");
     th.innerText = "Source ID";
-    th.setAttribute("data-csv-header", "id")
+    th.setAttribute("data-csv-header", "id");
     thead_tr.appendChild(th);
 
     for (let i = 0; i < rows[0].length; i++) {
         let th = document.createElement("th");
 
         if (rows[0][i] in header_to_longname) {
-            th.innerHTML = header_to_longname[rows[0][i]]
+            th.innerHTML = header_to_longname[rows[0][i]];
         } else {
             th.innerHTML = rows[0][i];
         }
-        th.setAttribute("data-csv-header", rows[0][i])
+        th.setAttribute("data-csv-header", rows[0][i]);
         thead_tr.appendChild(th);
     }
 
@@ -384,7 +371,7 @@ function insert_or_update_column(header, data) {
     }
 
     let ths = table.querySelectorAll("th");
-    let col_index = -1
+    let col_index = -1;
     for (let i = 1; i < ths.length; i++) {
         if (ths[i].innerHTML == translated_header) {
             col_index = i - 1;
@@ -398,7 +385,7 @@ function insert_or_update_column(header, data) {
     if (col_index < 0) {
         const th = document.createElement("th");
         th.innerHTML = translated_header;
-        th.setAttribute("data-csv-header", header)
+        th.setAttribute("data-csv-header", header);
         table.querySelector("thead tr").appendChild(th);
 
         const rows = table.querySelectorAll("tbody tr");
@@ -423,12 +410,12 @@ function delete_column(headers) {
     const table = document.querySelector("#sources-table table");
 
     let translated_headers = [];
-    headers.forEach(header => translated_headers.push(header_to_longname[header]));
+    headers.forEach((header) => translated_headers.push(header_to_longname[header]));
 
     const ths = table.querySelectorAll("th");
-    let col_indices = []
+    let col_indices = [];
 
-    translated_headers.forEach(header => {
+    translated_headers.forEach((header) => {
         for (let i = 1; i < ths.length; i++) {
             if (ths[i].innerHTML == header) {
                 col_indices.push(i - 1);
@@ -440,7 +427,7 @@ function delete_column(headers) {
 
     const rows = table.querySelectorAll("tbody tr");
     for (let i = 0; i < rows.length; i++) {
-        col_indices.forEach(col_index => {
+        col_indices.forEach((col_index) => {
             const td = rows[i].querySelectorAll("td")[col_index];
             td.parentElement.removeChild(td);
         });
@@ -494,9 +481,9 @@ function update_if_blank(id, value) {
     }
 }
 
-function inject_toast(message, small_text="", delay=null) {
+function inject_toast(message, small_text = "", delay = null) {
     const toast_el = document.getElementById("toast-template").cloneNode(true);
-    toast_el.id = ""
+    toast_el.id = "";
     toast_el.querySelector(".toast-body").innerText = message;
     toast_el.querySelector(".toast-status").innerText = small_text;
     if (delay != null) {
@@ -506,25 +493,25 @@ function inject_toast(message, small_text="", delay=null) {
     document.querySelector("#toaster").appendChild(toast_el);
 
     const toast = new bootstrap.Toast(toast_el);
-    toast.show()
+    toast.show();
     return toast_el;
 }
 
 function add_loader(el, message) {
     el.innerHTML = `
         <span class='message'></span> <i class="fa fa-spin fa-circle-o-notch"></i>
-    `
+    `;
     el.querySelector(".message").innerText = message;
 }
 
-function alert_user(message, error=null, traceback_doc=null) {
+function alert_user(message, error = null, traceback_doc = null) {
     if (error == null && traceback_doc == null) {
-        let toast = inject_toast(message, "", "20000")
+        let toast = inject_toast(message, "", "20000");
         toast.classList.add("bg-danger", "text-white");
-        return
+        return;
     }
 
-    let toast = inject_toast("", "", "20000")
+    let toast = inject_toast("", "", "20000");
     toast.classList.add("bg-danger", "text-white");
 
     let bold = document.createElement("b");
@@ -533,7 +520,7 @@ function alert_user(message, error=null, traceback_doc=null) {
     let link = document.createElement("a");
     link.classList.add("link-light");
     link.href = "#";
-    link.addEventListener("click", function() {
+    link.addEventListener("click", function () {
         const new_win = window.open();
         new_win.document.write(traceback_doc);
     });
@@ -541,9 +528,9 @@ function alert_user(message, error=null, traceback_doc=null) {
 
     let p = document.createElement("p");
     p.appendChild(bold);
-    p.innerHTML += "<br>"
-    p.innerHTML += error
-    p.innerHTML += "<br>"
+    p.innerHTML += "<br>";
+    p.innerHTML += error;
+    p.innerHTML += "<br>";
     p.appendChild(link);
 
     toast.querySelector(".toast-body").appendChild(p);
@@ -564,17 +551,16 @@ function make_calculation(button_selector, method, text_version) {
         contentType: "application/json; charset=utf-8",
         success: function (response) {
             insert_or_update_column(method, response[method]);
-            inject_toast(text_version + " calculated! See table for results.", response["runtime"])
+            inject_toast(text_version + " calculated! See table for results.", response["runtime"]);
             button.innerHTML = original_html;
             data["sources"][method] = response[method];
         },
         error: function (response) {
-            const parser = new DOMParser()
-            const doc = parser.parseFromString(response.responseText, 'text/html')
-            alert_user("Error: " + text_version + " calculation failed", doc.querySelector(".errormsg").innerHTML,
-                       response.responseText);
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(response.responseText, "text/html");
+            alert_user("Error: " + text_version + " calculation failed", doc.querySelector(".errormsg").innerHTML, response.responseText);
             button.innerHTML = original_html;
-        }
+        },
     });
 }
 
@@ -582,7 +568,9 @@ function enforce_inputs() {
     const required = ["m_1", "m_2", "f_orb", "ecc", "dist"];
     for (let i = 0; i < required.length; i++) {
         if (data["sources"][required[i]] == null) {
-            alert_user("Can't complete calculation, you're missing a required input! Make sure you've supplied a value for `" + required[i] + "` (there may be more, this was just the first missing one).");
+            alert_user(
+                "Can't complete calculation, you're missing a required input! Make sure you've supplied a value for `" + required[i] + "` (there may be more, this was just the first missing one)."
+            );
             return false;
         }
     }
@@ -597,25 +585,25 @@ function download_table() {
     let csv_file = "";
 
     let header_list = [];
-    document.querySelectorAll("table thead th").forEach(function(header) {
-        header_list.push(header.getAttribute("data-csv-header"))
+    document.querySelectorAll("table thead th").forEach(function (header) {
+        header_list.push(header.getAttribute("data-csv-header"));
     });
     csv_file += header_list.join(",") + "\r\n";
 
-    document.querySelectorAll("table tbody tr").forEach(function(row) {
+    document.querySelectorAll("table tbody tr").forEach(function (row) {
         let row_list = [];
-        row.querySelectorAll("th,td").forEach(function(cell) {
+        row.querySelectorAll("th,td").forEach(function (cell) {
             row_list.push(cell.getAttribute("data-unrounded"));
         });
         csv_file += row_list.join(",") + "\r\n";
     });
 
-    let blob = new Blob([csv_file], { type: 'text/csv;charset=utf-8;' });
+    let blob = new Blob([csv_file], {type: "text/csv;charset=utf-8;"});
     let link = document.createElement("a");
 
     link.setAttribute("href", URL.createObjectURL(blob));
-    link.setAttribute("download", 'legwork-online-results.csv');
-    link.style.visibility = 'hidden';
+    link.setAttribute("download", "legwork-online-results.csv");
+    link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

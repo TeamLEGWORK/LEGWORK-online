@@ -1,6 +1,6 @@
-{% extends 'base.html' %} {% set active_page = "tool" %} {% block title %} Calculator {% endblock %}
-{% block css_imports %}
-<link href="../static/css/tool.css" rel="stylesheet"> {% endblock %} {% block content %} <div class="container">
+{% extends 'base.html' %} {% set active_page = "tool" %} {% block title %} Calculator {% endblock %} {% block css_imports %} <link href="../static/css/tool.css" rel="stylesheet" /> {% endblock %} {%
+block content %}
+<div class="container">
     <div class="row">
         <div class="col-12 col-md-6 mb-3 mb-md-0">
             <div class="card">
@@ -13,60 +13,48 @@
                         <div class="col">
                             <nav>
                                 <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                    <button class="nav-link active" id="input-single-source-tab" data-bs-toggle="tab"
-                                        data-bs-target="#input-single-source" type="button" role="tab">Single Source
+                                    <button class="nav-link active" id="input-single-source-tab" data-bs-toggle="tab" data-bs-target="#input-single-source" type="button" role="tab">
+                                        Single Source
                                     </button>
-                                    <button class="nav-link" id="input-csv-sources-tab" data-bs-toggle="tab"
-                                        data-bs-target="#input-csv-sources" type="button" role="tab">Sources from CSV
-                                    </button>
-                                    <button class="nav-link" id="input-random-sources-tab" data-bs-toggle="tab"
-                                        data-bs-target="#input-random-sources" type="button" role="tab">Random sources
-                                    </button>
+                                    <button class="nav-link" id="input-csv-sources-tab" data-bs-toggle="tab" data-bs-target="#input-csv-sources" type="button" role="tab">Sources from CSV</button>
+                                    <button class="nav-link" id="input-random-sources-tab" data-bs-toggle="tab" data-bs-target="#input-random-sources" type="button" role="tab">Random sources</button>
                                 </div>
                             </nav>
                             <div class="tab-content mt-2" id="nav-tabContent">
-                                <div class="tab-pane fade active show" id="input-single-source" role="tabpanel"
-                                    tabindex="0">
+                                <div class="tab-pane fade active show" id="input-single-source" role="tabpanel" tabindex="0">
                                     <form>
                                         <div class="row mb-3">
                                             <div class="col">
                                                 <label for="single-primary-mass" class="form-label">Primary Mass</label>
                                                 <div class="input-group">
-                                                    <input type="number" step="any" min="0" class="form-control"
-                                                        id="single-primary-mass" required>
+                                                    <input type="number" step="any" min="0" class="form-control" id="single-primary-mass" required />
                                                     <span class="input-group-text">$\rm M_\odot$</span>
                                                 </div>
                                             </div>
                                             <div class="col">
-                                                <label for="single-secondary-mass" class="form-label">Secondary
-                                                    Mass</label>
+                                                <label for="single-secondary-mass" class="form-label">Secondary Mass</label>
                                                 <div class="input-group">
-                                                    <input type="number" step="any" min="0" class="form-control"
-                                                        id="single-secondary-mass" required>
+                                                    <input type="number" step="any" min="0" class="form-control" id="single-secondary-mass" required />
                                                     <span class="input-group-text">$\rm M_\odot$</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-12 col-md-4 mb-3 mb-md-0">
-                                                <label for="single-frequency" class="form-label">Orbital
-                                                    frequency</label>
+                                                <label for="single-frequency" class="form-label">Orbital frequency</label>
                                                 <div class="input-group">
-                                                    <input type="number" step="any" class="form-control"
-                                                        id="single-frequency">
+                                                    <input type="number" step="any" class="form-control" id="single-frequency" />
                                                     <span class="input-group-text">$\rm mHz$</span>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4">
                                                 <label for="single-eccentricity" class="form-label">Eccentricity</label>
-                                                <input type="number" step="any" min="0" max="1" class="form-control"
-                                                    id="single-eccentricity" required>
+                                                <input type="number" step="any" min="0" max="1" class="form-control" id="single-eccentricity" required />
                                             </div>
                                             <div class="col-12 col-md-4 mb-3 mb-md-0">
                                                 <label for="single-distance" class="form-label">Distance</label>
                                                 <div class="input-group">
-                                                    <input type="number" step="any" min="0" class="form-control"
-                                                        id="single-distance">
+                                                    <input type="number" step="any" min="0" class="form-control" id="single-distance" />
                                                     <span class="input-group-text">$\rm kpc$</span>
                                                 </div>
                                             </div>
@@ -75,21 +63,18 @@
                                 </div>
                                 <div class="tab-pane fade" id="input-csv-sources" role="tabpanel" tabindex="0">
                                     <div class="row mb-4">
-                                        <div class="col"> The following columns are required for your CSV file:
-                                            <code>m_1</code>, <code>m_2</code>, <code>f_orb</code>, <code>dist</code>,
-                                            <code>ecc</code>. The units of these columns are $\rm M_\odot$, $\rm
-                                            M_\odot$, $\rm mHz$, $\rm kpc$ and None respectively. </div>
+                                        <div class="col">
+                                            The following columns are required for your CSV file: <code>m_1</code>, <code>m_2</code>, <code>f_orb</code>, <code>dist</code>, <code>ecc</code>. The units
+                                            of these columns are $\rm M_\odot$, $\rm M_\odot$, $\rm mHz$, $\rm kpc$ and None respectively.
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col file-drop-box-container">
                                             <div class="file-drop-box">
                                                 <div class="message pre-upload">
                                                     <i class="fa fa-upload fa-3x d-block mb-3"></i>
-                                                    <input type="file" id="source-csv-file"
-                                                        class="file-drop-box-choose">
-                                                    <label id="source-csv-file-label"
-                                                        for="source-csv-file"><strong>Choose a file</strong><span
-                                                            class=""> or drag it here</span></label>
+                                                    <input type="file" id="source-csv-file" class="file-drop-box-choose" />
+                                                    <label id="source-csv-file-label" for="source-csv-file"><strong>Choose a file</strong><span class=""> or drag it here</span></label>
                                                 </div>
                                                 <div class="message ready-to-drop hide">
                                                     <i class="fa fa-upload fa-3x d-block mb-3"></i>
@@ -103,10 +88,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="input-random-sources" role="tabpanel" tabindex="0"> TODO
-                                </div>
+                                <div class="tab-pane fade" id="input-random-sources" role="tabpanel" tabindex="0">TODO</div>
                             </div>
-                            <hr>
+                            <hr />
                             <h3>Detector</h3>
                             <form>
                                 <div class="row mb-3">
@@ -120,7 +104,7 @@
                                     <div class="col">
                                         <label for="duration" class="form-label">Mission Duration</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" min="0" id="duration" value="4">
+                                            <input type="number" class="form-control" min="0" id="duration" value="4" />
                                             <span class="input-group-text">$\rm years$</span>
                                         </div>
                                     </div>
@@ -128,27 +112,30 @@
                                 <div class="row mb-3 text-center">
                                     <div class="col">
                                         <div class="form-check form-check-inline form-switch">
-                                            <input class="form-check-input" type="checkbox" role="switch"
-                                                id="confusion-noise" checked="true">
-                                            <label class="form-check-label" for="confusion-noise">Include confusion
-                                                noise? <span class="helper"
-                                                    title="Whether to include the Galactic confusion noise in the sensitivity curve"></span>
+                                            <input class="form-check-input" type="checkbox" role="switch" id="confusion-noise" checked="true" />
+                                            <label class="form-check-label" for="confusion-noise"
+                                                >Include confusion noise? <span class="helper" title="Whether to include the Galactic confusion noise in the sensitivity curve"></span>
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline form-switch">
-                                            <input class="form-check-input" type="checkbox" role="switch"
-                                                id="approximate-response">
-                                            <label class="form-check-label" for="approximate-response">Approximate
-                                                response function? <span class="helper"
-                                                    title="Whether to use an approximation for the LISA response function rather than the exact expression (approximation removes 'bumps' at high frequency)"></span></label>
+                                            <input class="form-check-input" type="checkbox" role="switch" id="approximate-response" />
+                                            <label class="form-check-label" for="approximate-response"
+                                                >Approximate response function?
+                                                <span
+                                                    class="helper"
+                                                    title="Whether to use an approximation for the LISA response function rather than the exact expression (approximation removes 'bumps' at high frequency)"></span
+                                            ></label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-6">
-                                        <label for="confusion-model" class="form-label">Confusion Noise Model <span
+                                        <label for="confusion-model" class="form-label"
+                                            >Confusion Noise Model
+                                            <span
                                                 class="helper"
-                                                title="Model to use for the Galactic confusion noise. Robson+19 and Thiele+19 are meant for LISA, Huang+20 for TianQin.<br><br>Use the Python package if you want to use a custom confusion noise model."></span></label>
+                                                title="Model to use for the Galactic confusion noise. Robson+19 and Thiele+19 are meant for LISA, Huang+20 for TianQin.<br><br>Use the Python package if you want to use a custom confusion noise model."></span
+                                        ></label>
                                         <select id="confusion-model" class="form-select">
                                             <option selected value="robson19">Robson+19</option>
                                             <option value="huang20">Huang+20</option>
@@ -161,34 +148,37 @@
                             <form>
                                 <div class="row mb-3 align-items-end">
                                     <div class="col-12 col-md-6">
-                                        <label for="gw-lum-tol" class="form-label">Gravitational Wave Luminosity
-                                            Tolerance <span class="helper"
-                                                title="Allowed error on the GW luminosity when calculating SNRs - used for calculating how many harmonics are necessary for eccentric sources"></span></label>
-                                        <input type="number" step="any" min="0" class="form-control" id="gw-lum-tol"
-                                            value="0.05" required>
+                                        <label for="gw-lum-tol" class="form-label"
+                                            >Gravitational Wave Luminosity Tolerance
+                                            <span
+                                                class="helper"
+                                                title="Allowed error on the GW luminosity when calculating SNRs - used for calculating how many harmonics are necessary for eccentric sources"></span
+                                        ></label>
+                                        <input type="number" step="any" min="0" class="form-control" id="gw-lum-tol" value="0.05" required />
                                     </div>
                                     <div class="col-12 col-md-6">
-                                        <label for="stat-tol" class="form-label">Stationary Tolerance <span
-                                                class="helper"
-                                                title="Fractional change in frequency over the mission duration below which a binary should be considered stationary"></span></label>
-                                        <input type="number" step="any" min="0" class="form-control" id="stat-tol"
-                                            value="0.01" required>
+                                        <label for="stat-tol" class="form-label"
+                                            >Stationary Tolerance
+                                            <span class="helper" title="Fractional change in frequency over the mission duration below which a binary should be considered stationary"></span
+                                        ></label>
+                                        <input type="number" step="any" min="0" class="form-control" id="stat-tol" value="0.01" required />
                                     </div>
                                 </div>
                                 <div class="row mb-3 text-center">
                                     <div class="col">
                                         <div class="form-check form-check-inline form-switch">
-                                            <input class="form-check-input" type="checkbox" role="switch"
-                                                id="interpolate-sc" checked="true">
-                                            <label class="form-check-label" for="interpolate-sc">Interpolate sensitivity
-                                                curve? <span class="helper"
-                                                    title="Whether to interpolate the sensitivity for speed ups in calculating SNRs. Recommend always true."></span></label>
+                                            <input class="form-check-input" type="checkbox" role="switch" id="interpolate-sc" checked="true" />
+                                            <label class="form-check-label" for="interpolate-sc"
+                                                >Interpolate sensitivity curve?
+                                                <span class="helper" title="Whether to interpolate the sensitivity for speed ups in calculating SNRs. Recommend always true."></span
+                                            ></label>
                                         </div>
                                         <div class="form-check form-check-inline form-switch">
-                                            <input class="form-check-input" type="checkbox" role="switch"
-                                                id="interpolate-g">
-                                            <label class="form-check-label" for="interpolate-g">Interpolate $g(n, e)$?
-                                                <span class="helper"
+                                            <input class="form-check-input" type="checkbox" role="switch" id="interpolate-g" />
+                                            <label class="form-check-label" for="interpolate-g"
+                                                >Interpolate $g(n, e)$?
+                                                <span
+                                                    class="helper"
                                                     title="Whether to interpolate the g(n, e) function - this will speed up the strain/SNR calculations but takes time so it's only worth it for large collections of sources"></span>
                                             </label>
                                         </div>
@@ -214,8 +204,7 @@
                                 <button id="snr" class="btn btn-primary">Signal-to-Noise Ratio</button>
                                 <button id="merger-time" class="btn btn-primary">Merger Time</button>
                                 <button id="total-strain" class="btn btn-primary">Total Strain</button>
-                                <button id="total-characteristic-strain" class="btn btn-primary">Total Characteristic
-                                    Strain</button>
+                                <button id="total-characteristic-strain" class="btn btn-primary">Total Characteristic Strain</button>
                             </div>
                             <div class="form-text">Results will appear in the data table below</div>
                         </div>
@@ -245,11 +234,16 @@
                     <div class="row mb-3">
                         <div class="col">
                             <h4>Evolution</h4>
-                            <label for="evolve-time" class="form-label">Input time(s) for which to evolve your sources <span class="helper" title="Either a single time for which to evolve all sources<br>OR<br>a comma separated list with an evolution time for each individual source"></span></label>
+                            <label for="evolve-time" class="form-label"
+                                >Input time(s) for which to evolve your sources
+                                <span
+                                    class="helper"
+                                    title="Either a single time for which to evolve all sources<br>OR<br>a comma separated list with an evolution time for each individual source"></span
+                            ></label>
                             <div class="row">
                                 <div class="col d-flex align-items-center">
                                     <div class="input-group">
-                                        <input id="evolve-time" class="form-control" placeholder="e.g. 10 or 1,42,100">
+                                        <input id="evolve-time" class="form-control" placeholder="e.g. 10 or 1,42,100" />
                                         <span class="input-group-text">$\rm Myr$</span>
                                     </div>
                                 </div>
@@ -286,14 +280,12 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div id="plot-carousel" class="carousel slide" data-bs-ride="false"
-                                    data-bs-interval="false">
+                                <div id="plot-carousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
                                     <div class="carousel-inner">
                                         <div class="carousel-item active">
                                             <figure class="mb-3">
-                                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2 text-center"
-                                                    data-bs-toggle="modal" data-bs-target="#placeholder-plot">
-                                                    <img src="../static/img/legwork.png" class="img-fluid zoom-figure w-50">
+                                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2 text-center" data-bs-toggle="modal" data-bs-target="#placeholder-plot">
+                                                    <img src="../static/img/legwork.png" class="img-fluid zoom-figure w-50" />
                                                     <div class="img-overlay">
                                                         <p class="m-0 fw-bold">Click to Zoom</p>
                                                     </div>
@@ -302,11 +294,10 @@
                                                     <div class="modal-dialog modal-fullscreen">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body text-center">
-                                                                <img src="../static/img/legwork.png" class="img-fluid">
+                                                                <img src="../static/img/legwork.png" class="img-fluid" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -316,19 +307,15 @@
                                         <div class="carousel-item">
                                             <div class="row mb-3">
                                                 <div class="col-12 col-md-8 mb-3 mb-md-0">
-                                                    <label for="sc-plot-f-range-lower" class="form-label">Frequency
-                                                        Range</label>
+                                                    <label for="sc-plot-f-range-lower" class="form-label">Frequency Range</label>
                                                     <div class="input-group">
-                                                        <input type="number" step="any" class="form-control"
-                                                            id="sc-plot-f-range-lower" value="0.01">
-                                                        <input type="number" step="any" class="form-control"
-                                                            id="sc-plot-f-range-upper" value="10">
+                                                        <input type="number" step="any" class="form-control" id="sc-plot-f-range-lower" value="0.01" />
+                                                        <input type="number" step="any" class="form-control" id="sc-plot-f-range-upper" value="10" />
                                                         <span class="input-group-text">$\rm mHz$</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
-                                                    <label for="sc-plot-y-quanity" class="form-label">Y Axis
-                                                        Quantity</label>
+                                                    <label for="sc-plot-y-quanity" class="form-label">Y Axis Quantity</label>
                                                     <select class="form-select" id="sc-plot-y-quantity">
                                                         <option value="asd">ASD</option>
                                                         <option value="h_c">Characteristic Strain</option>
@@ -337,61 +324,51 @@
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-12 col-md-6 mb-3 mb-md-0">
-                                                    <label class="form-label">Fill below curve? (If yes, colour and
-                                                        opacity)</label>
+                                                    <label class="form-label">Fill below curve? (If yes, colour and opacity)</label>
                                                     <div class="input-group">
                                                         <div class="input-group-text">
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    role="switch" id="sc-plot-fill" checked="true">
+                                                                <input class="form-check-input" type="checkbox" role="switch" id="sc-plot-fill" checked="true" />
                                                             </div>
                                                         </div>
                                                         <div class="colour-container input-group-text bg-white">
                                                             <label id="sc-plot-fill-colour-label">
-                                                                <input id="sc-plot-fill-colour" type="color"
-                                                                    value="#18068b">
+                                                                <input id="sc-plot-fill-colour" type="color" value="#18068b" />
                                                             </label>
                                                         </div>
-                                                        <input id="sc-plot-fill-opacity" class="form-control" type="number"
-                                                            min="0" max="1" value="0.2">
+                                                        <input id="sc-plot-fill-opacity" class="form-control" type="number" min="0" max="1" value="0.2" />
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-6 mb-3 mb-md-0">
                                                     <label class="form-label">Linewidth</label>
-                                                    <input class="form-control" id="sc-plot-lw" value="1" type="number">
+                                                    <input class="form-control" id="sc-plot-lw" value="1" type="number" />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-12 col-md-6 mb-3 mb-md-0">
-                                                    <label class="form-label">Include your sources on plot? <span
-                                                            class="helper"
-                                                            title="This will only work for stationary sources"></span></label>
+                                                    <label class="form-label">Include your sources on plot? <span class="helper" title="This will only work for stationary sources"></span></label>
                                                     <div class="input-group">
                                                         <div class="input-group-text">
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    role="switch" id="sc-plot-add-sources" checked="true">
+                                                                <input class="form-check-input" type="checkbox" role="switch" id="sc-plot-add-sources" checked="true" />
                                                             </div>
                                                         </div>
                                                         <select id="sc-plot-sources-disttype" class="form-select">
                                                             <option value="scatter">Scatter</option>
-                                                            <option value="kde">KDE (will be slow for large number of
-                                                                sources)</option>
+                                                            <option value="kde">KDE (will be slow for large number of sources)</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-6 mb-3 mb-md-0 d-flex align-items-center">
                                                     <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" role="switch"
-                                                            id="sc-plot-add-sources" checked="true">
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="sc-plot-add-sources" checked="true" />
                                                     </div>
                                                     <label class="form-label">Include verification binaries?</label>
                                                 </div>
                                             </div>
                                             <figure class="mb-3">
-                                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2"
-                                                    data-bs-toggle="modal" data-bs-target="#sensitivity-curve-plot">
-                                                    <img src="../static/img/dcos_on_sc.png" class="img-fluid zoom-figure">
+                                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2" data-bs-toggle="modal" data-bs-target="#sensitivity-curve-plot">
+                                                    <img src="../static/img/dcos_on_sc.png" class="img-fluid zoom-figure" />
                                                     <div class="img-overlay">
                                                         <p class="m-0 fw-bold">Click to Zoom</p>
                                                     </div>
@@ -400,11 +377,10 @@
                                                     <div class="modal-dialog modal-fullscreen">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body text-center">
-                                                                <img src="../static/img/dcos_on_sc.png" class="img-fluid">
+                                                                <img src="../static/img/dcos_on_sc.png" class="img-fluid" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -413,9 +389,8 @@
                                         </div>
                                         <div class="carousel-item">
                                             <figure class="mb-3">
-                                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2"
-                                                    data-bs-toggle="modal" data-bs-target="#one-d-dist-plot">
-                                                    <img src="../static/img/one_d_dist.png" class="img-fluid zoom-figure">
+                                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2" data-bs-toggle="modal" data-bs-target="#one-d-dist-plot">
+                                                    <img src="../static/img/one_d_dist.png" class="img-fluid zoom-figure" />
                                                     <div class="img-overlay">
                                                         <p class="m-0 fw-bold">Click to Zoom</p>
                                                     </div>
@@ -424,11 +399,10 @@
                                                     <div class="modal-dialog modal-fullscreen">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body text-center">
-                                                                <img src="../static/img/one_d_dist.png" class="img-fluid">
+                                                                <img src="../static/img/one_d_dist.png" class="img-fluid" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -437,9 +411,8 @@
                                         </div>
                                         <div class="carousel-item">
                                             <figure class="mb-3">
-                                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2"
-                                                    data-bs-toggle="modal" data-bs-target="#two-d-dist-plot">
-                                                    <img src="../static/img/snr_vs_forb.png" class="img-fluid zoom-figure">
+                                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2" data-bs-toggle="modal" data-bs-target="#two-d-dist-plot">
+                                                    <img src="../static/img/snr_vs_forb.png" class="img-fluid zoom-figure" />
                                                     <div class="img-overlay">
                                                         <p class="m-0 fw-bold">Click to Zoom</p>
                                                     </div>
@@ -448,11 +421,10 @@
                                                     <div class="modal-dialog modal-fullscreen">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body text-center">
-                                                                <img src="../static/img/snr_vs_forb.png" class="img-fluid">
+                                                                <img src="../static/img/snr_vs_forb.png" class="img-fluid" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -487,11 +459,11 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <div id="sources-table" class="table-responsive mb-3">No data added yet! </div>
+                    <div id="sources-table" class="table-responsive mb-3">No data added yet!</div>
                     <label for="data-precision" class="form-label">Display precision <span class="helper" title="How many decimal places to use when displaying data"></span></label>
                     <div class="row">
                         <div class="col col-md-2">
-                            <input id="data-precision" class="form-control" type="number" min=0 value="2">
+                            <input id="data-precision" class="form-control" type="number" min="0" value="2" />
                         </div>
                     </div>
                     <div class="form-text">This is just for display purposes, exported tables will still have un-rounded numbers</div>
@@ -503,17 +475,18 @@
 <div id="toaster" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 <div id="toast-template" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
-        <img src="../static/img/legwork_shoe.png" class="rounded me-2" width="30px">
+        <img src="../static/img/legwork_shoe.png" class="rounded me-2" width="30px" />
         <strong class="me-auto">LEGWORK Bot</strong>
         <small class="toast-status">11 mins ago</small>
         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
     <div class="toast-body">Hello, world! This is a toast message.</div>
 </div>
-<span id="helper-template" class="fa-stack" data-bs-toggle="tooltip" data-bs-html="true" title=""
-    style="font-size: 8px; vertical-align: top;">
+<span id="helper-template" class="fa-stack" data-bs-toggle="tooltip" data-bs-html="true" title="" style="font-size: 8px; vertical-align: top">
     <i class="fa fa-circle fa-stack-2x"></i>
     <i class="fa fa-question fa-stack-1x fa-inverse"></i>
-</span> {% endblock %} {% block js_imports %} <script src="../static/node_modules/jquery/dist/jquery.min.js">
-</script>
-<script type="module" src="../static/js/tool.js"></script> {% endblock %}
+</span>
+{% endblock %} {% block js_imports %}
+<script src="../static/node_modules/jquery/dist/jquery.min.js"></script>
+<script type="module" src="../static/js/tool.js"></script>
+{% endblock %}

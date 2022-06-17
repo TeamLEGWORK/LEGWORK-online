@@ -1,10 +1,10 @@
 $primary: lightblue;
-$nav-link-color: #369BDE;
+$nav-link-color: #369bde;
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 body {
-    font-family: 'Signika Negative', sans-serif
+    font-family: "Signika Negative", sans-serif;
 }
 
 .hide {
@@ -17,7 +17,7 @@ body {
 }
 
 .offcanvas {
-    transition: transform .2s ease-in-out;
+    transition: transform 0.2s ease-in-out;
     background-color: #555;
     background-clip: border-box;
     color: white;
@@ -34,5 +34,5 @@ body {
 }
 
 .nav-link.link-light.active {
-    color: $primary!important;
+    color: $primary !important;
 }
