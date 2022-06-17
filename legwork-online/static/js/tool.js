@@ -4,7 +4,7 @@ import {animateCSS} from "./base.js";
 const header_to_longname = {
     m_1: "Primary Mass [M<sub>⊙</sub>]",
     m_2: "Secondary Mass [M<sub>⊙</sub>]",
-    f_orb: "Orbital Frequency [mHz]",
+    f_orb: "Orbital Frequency [Hz]",
     ecc: "Eccentricity",
     dist: "Distance [kpc]",
     snr: "Signal-to-Noise Ratio",
@@ -250,18 +250,49 @@ window.addEventListener("load", function () {
     });
 
     document.querySelector("#create-plot").addEventListener("click", function() {
+        const button = this;
+        const original_html = this.innerHTML;
+
+        const plotType = document.querySelector("#plot-collapse .nav-link.active").id;
+        switch (plotType) {
+            case "plot-none": {
+                return;
+            }
+            case "plot-sc": {
+                data["plot_params"] = {
+                    frequency_range: [parseFloat(document.getElementById("sc-plot-f-range-lower").value),
+                                      parseFloat(document.getElementById("sc-plot-f-range-upper").value)],
+                    y_quantity: document.getElementById("sc-plot-y-quantity").value,
+                    fill: document.getElementById("sc-plot-fill").checked,
+                    fill_colour: document.getElementById("sc-plot-fill-colour").value,
+                    fill_opacity: parseFloat(document.getElementById("sc-plot-fill-opacity").value),
+                    linewidth: parseFloat(document.getElementById("sc-plot-lw").value),
+                    include_sources: document.getElementById("sc-plot-include-sources").checked,
+                    sources_dist: document.getElementById("sc-plot-sources-disttype").value,
+                    include_vbs: document.getElementById("sc-plot-include-vbs").checked,
+                }
+                console.log(data);
+            }
+        }
+       
+        add_loader(button, "Plotting...");
+
         $.ajax({
             type: "POST",
-            url: "/tool/plot-sc",
+            url: "/tool/" + plotType,
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
             success: function (response) {
                 document.querySelectorAll("#plot-carousel .carousel-item.active img").forEach(el => {
                     el.src = 'data:image/png;base64,' + response;
                 });
+                button.innerHTML = original_html;
             },
             error: function (response) {
-                console.log(response);
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(response.responseText, "text/html");
+                alert_user("Error: Failed to create plot", doc.querySelector(".errormsg").innerHTML, response.responseText);
+                button.innerHTML = original_html;
             },
         });
     });
@@ -489,7 +520,7 @@ function set_defaults() {
     // DEVELOPMENT
     update_if_blank("single-primary-mass", 10);
     update_if_blank("single-secondary-mass", 5);
-    update_if_blank("single-frequency", 0.1);
+    update_if_blank("single-frequency", 1e-3);
     update_if_blank("single-eccentricity", 0.2);
     update_if_blank("single-distance", 8);
 }

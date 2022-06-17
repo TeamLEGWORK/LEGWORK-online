@@ -3,7 +3,8 @@ from flask import (
 )
 import base64
 
-import legwork
+from legwork.source import Source, VerificationBinaries
+from legwork.visualisation import *
 import numpy as np
 import astropy.units as u
 import time
@@ -94,7 +95,7 @@ def evolve():
 
     sources.evolve_sources(data["t_evol"] * u.Myr)
     json = {
-        "f_orb": list(sources.f_orb.to(u.mHz).value),
+        "f_orb": list(sources.f_orb.to(u.Hz).value),
         "ecc": list(sources.ecc),
         "t_merge": list(sources.t_merge.to(u.Myr).value),
         "merged": [int(flip) for flip in sources.merged],
@@ -105,13 +106,20 @@ def evolve():
 
 @bp.route('/tool/plot-sc', methods=["POST"])
 def plot_sc():
-    start = time.time()
     data = request.get_json()
-    sources = data_to_Source(data, dont_bother=True)
 
+    # TODO: make this choose an unused file_path
     temp_filepath = bp.root_path + "/static/img/tmp/test.png"
-    
-    fig, ax = legwork.visualisation.plot_sensitivity_curve(frequency_range=np.logspace(-5, -1, 1000) * u.Hz, show=False)
+
+    if bool(data["plot_params"]["include_sources"]):
+        sources = data_to_Source(data, dont_bother=True)
+    else:
+        print(data["plot_params"])
+        
+        frequency_range = np.logspace(np.log10(data["plot_params"]["frequency_range"][0]),
+                                      np.log10(data["plot_params"]["frequency_range"][1]),
+                                      1000) * u.Hz
+        fig, ax = plot_sensitivity_curve(frequency_range=frequency_range, show=False)
     fig.savefig(temp_filepath)
 
     with open(temp_filepath, "rb") as f:
@@ -140,16 +148,16 @@ def data_to_Source(data, dont_bother=False):
 
     interpolate_g = False if dont_bother else bool(data["settings"]["interpolate_g"])
 
-    sources = legwork.source.Source(m_1=data["sources"]["m_1"] * u.Msun,
-                                    m_2=data["sources"]["m_2"] * u.Msun,
-                                    f_orb=data["sources"]["f_orb"] * u.mHz,
-                                    ecc=data["sources"]["ecc"],
-                                    dist=data["sources"]["dist"] * u.kpc,
-                                    gw_lum_tol=float(data["settings"]["gw_lum_tol"]),
-                                    stat_tol=float(data["settings"]["stat_tol"]),
-                                    interpolate_g=interpolate_g,
-                                    interpolate_sc=bool(data["settings"]["interpolate_sc"]),
-                                    sc_params=sc_params)
+    sources = Source(m_1=data["sources"]["m_1"] * u.Msun,
+                     m_2=data["sources"]["m_2"] * u.Msun,
+                     f_orb=data["sources"]["f_orb"] * u.Hz,
+                     ecc=data["sources"]["ecc"],
+                     dist=data["sources"]["dist"] * u.kpc,
+                     gw_lum_tol=float(data["settings"]["gw_lum_tol"]),
+                     stat_tol=float(data["settings"]["stat_tol"]),
+                     interpolate_g=interpolate_g,
+                     interpolate_sc=bool(data["settings"]["interpolate_sc"]),
+                     sc_params=sc_params)
 
     if data["sources"]["t_merge"] is not None:
         sources.t_merge = data["sources"]["t_merge"] * u.Myr
