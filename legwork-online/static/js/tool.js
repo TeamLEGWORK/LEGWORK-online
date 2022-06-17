@@ -118,13 +118,21 @@ window.addEventListener("load", function () {
     document.querySelector("#init").addEventListener("click", function () {
         update_inputs();
 
-        const rows = [
-            ["m_1", "m_2", "f_orb", "ecc", "dist"],
-            [data["sources"]["m_1"], data["sources"]["m_2"], data["sources"]["f_orb"], data["sources"]["ecc"], data["sources"]["dist"]],
-        ];
-        create_table(rows);
+        if (document.querySelector("#input-single-source-tab").classList.contains("active")) {
+            const rows = [
+                ["m_1", "m_2", "f_orb", "ecc", "dist"],
+                [data["sources"]["m_1"], data["sources"]["m_2"], data["sources"]["f_orb"], data["sources"]["ecc"], data["sources"]["dist"]],
+            ];
+            create_table(rows);
+        }
 
         inject_toast("Inputs updated!", "", "2000");
+
+        document.querySelector("#init").classList.add("btn-outline-primary");
+        document.querySelector("#init").classList.remove("btn-primary");
+        document.querySelector("#init-warning").classList.add("hide");
+        this.innerText = "Reset and update inputs"
+        this.blur();
     });
 
     // calculate the SNR using the API
@@ -211,6 +219,14 @@ window.addEventListener("load", function () {
             },
         });
     });
+
+    document.querySelectorAll("#inputs-card input").forEach(el => {
+        el.addEventListener("change", function() {
+            document.querySelector("#init").classList.remove("btn-outline-primary");
+            document.querySelector("#init").classList.add("btn-primary");
+            document.querySelector("#init-warning").classList.remove("hide");
+        });
+    })
 
     document.querySelector("#toggle-plots").addEventListener("click", function () {
         let i = this.querySelector("i");
@@ -341,12 +357,13 @@ function read_csv_input(file) {
         data["single_source"] = false;
 
         if (success) {
-            create_table(rows);
             inject_toast("File upload complete, check out your data in the table below!", "", "3000");
             document.getElementById("source-csv-file-label").innerHTML = `
                 Success! <strong>Upload another file?</strong></label>
             `;
             animateCSS(".file-drop-box-container", "jello");
+            create_table(rows);
+            document.querySelector("#init").click();
         } else {
             document.getElementById("source-csv-file-label").innerHTML = `
                 Uh oh, there's a problem with your file! <strong>Try again?</strong></label>

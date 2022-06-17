@@ -3,7 +3,7 @@ block content %}
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-6 mb-3 mb-md-0">
-            <div class="card">
+            <div id="inputs-card" class="card">
                 <div class="card-header">
                     <h2>Inputs</h2>
                 </div>
@@ -185,7 +185,8 @@ block content %}
                                     </div>
                                 </div>
                             </form>
-                            <button id="init" class="btn btn-lg btn-primary w-100">Update inputs</button>
+                            <button id="init" class="btn btn-lg btn-primary w-100">Initialise inputs</button>
+                            <label id="init-warning" class="form-label text-danger hide">Warning: You've changed some of your inputs without saving them!</label>
                         </div>
                     </div>
                 </div>
