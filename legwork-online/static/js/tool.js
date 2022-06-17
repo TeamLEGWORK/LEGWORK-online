@@ -61,11 +61,6 @@ window.addEventListener("load", function () {
         el.appendChild(helper);
     });
 
-    // only allow choice of confusion models when its turned on
-    document.getElementById("confusion-noise").addEventListener("click", function () {
-        document.getElementById("confusion-model").toggleAttribute("disabled");
-    });
-
     // activate all of the tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -289,6 +284,7 @@ window.addEventListener("load", function () {
                     el.src = 'data:image/png;base64,' + response;
                 });
                 button.innerHTML = original_html;
+                inject_toast("Plot created!");
             },
             error: function (response) {
                 const parser = new DOMParser();

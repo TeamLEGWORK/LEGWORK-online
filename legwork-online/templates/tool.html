@@ -112,7 +112,7 @@ block content %}
                                 <div class="row mb-3 text-center">
                                     <div class="col">
                                         <div class="form-check form-check-inline form-switch">
-                                            <input class="form-check-input" type="checkbox" role="switch" id="confusion-noise" checked="true" />
+                                            <input class="form-check-input" type="checkbox" role="switch" id="confusion-noise" checked="true" data-bs-toggle="collapse" data-bs-target="#confusion-noise-collapse"/>
                                             <label class="form-check-label" for="confusion-noise"
                                                 >Include confusion noise? <span class="helper" title="Whether to include the Galactic confusion noise in the sensitivity curve"></span>
                                             </label>
@@ -128,7 +128,7 @@ block content %}
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
+                                <div id="confusion-noise-collapse" class="row mb-3 collapse show">
                                     <div class="col-6">
                                         <label for="confusion-model" class="form-label"
                                             >Confusion Noise Model
@@ -320,7 +320,7 @@ block content %}
                                             <div class="row mb-3 text-center">
                                                 <div class="col">
                                                     <div class="form-check form-check-inline form-switch">
-                                                        <input class="form-check-input" type="checkbox" role="switch" id="sc-plot-include-sources" checked="true" />
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="sc-plot-include-sources" data-bs-toggle="collapse" data-bs-target="#sc-plot-sources-collapse" />
                                                         <label class="form-check-label" for="sc-plot-include-sources"
                                                             >Include your sources on plot?
                                                             <span class="helper" title="This is only implemented for stationary sources"></span
@@ -332,7 +332,7 @@ block content %}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
+                                            <div id="sc-plot-sources-collapse" class="row mb-3 collapse">
                                                 <div class="col-12 col-md-6 mb-3 mb-md-0">
                                                     <label for="sc-plot-sources-disttype">Type of plot for your sources <span class="helper" title="Kernel density estimators will be slow for large numbers of sources, your plot may timeout"></span></label>
                                                     <div class="input-group">
