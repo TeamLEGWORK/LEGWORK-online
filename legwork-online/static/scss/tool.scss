@@ -117,3 +117,7 @@ input[type="number"] {
 .source-merged td {
     color: rgba(0, 0, 0, 0.25) !important;
 }
+
+#sources-table {
+    max-height: 500px;
+}
