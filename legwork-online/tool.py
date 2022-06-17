@@ -48,18 +48,18 @@ def t_merge():
     return json
 
 
-@bp.route('/tool/log_total_strain', methods=["POST"])
-def log_total_strain():
+@bp.route('/tool/total_strain', methods=["POST"])
+def total_strain():
     start = time.time()
     data = request.get_json()
-    return total_strains(data, "log_total_strain", start)
+    return total_strains(data, "total_strain", start)
 
 
-@bp.route('/tool/log_total_char_strain', methods=["POST"])
-def log_total_char_strain():
+@bp.route('/tool/total_char_strain', methods=["POST"])
+def total_char_strain():
     start = time.time()
     data = request.get_json()
-    return total_strains(data, "log_total_char_strain", start)
+    return total_strains(data, "total_char_strain", start)
 
 
 def total_strains(data, which, start):
@@ -71,14 +71,14 @@ def total_strains(data, which, start):
     for lower, upper in harmonic_groups:
         harm_mask = np.logical_and(harmonics_required > lower, harmonics_required <= upper)
         if harm_mask.any():
-            if which == "log_total_strain":
+            if which == "total_strain":
                 specific_strains = sources.get_h_0_n(harmonics=np.arange(1, upper + 1), which_sources=harm_mask)
             else:
                 specific_strains = sources.get_h_c_n(harmonics=np.arange(1, upper + 1), which_sources=harm_mask)
             strain_vals[harm_mask] = specific_strains.sum(axis=1)
 
     json = {
-        which: list(np.log10(strain_vals)),
+        which: list(strain_vals),
         "runtime": f"Runtime: {time.time() - start:1.2f}s"
     }
     return json
@@ -133,5 +133,4 @@ def data_to_Source(data, dont_bother=False):
 
     if data["sources"]["merged"] is not None:
         sources.merged = np.array(data["sources"]["merged"]).astype(bool)
-    print(sources.merged)
     return sources

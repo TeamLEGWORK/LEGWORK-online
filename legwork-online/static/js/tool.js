@@ -9,8 +9,8 @@ const header_to_longname = {
     dist: "Distance [kpc]",
     snr: "Signal-to-Noise Ratio",
     t_merge: "Time until merger [Myr]",
-    log_total_strain: "log<sub>10</sub>(Total strain)",
-    log_total_char_strain: "log<sub>10</sub>(Total characteristic strain)",
+    total_strain: "Total strain",
+    total_char_strain: "Total characteristic strain",
     merged: "Source has merged?",
 };
 
@@ -142,11 +142,11 @@ window.addEventListener("load", function () {
     });
 
     document.querySelector("#total-strain").addEventListener("click", function () {
-        make_calculation("#total-strain", "log_total_strain", "Total strain");
+        make_calculation("#total-strain", "total_strain", "Total strain");
     });
 
     document.querySelector("#total-characteristic-strain").addEventListener("click", function () {
-        make_calculation("#total-characteristic-strain", "log_total_char_strain", "Total characteristic strain");
+        make_calculation("#total-characteristic-strain", "total_char_strain", "Total characteristic strain");
     });
 
     document.querySelector("#evolve").addEventListener("click", function () {
@@ -194,7 +194,9 @@ window.addEventListener("load", function () {
                     data["sources"][prop] = response[prop];
                 });
 
-                delete_column(["snr", "log_total_strain", "log_total_char_strain"]);
+                delete_column("snr");
+                delete_column("total_strain");
+                delete_column("total_char_strain");
 
                 const table_rows = document.querySelectorAll("table tbody tr");
                 for (let i = 0; i < response["merged"].length; i++) {
@@ -252,7 +254,7 @@ window.addEventListener("load", function () {
             const precision = parseInt(this.value);
             if (precision != NaN && precision >= 0) {
                 document.querySelectorAll("table tbody td").forEach(function (el) {
-                    el.innerText = parseFloat(el.getAttribute("data-unrounded")).toFixed(precision);
+                    el.innerText = format_number(parseFloat(el.getAttribute("data-unrounded")), precision);
                 });
             }
         });
@@ -356,7 +358,7 @@ function create_table(rows) {
             for (let j = 0; j < rows[i].length; j++) {
                 let td = document.createElement("td");
                 td.setAttribute("data-unrounded", rows[i][j]);
-                td.innerText = parseFloat(rows[i][j]).toFixed(precision);
+                td.innerText = format_number(parseFloat(rows[i][j]), precision);
                 tr.appendChild(td);
             }
             tbody.appendChild(tr);
@@ -396,7 +398,7 @@ function insert_or_update_column(header, data) {
         for (let i = 0; i < data.length; i++) {
             let td = document.createElement("td");
             td.setAttribute("data-unrounded", data[i]);
-            td.innerText = parseFloat(data[i]).toFixed(precision);
+            td.innerText = format_number(parseFloat(data[i]), precision);
 
             rows[i].appendChild(td);
         }
@@ -405,36 +407,33 @@ function insert_or_update_column(header, data) {
         for (let i = 0; i < rows.length; i++) {
             const td = rows[i].querySelectorAll("td")[col_index];
             td.setAttribute("data-unrounded", data[i]);
-            td.innerText = parseFloat(data[i]).toFixed(precision);
+            td.innerText = format_number(parseFloat(data[i]), precision);
         }
     }
 }
 
-function delete_column(headers) {
+function delete_column(header) {
     const table = document.querySelector("#sources-table table");
 
-    let translated_headers = [];
-    headers.forEach((header) => translated_headers.push(header_to_longname[header]));
+    let translated_header = header_to_longname[header];
 
     const ths = table.querySelectorAll("th");
-    let col_indices = [];
+    let col_index = -1;
 
-    translated_headers.forEach((header) => {
-        for (let i = 1; i < ths.length; i++) {
-            if (ths[i].innerHTML == header) {
-                col_indices.push(i - 1);
-                ths[i].parentElement.removeChild(ths[i]);
-                break;
-            }
+    for (let i = 1; i < ths.length; i++) {
+        if (ths[i].innerHTML == translated_header) {
+            col_index = i - 1;
+            ths[i].parentElement.removeChild(ths[i]);
+            break;
         }
-    });
+    }
 
-    const rows = table.querySelectorAll("tbody tr");
-    for (let i = 0; i < rows.length; i++) {
-        col_indices.forEach((col_index) => {
+    if (col_index > 0) {
+        const rows = table.querySelectorAll("tbody tr");
+        for (let i = 0; i < rows.length; i++) {
             const td = rows[i].querySelectorAll("td")[col_index];
             td.parentElement.removeChild(td);
-        });
+        }
     }
 }
 
@@ -613,4 +612,13 @@ function download_table() {
     document.body.removeChild(link);
 
     inject_toast("Download complete! File is called `legwork-online-results.csv`.");
+}
+
+
+function format_number(number, precision) {
+    if (number > 1e-2 && number < 1e3) {
+        return number.toFixed(precision);
+    } else {
+        return number.toExponential(precision);
+    }
 }
