@@ -126,13 +126,9 @@ def plot_sc():
 
     if bool(data["plot_params"]["include_vbs"]):
         vbs = VerificationBinaries()
-        vbs.snr = vbs.true_snr
-        print(vbs.snr)
-        psd = power_spectral_density(f=vbs.f_orb * 2)
-        asd = np.sqrt(psd) * vbs.true_snr
-
-        ax.scatter(vbs.f_orb * 2, asd, s=100, edgecolor="grey", color="none", marker="*",
-                   label="Verification Binaries (Kupfer+18)")
+        plot_sources_on_sc_ecc_stat(vbs.f_orb * 2, vbs.true_snr, fig=fig, ax=ax, show=False, scatter_s=100,
+                                    edgecolor="grey", color="none", marker="*",
+                                    label="Verification Binaries (Kupfer+18)")
 
     ax.legend()
 
