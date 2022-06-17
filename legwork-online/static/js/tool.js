@@ -242,12 +242,12 @@ window.addEventListener("load", function () {
     });
 
     // disable/enable stuff after switch is flipped
-    document.querySelector("#sc-plot-fill").addEventListener("click", function () {
-        document.querySelector(".colour-container").classList.toggle("bg-white");
-        document.querySelector("#sc-plot-fill-colour-label").classList.toggle("disabled");
-        document.querySelector("#sc-plot-fill-colour").toggleAttribute("disabled");
-        document.querySelector("#sc-plot-fill-opacity").toggleAttribute("disabled");
-    });
+    // document.querySelector("#sc-plot-fill").addEventListener("click", function () {
+    //     document.querySelector(".colour-container").classList.toggle("bg-white");
+    //     document.querySelector("#sc-plot-fill-colour-label").classList.toggle("disabled");
+    //     document.querySelector("#sc-plot-fill-colour").toggleAttribute("disabled");
+    //     document.querySelector("#sc-plot-fill-opacity").toggleAttribute("disabled");
+    // });
 
     document.querySelector("#create-plot").addEventListener("click", function() {
         const button = this;

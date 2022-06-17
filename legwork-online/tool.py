@@ -1,8 +1,10 @@
+from tkinter import Y
 from flask import (
     Blueprint, render_template, request, make_response
 )
 import base64
 
+from legwork.psd import power_spectral_density
 from legwork.source import Source, VerificationBinaries
 from legwork.visualisation import *
 import numpy as np
@@ -110,16 +112,30 @@ def plot_sc():
 
     # TODO: make this choose an unused file_path
     temp_filepath = bp.root_path + "/static/img/tmp/test.png"
-
-    if bool(data["plot_params"]["include_sources"]):
-        sources = data_to_Source(data, dont_bother=True)
-    else:
-        print(data["plot_params"])
         
-        frequency_range = np.logspace(np.log10(data["plot_params"]["frequency_range"][0]),
-                                      np.log10(data["plot_params"]["frequency_range"][1]),
-                                      1000) * u.Hz
-        fig, ax = plot_sensitivity_curve(frequency_range=frequency_range, show=False)
+    frequency_range = np.logspace(np.log10(data["plot_params"]["frequency_range"][0]),
+                                    np.log10(data["plot_params"]["frequency_range"][1]),
+                                    1000) * u.Hz
+    fig, ax = plot_sensitivity_curve(frequency_range=frequency_range,
+                                        y_quantity=data["plot_params"]["y_quantity"],
+                                        fill=bool(data["plot_params"]["fill"]),
+                                        color=data["plot_params"]["fill_colour"],
+                                        alpha=data["plot_params"]["fill_opacity"],
+                                        linewidth=data["plot_params"]["linewidth"],
+                                        show=False, label="Sensitivity Curve")
+
+    if bool(data["plot_params"]["include_vbs"]):
+        vbs = VerificationBinaries()
+        vbs.snr = vbs.true_snr
+        print(vbs.snr)
+        psd = power_spectral_density(f=vbs.f_orb * 2)
+        asd = np.sqrt(psd) * vbs.true_snr
+
+        ax.scatter(vbs.f_orb * 2, asd, s=100, edgecolor="grey", color="none", marker="*",
+                   label="Verification Binaries (Kupfer+18)")
+
+    ax.legend()
+
     fig.savefig(temp_filepath)
 
     with open(temp_filepath, "rb") as f:
