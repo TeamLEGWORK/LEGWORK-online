@@ -110,6 +110,10 @@ window.addEventListener("load", function () {
         read_csv_input(dropped_file);
     });
 
+    this.document.querySelector(".file-drop-box-container").addEventListener("click", function () {
+        document.getElementById("source-csv-file").click();
+    });
+
     // handle them choosing a file directly
     document.querySelector(".file-drop-box-choose").addEventListener("change", function (e) {
         read_csv_input(e.target.files[0]);

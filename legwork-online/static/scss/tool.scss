@@ -30,6 +30,7 @@ input[type="number"] {
     outline: 2px dashed rgba(0, 0, 0, 0.25);
     outline-offset: -10px;
     transition: 0.2s ease-in-out;
+    cursor: pointer;
 }
 
 .file-drop-box-container.file-is-over {
