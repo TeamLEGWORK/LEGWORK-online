@@ -664,7 +664,7 @@ function download_table() {
 
 
 function format_number(number, precision) {
-    if (number > 1e-2 && number < 1e3) {
+    if (number > 1e-2 && number < 1e3 || number == 0.0) {
         return number.toFixed(precision);
     } else {
         return number.toExponential(precision);
