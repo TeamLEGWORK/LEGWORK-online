@@ -1,10 +1,8 @@
-from tkinter import Y
 from flask import (
     Blueprint, render_template, request, make_response
 )
 import base64
 
-from legwork.psd import power_spectral_density
 from legwork.source import Source, VerificationBinaries
 from legwork.visualisation import *
 import numpy as np
@@ -77,9 +75,11 @@ def total_strains(data, which, start):
         harm_mask = np.logical_and(harmonics_required > lower, harmonics_required <= upper)
         if harm_mask.any():
             if which == "total_strain":
-                specific_strains = sources.get_h_0_n(harmonics=np.arange(1, upper + 1), which_sources=harm_mask)
+                specific_strains = sources.get_h_0_n(harmonics=np.arange(1, upper + 1),
+                                                     which_sources=harm_mask)
             else:
-                specific_strains = sources.get_h_c_n(harmonics=np.arange(1, upper + 1), which_sources=harm_mask)
+                specific_strains = sources.get_h_c_n(harmonics=np.arange(1, upper + 1),
+                                                     which_sources=harm_mask)
             strain_vals[harm_mask] = specific_strains.sum(axis=1)
 
     json = {
@@ -114,25 +114,39 @@ def plot_sc():
     temp_filepath = bp.root_path + "/static/img/tmp/test.png"
         
     frequency_range = np.logspace(np.log10(data["plot_params"]["frequency_range"][0]),
-                                    np.log10(data["plot_params"]["frequency_range"][1]),
-                                    1000) * u.Hz
+                                  np.log10(data["plot_params"]["frequency_range"][1]),
+                                  1000) * u.Hz
     fig, ax = plot_sensitivity_curve(frequency_range=frequency_range,
-                                        y_quantity=data["plot_params"]["y_quantity"],
-                                        fill=bool(data["plot_params"]["fill"]),
-                                        color=data["plot_params"]["fill_colour"],
-                                        alpha=data["plot_params"]["fill_opacity"],
-                                        linewidth=data["plot_params"]["linewidth"],
-                                        show=False, label="Sensitivity Curve")
+                                     y_quantity=data["plot_params"]["y_quantity"],
+                                     fill=bool(data["plot_params"]["fill"]),
+                                     color=data["plot_params"]["fill_colour"],
+                                     alpha=data["plot_params"]["fill_opacity"],
+                                     linewidth=data["plot_params"]["linewidth"],
+                                     show=False, label="Sensitivity Curve")
+
+    if bool(data["plot_params"]["include_sources"]):
+        sources = data_to_Source(data)
+        sources.get_snr()
+
+        if data["plot_params"]["sources_dist"] == "kde" and sources.n_sources > 1:
+            fig, ax = sources.plot_sources_on_sc(fig=fig, ax=ax, show=False, disttype="kde",
+                                                 fill=True, thresh=0.1, zorder=2, bw_adjust=0.9)
+
+            # SUPER HACKY FIX: seaborn is creating an extra dodgy level that I'm just hiding
+            ax.collections[1 if bool(data["plot_params"]["fill"]) else 0].set_alpha(0)
+        else:
+            sources.plot_sources_on_sc(fig=fig, ax=ax, show=False, disttype="scatter")
 
     if bool(data["plot_params"]["include_vbs"]):
         vbs = VerificationBinaries()
-        plot_sources_on_sc_ecc_stat(vbs.f_orb * 2, vbs.true_snr, fig=fig, ax=ax, show=False, scatter_s=100,
-                                    edgecolor="grey", color="none", marker="*",
-                                    label="Verification Binaries (Kupfer+18)")
+        fig, ax = plot_sources_on_sc_ecc_stat(vbs.f_orb * 2, vbs.true_snr, fig=fig, ax=ax, show=False,
+                                              disttype="scatter", scatter_s=100,
+                                              edgecolor="grey", color="none", marker="*",
+                                              label="Verification Binaries (Kupfer+18)", zorder=3)
 
     ax.legend()
 
-    fig.savefig(temp_filepath)
+    fig.savefig(temp_filepath, format="png")
 
     with open(temp_filepath, "rb") as f:
         image_binary = f.read()
@@ -143,6 +157,7 @@ def plot_sc():
     response.headers.set('Content-Type', 'image/png')
     response.headers.set('Content-Disposition', 'attachment', filename='image.png')
     return response
+
 
 @bp.route('/about')
 def about():
