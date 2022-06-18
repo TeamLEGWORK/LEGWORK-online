@@ -292,9 +292,6 @@ window.addEventListener("load", function () {
 
         const plotType = document.querySelector("#plot-collapse .nav-link.active").id;
         switch (plotType) {
-            case "plot-none": {
-                return;
-            }
             case "plot-sc": {
                 data["plot_params"] = {
                     frequency_range: [parseFloat(document.getElementById("sc-plot-f-range-lower").value),
@@ -312,6 +309,7 @@ window.addEventListener("load", function () {
                 if (data["plot_params"]["include_sources"] && !enforce_inputs()) {
                     return;
                 }
+                break;
             }
             case "plot-oned": {
                 if (!enforce_inputs()) {
@@ -329,9 +327,9 @@ window.addEventListener("load", function () {
                     stat: document.getElementById("oned-plot-stat").value,
                     scale: document.getElementById("oned-plot-scale").value
                 }
+                break;
             }
             case "plot-twod": {
-
                 if (!enforce_inputs()) {
                     return;
                 }
@@ -349,6 +347,7 @@ window.addEventListener("load", function () {
                     bw_adjust: parseFloat(document.getElementById("twod-plot-bw-adjust").value),
                     fill: document.getElementById("twod-plot-fill").checked,
                 }
+                break;
             }
         }
        
