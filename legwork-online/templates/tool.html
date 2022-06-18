@@ -353,7 +353,7 @@ block content %}
                                                 </div>
                                             </figure>
                                         </div>
-                                        <div class="carousel-item active">
+                                        <div id="oned-plot-pane" class="carousel-item active">
                                             <div class="row mb-3">
                                                 <div class="col-12 col-md-8 mb-3 mb-md-0">
                                                     <label for="oned-plot-var" class="form-label">Variable to plot</label>
@@ -398,7 +398,7 @@ block content %}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
+                                            <div id="oned-collapse-hist" class="row mb-3 collapse show">
                                                 <div class="col-12 col-md-6 mb-3 mb-md-0">
                                                     <label for="oned-plot-bins" class="form-label">Histogram bins</label>
                                                     <input id="oned-plot-bins" class="form-control" value="auto">
@@ -409,6 +409,21 @@ block content %}
                                                         <option value="bar">Bar</option>
                                                         <option value="stepfilled">Step filled</option>
                                                         <option value="step">Step</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div id="oned-collapse-kde" class="row mb-3 collapse">
+                                                <div class="col-12 col-md-8 mb-3 mb-md-0">
+                                                    <label for="oned-plot-bw-adjust" class="form-label">Kernel bandwidth adjustment <span class="helper" title="The default bandwidth is configured using a Gaussian so you may need to adjust it by this fraction to resolve all features in your distributions"></span></label>
+                                                    <input id="oned-plot-bw-adjust" class="form-control" value="1">
+                                                </div>
+                                            </div>
+                                            <div id="oned-collapse-ecdf" class="row mb-3 collapse">
+                                                <div class="col-12 col-md-8 mb-3 mb-md-0">
+                                                    <label for="oned-plot-stat" class="form-label">Statistic</label>
+                                                    <select id="oned-plot-stat" class="form-select">
+                                                        <option value="proportion">Proportion</option>
+                                                        <option value="count">Count</option>
                                                     </select>
                                                 </div>
                                             </div>

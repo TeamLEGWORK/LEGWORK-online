@@ -254,13 +254,18 @@ window.addEventListener("load", function () {
         });
     });
 
-    // disable/enable stuff after switch is flipped
-    // document.querySelector("#sc-plot-fill").addEventListener("click", function () {
-    //     document.querySelector(".colour-container").classList.toggle("bg-white");
-    //     document.querySelector("#sc-plot-fill-colour-label").classList.toggle("disabled");
-    //     document.querySelector("#sc-plot-fill-colour").toggleAttribute("disabled");
-    //     document.querySelector("#sc-plot-fill-opacity").toggleAttribute("disabled");
-    // });
+    document.querySelector("#oned-plot-disttype").addEventListener("change", function() {
+        const disttype = this.value;
+        const open = document.querySelector("#oned-plot-pane .collapse.show");
+
+        open.addEventListener('hidden.bs.collapse', event => {
+            const collapse = new bootstrap.Collapse(document.querySelector("#oned-collapse-" + disttype));
+            collapse.show();
+        });
+
+        const open_collapse = new bootstrap.Collapse(open);
+        open_collapse.hide();
+    });
 
     document.querySelector("#create-plot").addEventListener("click", function() {
         const button = this;
@@ -301,6 +306,8 @@ window.addEventListener("load", function () {
                     colour: document.getElementById("oned-plot-colour").value,
                     bins: document.getElementById("oned-plot-bins").value,
                     histtype: document.getElementById("oned-plot-histtype").value,
+                    bw_adjust: parseFloat(document.getElementById("oned-plot-bw-adjust").value),
+                    stat: document.getElementById("oned-plot-stat").value,
                 }
             }
         }

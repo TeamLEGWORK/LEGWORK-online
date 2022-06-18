@@ -191,6 +191,17 @@ def plot_oned():
                                                 histtype=data["plot_params"]["histtype"],
                                                 color=data["plot_params"]["colour"],
                                                 linewidth=data["plot_params"]["linewidth"])
+    elif data["plot_params"]["disttype"] == "kde":
+        fig, ax = sources.plot_source_variables(xstr=data["plot_params"]["xstr"], show=False, disttype="kde",
+                                                bw_adjust=data["plot_params"]["bw_adjust"],
+                                                color=data["plot_params"]["colour"],
+                                                linewidth=data["plot_params"]["linewidth"])
+    else:
+        fig, ax = sources.plot_source_variables(xstr=data["plot_params"]["xstr"], show=False, disttype="ecdf",
+                                                stat=data["plot_params"]["stat"],
+                                                color=data["plot_params"]["colour"],
+                                                linewidth=data["plot_params"]["linewidth"])
+
 
 
     fig.savefig(temp_filepath, format="png", bbox_inches="tight")
