@@ -254,17 +254,36 @@ window.addEventListener("load", function () {
         });
     });
 
-    document.querySelector("#oned-plot-disttype").addEventListener("change", function() {
-        const disttype = this.value;
-        const open = document.querySelector("#oned-plot-pane .collapse.show");
+    // set up switching collapses for 1D+2D plots
+    ["oned", "twod"].forEach(dimensions => {
+        document.querySelector("#" + dimensions + "-plot-disttype").addEventListener("change", function() {
+            // disable the select to stop interference
+            this.setAttribute("disabled", "true");
+            const disttype = this.value;
 
-        open.addEventListener('hidden.bs.collapse', event => {
-            const collapse = new bootstrap.Collapse(document.querySelector("#oned-collapse-" + disttype));
-            collapse.show();
+            // find the currently open collapse
+            const open = document.querySelector("#" + dimensions + "-plot-pane .collapse.show")
+
+            // add a listener for once the open once is closed
+            open.addEventListener('hidden.bs.collapse', function () {
+                // prep the next collapse
+                const soon_open = document.querySelector("#" + dimensions + "-collapse-" + disttype)
+                const collapse = new bootstrap.Collapse(soon_open);
+
+                // once it has been shown then re-enable the select
+                soon_open.addEventListener("shown.bs.collapse", function () {
+                    document.querySelector("#" + dimensions + "-plot-disttype").removeAttribute("disabled");
+                }, {once: true});
+
+                // show the collapse
+                collapse.show();
+            }, {once: true});
+    
+            // close the current one
+            const open_collapse = new bootstrap.Collapse(open);
+            open_collapse.hide();
         });
 
-        const open_collapse = new bootstrap.Collapse(open);
-        open_collapse.hide();
     });
 
     document.querySelector("#create-plot").addEventListener("click", function() {
@@ -309,6 +328,26 @@ window.addEventListener("load", function () {
                     bw_adjust: parseFloat(document.getElementById("oned-plot-bw-adjust").value),
                     stat: document.getElementById("oned-plot-stat").value,
                     scale: document.getElementById("oned-plot-scale").value
+                }
+            }
+            case "plot-twod": {
+
+                if (!enforce_inputs()) {
+                    return;
+                }
+                data["plot_params"] = {
+                    xstr: document.getElementById("twod-plot-xstr").value,
+                    ystr: document.getElementById("twod-plot-ystr").value,
+                    xscale: document.getElementById("twod-plot-xscale").value,
+                    yscale: document.getElementById("twod-plot-yscale").value,
+                    exclude_merged: document.getElementById("twod-plot-exclude-merged").checked,
+                    disttype: document.getElementById("twod-plot-disttype").value,
+                    colour: document.getElementById("twod-plot-colour").value,
+                    scatter_s: parseFloat(document.getElementById("twod-plot-s").value),
+                    marker: document.getElementById("twod-plot-marker").value,
+                    alpha: parseFloat(document.getElementById("twod-plot-alpha").value),
+                    bw_adjust: parseFloat(document.getElementById("twod-plot-bw-adjust").value),
+                    fill: document.getElementById("twod-plot-fill").checked,
                 }
             }
         }

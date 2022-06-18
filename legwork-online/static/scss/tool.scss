@@ -92,17 +92,14 @@ label input[type="color"] {
 }
 
 .colour-label {
+    background-color: #1f76b4;
     height: 15px;
     width: 15px;
     cursor: pointer;
 }
 
-#sc-plot-fill-colour-label {
+#sc-plot-fill-colour-label.colour-label {
     background-color: #18068b;
-}
-
-#sc-plot-sources-colour-label, #oned-plot-colour-label {
-    background-color: #1f76b4;
 }
 
 .colour-label.disabled {

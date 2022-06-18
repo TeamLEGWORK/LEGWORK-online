@@ -218,6 +218,51 @@ def plot_oned():
     return response
 
 
+@bp.route('/tool/plot-twod', methods=["POST"])
+def plot_twod():
+    data = request.get_json()
+
+    counter = 0
+    temp_filepath = bp.root_path + f"/static/img/tmp/plot_{counter}.png"
+    while os.path.exists(temp_filepath):
+        counter += 1
+        temp_filepath = bp.root_path + f"/static/img/tmp/plot_{counter}.png"
+
+    sources = data_to_Source(data)
+
+    log_scale = [
+        data["plot_params"]["xscale"] == "log",
+        data["plot_params"]["yscale"] == "log"
+    ]
+
+    if data["plot_params"]["disttype"] == "scatter":
+        fig, ax = sources.plot_source_variables(xstr=data["plot_params"]["xstr"],
+                                                ystr=data["plot_params"]["ystr"],
+                                                show=False, scatter_s=data["plot_params"]["scatter_s"],
+                                                marker=data["plot_params"]["marker"],
+                                                alpha=data["plot_params"]["alpha"],
+                                                color=data["plot_params"]["colour"],
+                                                log_scale=log_scale)
+    else:
+        fig, ax = sources.plot_source_variables(xstr=data["plot_params"]["xstr"],
+                                                ystr=data["plot_params"]["ystr"], show=False, disttype="kde",
+                                                bw_adjust=data["plot_params"]["bw_adjust"],
+                                                fill=data["plot_params"]["fill"],
+                                                color=data["plot_params"]["colour"],
+                                                log_scale=log_scale)
+
+    fig.savefig(temp_filepath, format="png", bbox_inches="tight")
+
+    with open(temp_filepath, "rb") as f:
+        image_binary = f.read()
+
+    os.remove(temp_filepath)
+
+    response = make_response(base64.b64encode(image_binary))
+    response.headers.set('Content-Type', 'image/png')
+    response.headers.set('Content-Disposition', 'attachment', filename='image.png')
+    return response
+
 @bp.route('/about')
 def about():
     return render_template('about.html')
