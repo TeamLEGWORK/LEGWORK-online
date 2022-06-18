@@ -24,9 +24,9 @@ let data = {
         ecc: null,
         dist: null,
         t_merge: null,
-        h_0: null,
-        h_c: null,
         snr: null,
+        total_strain: null,
+        total_char_strain: null,
         merged: null,
     },
     detector: {
@@ -284,7 +284,9 @@ window.addEventListener("load", function () {
                     sources_colour: document.getElementById("sc-plot-sources-colour").value,
                     include_vbs: document.getElementById("sc-plot-include-vbs").checked,
                 }
-                console.log(data);
+                if (data["plot_params"]["include_sources"] && !enforce_inputs()) {
+                    return;
+                }
             }
         }
        
@@ -362,6 +364,14 @@ function read_csv_input(file) {
                 Success! <strong>Upload another file?</strong></label>
             `;
             animateCSS(".file-drop-box-container", "jello");
+
+            // delete old columns
+            let delete_these = ["snr", "t_merge", "merged", "total_strain", "total_char_strain"]
+            let remaining = delete_these.filter(x => !rows[0].includes(x));
+            remaining.forEach(param => {
+                data["sources"][param] = null;
+            });
+
             create_table(rows);
             document.querySelector("#init").click();
         } else {
@@ -509,6 +519,10 @@ function update_inputs() {
         data["sources"]["f_orb"] = [parseFloat(document.getElementById("single-frequency").value)];
         data["sources"]["ecc"] = [parseFloat(document.getElementById("single-eccentricity").value)];
         data["sources"]["dist"] = [parseFloat(document.getElementById("single-distance").value)];
+
+        ["snr", "t_merge", "merged", "total_strain", "total_char_strain"].forEach(param => {
+            data["sources"][param] = null;
+        });
     }
 
     data["detector"]["instrument"] = document.getElementById("detector").value;
