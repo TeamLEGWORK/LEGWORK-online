@@ -1,10 +1,6 @@
 # TODO List
 
-- [ ] Plots
-    - [ ] Inputs
-        - [x] Plot sensitivity curve (with or without sources)
-        - [ ] Plot 1/2D distributions of sources with the usual variables
-    - [ ] Server side
+- [ ] Fix the issues in LEGWORK to allow log scaled vars in visualisation
 - [ ] Random sources tab
     - [ ] Define ranges and distributions (start with just uniform, add normal/lognormal later)
     - [ ] Perhaps add sliders?
@@ -31,3 +27,8 @@
     - [x] Calculations (snr etc.)
     - [x] Evolution
 - [x] Use scientific notation everywhere (turns out JS is smarter than I thought)
+- [x] Plots
+    - [x] Inputs
+        - [x] Plot sensitivity curve (with or without sources)
+        - [x] Plot 1/2D distributions of sources with the usual variables
+    - [x] Server side
