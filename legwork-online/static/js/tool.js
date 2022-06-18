@@ -289,6 +289,11 @@ window.addEventListener("load", function () {
                     return;
                 }
             }
+            case "plot-oned": {
+                if (!enforce_inputs()) {
+                    return;
+                }
+            }
         }
        
         add_loader(button, "Plotting...");

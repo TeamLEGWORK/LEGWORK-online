@@ -173,6 +173,33 @@ def plot_sc():
     return response
 
 
+@bp.route('/tool/plot-oned', methods=["POST"])
+def plot_oned():
+    data = request.get_json()
+
+    counter = 0
+    temp_filepath = bp.root_path + f"/static/img/tmp/plot_{counter}.png"
+    while os.path.exists(temp_filepath):
+        counter += 1
+        temp_filepath = bp.root_path + f"/static/img/tmp/plot_{counter}.png"
+    
+    sources = data_to_Source(data)
+
+    fig, ax = sources.plot_source_variables(xstr="m_1", show=False, bins="fd", ylabel="Test")
+
+    fig.savefig(temp_filepath, format="png", bbox_inches="tight")
+
+    with open(temp_filepath, "rb") as f:
+        image_binary = f.read()
+
+    os.remove(temp_filepath)
+
+    response = make_response(base64.b64encode(image_binary))
+    response.headers.set('Content-Type', 'image/png')
+    response.headers.set('Content-Disposition', 'attachment', filename='image.png')
+    return response
+
+
 @bp.route('/about')
 def about():
     return render_template('about.html')

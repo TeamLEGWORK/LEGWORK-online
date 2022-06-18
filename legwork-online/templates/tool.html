@@ -246,19 +246,19 @@ block content %}
                                     <label>Plot Type</label>
                                     <ul id="plot-carousel-tabs" class="nav nav-tabs nav-fill">
                                         <li class="nav-item">
-                                            <a id="plot-sc" class="nav-link active" data-bs-slide-to="0">Sensitivity Curve</a>
+                                            <a id="plot-sc" class="nav-link" data-bs-slide-to="0">Sensitivity Curve</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a id="plot-1D-dist" class="nav-link" data-bs-slide-to="1">1D Distributions</a>
+                                            <a id="plot-oned" class="nav-link active" data-bs-slide-to="1">1D Distributions</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a id="plot-2D-dist" class="nav-link" data-bs-slide-to="2">2D Distributions</a>
+                                            <a id="plot-twod" class="nav-link" data-bs-slide-to="2">2D Distributions</a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div id="plot-carousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
                                     <div class="carousel-inner">
-                                        <div class="carousel-item active">
+                                        <div class="carousel-item">
                                             <div class="row mb-3">
                                                 <div class="col-12 col-md-8 mb-3 mb-md-0">
                                                     <label for="sc-plot-f-range-lower" class="form-label">Frequency Range</label>
@@ -353,7 +353,33 @@ block content %}
                                                 </div>
                                             </figure>
                                         </div>
-                                        <div class="carousel-item">
+                                        <div class="carousel-item active">
+                                            <div class="row mb-3">
+                                                <div class="col-12 col-md-8 mb-3 mb-md-0">
+                                                    <label for="oned-plot-var" class="form-label">Variable to plot</label>
+                                                    <div class="input-group">
+                                                        <select class="form-select" id="oned-plot-var">
+                                                            <option value="m_1">Primary Mass</option>
+                                                            <option value="m_2">Secondary Mass</option>
+                                                            <option value="m_c">Chirp mass</option>
+                                                            <option value="f_orb">Orbital Frequency</option>
+                                                            <option value="a">Separation</option>
+                                                            <option value="ecc">Eccentricity</option>
+                                                            <option value="dist">Distance</option>
+                                                            <option value="snr">Signal-to-noise Ratio</option>
+                                                        </select>
+                                                        <div class="colour-container input-group-text bg-white">
+                                                            <label id="oned-plot-colour-label" class="colour-label">
+                                                                <input id="oned-plot-colour" type="color" value="#1f76b4" />
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <label class="form-label">Linewidth</label>
+                                                    <input class="form-control" id="oned-plot-lw" value="1" type="number" />
+                                                </div>
+                                            </div>
                                             <figure class="mb-3">
                                                 <div class="img-fluid-limited float-start position-relative zoom-figure me-2" data-bs-toggle="modal" data-bs-target="#one-d-dist-plot">
                                                     <img src="../static/img/one_d_dist.png" class="img-fluid zoom-figure" />
