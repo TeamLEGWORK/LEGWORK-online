@@ -110,13 +110,16 @@ def evolve():
 def plot_sc():
     data = request.get_json()
 
-    # TODO: make this choose an unused file_path
-    temp_filepath = bp.root_path + "/static/img/tmp/test.png"
-        
+    counter = 0
+    temp_filepath = bp.root_path + f"/static/img/tmp/plot_{counter}.png"
+    while os.path.exists(temp_filepath):
+        counter += 1
+        temp_filepath = bp.root_path + f"/static/img/tmp/plot_{counter}.png"
+
     frequency_range = np.logspace(np.log10(data["plot_params"]["frequency_range"][0]),
                                   np.log10(data["plot_params"]["frequency_range"][1]),
                                   1000) * u.Hz
-    
+
     confusion_noise = None if data["detector"]["confusion_noise_model"] == "None"\
         else data["detector"]["confusion_noise_model"]
     fig, ax = plot_sensitivity_curve(frequency_range=frequency_range,
