@@ -308,6 +308,7 @@ window.addEventListener("load", function () {
                     histtype: document.getElementById("oned-plot-histtype").value,
                     bw_adjust: parseFloat(document.getElementById("oned-plot-bw-adjust").value),
                     stat: document.getElementById("oned-plot-stat").value,
+                    scale: document.getElementById("oned-plot-scale").value
                 }
             }
         }

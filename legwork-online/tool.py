@@ -182,7 +182,7 @@ def plot_oned():
     while os.path.exists(temp_filepath):
         counter += 1
         temp_filepath = bp.root_path + f"/static/img/tmp/plot_{counter}.png"
-    
+
     sources = data_to_Source(data)
 
     if data["plot_params"]["disttype"] == "hist":
@@ -190,19 +190,20 @@ def plot_oned():
         fig, ax = sources.plot_source_variables(xstr=data["plot_params"]["xstr"], show=False, bins=bins,
                                                 histtype=data["plot_params"]["histtype"],
                                                 color=data["plot_params"]["colour"],
-                                                linewidth=data["plot_params"]["linewidth"])
+                                                linewidth=data["plot_params"]["linewidth"],
+                                                log_scale=data["plot_params"]["scale"] == "log")
     elif data["plot_params"]["disttype"] == "kde":
         fig, ax = sources.plot_source_variables(xstr=data["plot_params"]["xstr"], show=False, disttype="kde",
                                                 bw_adjust=data["plot_params"]["bw_adjust"],
                                                 color=data["plot_params"]["colour"],
-                                                linewidth=data["plot_params"]["linewidth"])
+                                                linewidth=data["plot_params"]["linewidth"],
+                                                log_scale=data["plot_params"]["scale"] == "log")
     else:
         fig, ax = sources.plot_source_variables(xstr=data["plot_params"]["xstr"], show=False, disttype="ecdf",
                                                 stat=data["plot_params"]["stat"],
                                                 color=data["plot_params"]["colour"],
-                                                linewidth=data["plot_params"]["linewidth"])
-
-
+                                                linewidth=data["plot_params"]["linewidth"],
+                                                log_scale=data["plot_params"]["scale"] == "log")
 
     fig.savefig(temp_filepath, format="png", bbox_inches="tight")
 

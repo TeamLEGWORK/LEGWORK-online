@@ -355,22 +355,24 @@ block content %}
                                         </div>
                                         <div id="oned-plot-pane" class="carousel-item active">
                                             <div class="row mb-3">
-                                                <div class="col-12 col-md-8 mb-3 mb-md-0">
-                                                    <label for="oned-plot-var" class="form-label">Variable to plot</label>
-                                                    <select class="form-select" id="oned-plot-var">
-                                                        <option value="m_1">Primary Mass</option>
-                                                        <option value="m_2">Secondary Mass</option>
-                                                        <option value="m_c">Chirp mass</option>
-                                                        <option value="f_orb">Orbital Frequency</option>
-                                                        <option value="a">Separation</option>
-                                                        <option value="ecc">Eccentricity</option>
-                                                        <option value="dist">Distance</option>
-                                                        <option value="snr">Signal-to-noise Ratio</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-12 col-md-4">
-                                                    <label class="form-label">Linewidth</label>
-                                                    <input class="form-control" id="oned-plot-lw" value="1" type="number" />
+                                                <div class="col-12">
+                                                    <label for="oned-plot-var" class="form-label">Variable and scaling</label>
+                                                    <div class="input-group">
+                                                        <select class="form-select" id="oned-plot-var">
+                                                            <option value="m_1">Primary Mass</option>
+                                                            <option value="m_2">Secondary Mass</option>
+                                                            <option value="m_c">Chirp mass</option>
+                                                            <option value="f_orb">Orbital Frequency</option>
+                                                            <option value="a">Separation</option>
+                                                            <option value="ecc">Eccentricity</option>
+                                                            <option value="dist">Distance</option>
+                                                            <option value="snr">Signal-to-noise Ratio</option>
+                                                        </select>
+                                                        <select class="form-select" id="oned-plot-scale">
+                                                            <option value="linear">Linear</option>
+                                                            <option value="log">Log</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="row mb-3 text-center">
@@ -396,6 +398,10 @@ block content %}
                                                             </label>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label">Linewidth</label>
+                                                    <input class="form-control" id="oned-plot-lw" value="1" type="number" />
                                                 </div>
                                             </div>
                                             <div id="oned-collapse-hist" class="row mb-3 collapse show">
@@ -448,7 +454,7 @@ block content %}
                                                 </div>
                                             </figure>
                                         </div>
-                                        <div class="carousel-item">
+                                        <div id="twod-plot-pane" class="carousel-item">
                                             <figure class="mb-3">
                                                 <div class="img-fluid-limited float-start position-relative zoom-figure me-2" data-bs-toggle="modal" data-bs-target="#two-d-dist-plot">
                                                     <img src="../static/img/snr_vs_forb.png" class="img-fluid zoom-figure" />
