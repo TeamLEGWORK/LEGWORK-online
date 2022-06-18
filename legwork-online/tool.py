@@ -185,7 +185,13 @@ def plot_oned():
     
     sources = data_to_Source(data)
 
-    fig, ax = sources.plot_source_variables(xstr="m_1", show=False, bins="fd", ylabel="Test")
+    if data["plot_params"]["disttype"] == "hist":
+        bins = "fd" if data["plot_params"]["bins"] == "auto" else int(data["plot_params"]["bins"])
+        fig, ax = sources.plot_source_variables(xstr=data["plot_params"]["xstr"], show=False, bins=bins,
+                                                histtype=data["plot_params"]["histtype"],
+                                                color=data["plot_params"]["colour"],
+                                                linewidth=data["plot_params"]["linewidth"])
+
 
     fig.savefig(temp_filepath, format="png", bbox_inches="tight")
 

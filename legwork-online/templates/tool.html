@@ -357,16 +357,38 @@ block content %}
                                             <div class="row mb-3">
                                                 <div class="col-12 col-md-8 mb-3 mb-md-0">
                                                     <label for="oned-plot-var" class="form-label">Variable to plot</label>
+                                                    <select class="form-select" id="oned-plot-var">
+                                                        <option value="m_1">Primary Mass</option>
+                                                        <option value="m_2">Secondary Mass</option>
+                                                        <option value="m_c">Chirp mass</option>
+                                                        <option value="f_orb">Orbital Frequency</option>
+                                                        <option value="a">Separation</option>
+                                                        <option value="ecc">Eccentricity</option>
+                                                        <option value="dist">Distance</option>
+                                                        <option value="snr">Signal-to-noise Ratio</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <label class="form-label">Linewidth</label>
+                                                    <input class="form-control" id="oned-plot-lw" value="1" type="number" />
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3 text-center">
+                                                <div class="col">
+                                                    <div class="form-check form-check-inline form-switch">
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="oned-plot-exclude-merged" checked="true"/>
+                                                        <label class="form-check-label" for="oned-plot-exclude-merged">Exclude sources that have merged?</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                                                    <label for="oned-plot-disttype" class="form-label">Type of plot  <span class="helper" title="Kernel density estimators will be slow for large numbers of sources, your plot may timeout"></span></label>
                                                     <div class="input-group">
-                                                        <select class="form-select" id="oned-plot-var">
-                                                            <option value="m_1">Primary Mass</option>
-                                                            <option value="m_2">Secondary Mass</option>
-                                                            <option value="m_c">Chirp mass</option>
-                                                            <option value="f_orb">Orbital Frequency</option>
-                                                            <option value="a">Separation</option>
-                                                            <option value="ecc">Eccentricity</option>
-                                                            <option value="dist">Distance</option>
-                                                            <option value="snr">Signal-to-noise Ratio</option>
+                                                        <select class="form-select" id="oned-plot-disttype">
+                                                            <option value="hist">Histogram</option>
+                                                            <option value="kde">Kernel density estimator</option>
+                                                            <option value="ecdf">Empirical CDF</option>
                                                         </select>
                                                         <div class="colour-container input-group-text bg-white">
                                                             <label id="oned-plot-colour-label" class="colour-label">
@@ -375,9 +397,19 @@ block content %}
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-md-4">
-                                                    <label class="form-label">Linewidth</label>
-                                                    <input class="form-control" id="oned-plot-lw" value="1" type="number" />
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                                                    <label for="oned-plot-bins" class="form-label">Histogram bins</label>
+                                                    <input id="oned-plot-bins" class="form-control" value="auto">
+                                                </div>
+                                                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                                                    <label for="oned-plot-histtype" class="form-label">Type of Histogram</label>
+                                                    <select id="oned-plot-histtype" class="form-select">
+                                                        <option value="bar">Bar</option>
+                                                        <option value="stepfilled">Step filled</option>
+                                                        <option value="step">Step</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <figure class="mb-3">

@@ -293,6 +293,15 @@ window.addEventListener("load", function () {
                 if (!enforce_inputs()) {
                     return;
                 }
+                data["plot_params"] = {
+                    xstr: document.getElementById("oned-plot-var").value,
+                    linewidth: parseFloat(document.getElementById("oned-plot-lw").value),
+                    exclude_merged: document.getElementById("oned-plot-exclude-merged").checked,
+                    disttype: document.getElementById("oned-plot-disttype").value,
+                    colour: document.getElementById("oned-plot-colour").value,
+                    bins: document.getElementById("oned-plot-bins").value,
+                    histtype: document.getElementById("oned-plot-histtype").value,
+                }
             }
         }
        
@@ -308,7 +317,6 @@ window.addEventListener("load", function () {
                     el.src = 'data:image/png;base64,' + response;
                 });
                 button.innerHTML = original_html;
-                inject_toast("Plot created!");
             },
             error: function (response) {
                 const parser = new DOMParser();
