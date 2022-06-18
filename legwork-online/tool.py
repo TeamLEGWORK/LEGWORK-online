@@ -154,7 +154,8 @@ def plot_sc():
                                               edgecolor="grey", color="none", marker="*",
                                               label="Verification Binaries (Kupfer+18)", zorder=3)
 
-    ax.legend()
+    if bool(data["plot_params"]["legend"]):
+        ax.legend()
 
     fig.savefig(temp_filepath, format="png", bbox_inches="tight")
 

@@ -283,6 +283,7 @@ window.addEventListener("load", function () {
                     sources_dist: document.getElementById("sc-plot-sources-disttype").value,
                     sources_colour: document.getElementById("sc-plot-sources-colour").value,
                     include_vbs: document.getElementById("sc-plot-include-vbs").checked,
+                    legend: document.getElementById("sc-plot-legend").checked,
                 }
                 if (data["plot_params"]["include_sources"] && !enforce_inputs()) {
                     return;
