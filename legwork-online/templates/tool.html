@@ -246,19 +246,19 @@ block content %}
                                     <label>Plot Type</label>
                                     <ul id="plot-carousel-tabs" class="nav nav-tabs nav-fill">
                                         <li class="nav-item">
-                                            <a id="plot-sc" class="nav-link" data-bs-slide-to="0">Sensitivity Curve</a>
+                                            <a id="plot-sc" class="nav-link active" data-bs-slide-to="0">Sensitivity Curve</a>
                                         </li>
                                         <li class="nav-item">
                                             <a id="plot-oned" class="nav-link" data-bs-slide-to="1">1D Distributions</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a id="plot-twod" class="nav-link active" data-bs-slide-to="2">2D Distributions</a>
+                                            <a id="plot-twod" class="nav-link" data-bs-slide-to="2">2D Distributions</a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div id="plot-carousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
                                     <div class="carousel-inner">
-                                        <div class="carousel-item">
+                                        <div class="carousel-item active">
                                             <div class="row mb-3">
                                                 <div class="col-12 col-md-8 mb-3 mb-md-0">
                                                     <label for="sc-plot-f-range-lower" class="form-label">Frequency Range</label>
@@ -388,7 +388,7 @@ block content %}
                                                     <label for="oned-plot-disttype" class="form-label">Type of plot  <span class="helper" title="Kernel density estimators will be slow for large numbers of sources, your plot may timeout"></span></label>
                                                     <div class="input-group">
                                                         <select class="form-select" id="oned-plot-disttype">
-                                                            <option value="hist">Histogram</option>
+                                                            <option value="hist" selected>Histogram</option>
                                                             <option value="kde">Kernel density estimator</option>
                                                             <option value="ecdf">Empirical CDF</option>
                                                         </select>
@@ -454,7 +454,7 @@ block content %}
                                                 </div>
                                             </figure>
                                         </div>
-                                        <div id="twod-plot-pane" class="carousel-item active">
+                                        <div id="twod-plot-pane" class="carousel-item">
                                             <div class="row mb-3">
                                                 <div class="col-12">
                                                     <label for="twod-plot-xstr" class="form-label">$x$-axis variable and scaling</label>
