@@ -246,44 +246,19 @@ block content %}
                                     <label>Plot Type</label>
                                     <ul id="plot-carousel-tabs" class="nav nav-tabs">
                                         <li class="nav-item">
-                                            <a id="plot-none" class="nav-link active" data-bs-slide-to="0">None</a>
+                                            <a id="plot-sc" class="nav-link active" data-bs-slide-to="0">Sensitivity Curve</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a id="plot-sc" class="nav-link" data-bs-slide-to="1">Sensitivity Curve</a>
+                                            <a id="plot-1D-dist" class="nav-link" data-bs-slide-to="1">1D Distributions</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a id="plot-1D-dist" class="nav-link" data-bs-slide-to="2">1D Distributions</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a id="plot-2D-dist" class="nav-link" data-bs-slide-to="3">2D Distributions</a>
+                                            <a id="plot-2D-dist" class="nav-link" data-bs-slide-to="2">2D Distributions</a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div id="plot-carousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
                                     <div class="carousel-inner">
                                         <div class="carousel-item active">
-                                            <figure class="mb-3">
-                                                <div class="img-fluid-limited float-start position-relative zoom-figure me-2 text-center" data-bs-toggle="modal" data-bs-target="#placeholder-plot">
-                                                    <img id="plots-preview" src="../static/img/legwork.png" class="img-fluid zoom-figure w-50" />
-                                                    <div class="img-overlay">
-                                                        <p class="m-0 fw-bold">Click to Zoom</p>
-                                                    </div>
-                                                </div>
-                                                <div class="modal fade" id="placeholder-plot" tabindex="-1">
-                                                    <div class="modal-dialog modal-fullscreen">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body text-center">
-                                                                <img src="../static/img/legwork.png" class="img-fluid" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </figure>
-                                        </div>
-                                        <div class="carousel-item">
                                             <div class="row mb-3">
                                                 <div class="col-12 col-md-8 mb-3 mb-md-0">
                                                     <label for="sc-plot-f-range-lower" class="form-label">Frequency Range</label>
@@ -321,6 +296,10 @@ block content %}
                                             <div class="row mb-3 text-center">
                                                 <div class="col">
                                                     <div class="form-check form-check-inline form-switch">
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="sc-plot-legend"/>
+                                                        <label class="form-check-label" for="sc-plot-legend">Add legend?</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline form-switch">
                                                         <input class="form-check-input" type="checkbox" role="switch" id="sc-plot-include-sources" data-bs-toggle="collapse" data-bs-target="#sc-plot-sources-collapse" />
                                                         <label class="form-check-label" for="sc-plot-include-sources"
                                                             >Include your sources on plot?
@@ -335,7 +314,7 @@ block content %}
                                             </div>
                                             <div id="sc-plot-sources-collapse" class="row mb-3 collapse">
                                                 <div class="col-12 col-md-6 mb-3 mb-md-0">
-                                                    <label for="sc-plot-sources-disttype">Type of plot for your sources <span class="helper" title="Kernel density estimators will be slow for large numbers of sources, your plot may timeout"></span></label>
+                                                    <label for="sc-plot-sources-disttype" class="form-label">Type of plot for your sources <span class="helper" title="Kernel density estimators will be slow for large numbers of sources, your plot may timeout"></span></label>
                                                     <div class="input-group">
                                                         <select id="sc-plot-sources-disttype" class="form-select">
                                                             <option value="scatter">Scatter points</option>
@@ -348,8 +327,10 @@ block content %}
                                                         </div>
                                                     </div> 
                                                 </div>
-                                                <div class="col">
-                                                </div>
+                                                <!-- <div class="col-12 col-md-6 mb-3 mb-md-0">
+                                                    <label for="sc-plot-sources-label" class="form-label">Label for legend</label>
+                                                    <input id="sc-plot-sources-label" class="form-control">
+                                                </div> -->
                                             </div>
                                             <figure class="mb-3">
                                                 <div class="img-fluid-limited float-start position-relative zoom-figure me-2" data-bs-toggle="modal" data-bs-target="#sensitivity-curve-plot">
@@ -418,10 +399,7 @@ block content %}
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-center mb-4">
-                                    <h4>Plots appear here <i class="fa fa-arrow-up"></i></h4>
-                                </div>
-                                <div class="mb-3 text-center">
+                                <div class="mt-3 mb-3 text-center">
                                     <div class="btn-group">
                                         <button id="create-plot" class="btn btn-primary btn-lg">Create new plot</button>
                                     </div>
