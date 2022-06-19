@@ -1,12 +1,5 @@
 # TODO List
-
-- [ ] Fix the issues in LEGWORK to allow log scaled vars in visualisation
-- [ ] Random sources tab
-    - [ ] Define ranges and distributions (start with just uniform, add normal/lognormal later)
-    - [ ] Perhaps add sliders?
-    - [ ] Update initial data box
-    - [ ] Update sources dict
-
+Nothing!
 ### Done
 - [x] Calculation buttons
     - [x] Calculate strain
@@ -32,3 +25,8 @@
         - [x] Plot sensitivity curve (with or without sources)
         - [x] Plot 1/2D distributions of sources with the usual variables
     - [x] Server side
+- [x] Fix the issues in LEGWORK to allow log scaled vars in visualisation
+- [x] Random sources tab
+    - [x] Define ranges and distributions (start with just uniform, add normal/lognormal later)
+    - [x] Update initial data box
+    - [x] Update sources dict
