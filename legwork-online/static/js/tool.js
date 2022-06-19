@@ -307,7 +307,7 @@ window.addEventListener("load", function () {
                 }
                 create_table(rows);
 
-                inject_toast("Random sources generated! See table for results.", response["runtime"]);
+                inject_toast("Random sources generated! <span class='goto-table link-info'>See table</span> for results.", response["runtime"]);
                 button.innerHTML = original_html;
             },
             error: function (response) {
@@ -392,7 +392,7 @@ window.addEventListener("load", function () {
                     }
                 }
 
-                inject_toast("Evolution complete! See table for results.", response["runtime"]);
+                inject_toast("Evolution complete! <span class='goto-table link-info'>See table</span> for results.", response["runtime"]);
                 button.innerHTML = original_html;
             },
             error: function (response) {
@@ -600,7 +600,7 @@ function read_csv_input(file) {
         }
 
         if (success) {
-            inject_toast("File upload complete, check out your data in the table below!", "", "3000");
+            inject_toast("File upload complete, check out your data <span class='goto-table link-info'>in the table</span> below!", "", "3000");
             document.getElementById("source-csv-file-label").innerHTML = `
                 Success! <strong>Upload another file?</strong></label>
             `;
@@ -805,7 +805,7 @@ function update_if_blank(id, value) {
 function inject_toast(message, small_text = "", delay = null) {
     const toast_el = document.getElementById("toast-template").cloneNode(true);
     toast_el.id = "";
-    toast_el.querySelector(".toast-body").innerText = message;
+    toast_el.querySelector(".toast-body").innerHTML = message;
     toast_el.querySelector(".toast-status").innerText = small_text;
     if (delay != null) {
         toast_el.setAttribute("data-bs-delay", delay);
@@ -815,6 +815,14 @@ function inject_toast(message, small_text = "", delay = null) {
 
     const toast = new bootstrap.Toast(toast_el);
     toast.show();
+
+    toast_el.querySelectorAll(".goto-table").forEach(goto => {
+        goto.addEventListener("click", function() {
+            $('html, body').animate({
+                scrollTop: $("#data").offset().top
+            }, 800);
+        });
+    });
 
     animateCSS(toast_el, "bounceInRight");
     return toast_el;
@@ -874,7 +882,7 @@ function make_calculation(button_selector, method, text_version) {
         contentType: "application/json; charset=utf-8",
         success: function (response) {
             insert_or_update_column(method, response[method]);
-            inject_toast(text_version + " calculated! See table for results.", response["runtime"]);
+            inject_toast(text_version + " calculated! <span class='goto-table link-info'>See table</span> for results.", response["runtime"]);
             button.innerHTML = original_html;
             data["sources"][method] = response[method];
         },

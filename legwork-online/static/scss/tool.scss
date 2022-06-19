@@ -1,7 +1,13 @@
 // increase opacity
 $toast-background-color: rgba(white, 0.95);
+$toast-font-size: 1rem;
+$info: #2390de;
 
 @import "./base.scss";
+
+html {
+    scroll-behavior: smooth;
+}
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -132,4 +138,8 @@ label input[type="color"] {
     position: sticky;
     top: 0;
     z-index: 1;
+}
+
+.goto-table {
+    cursor: pointer;
 }
