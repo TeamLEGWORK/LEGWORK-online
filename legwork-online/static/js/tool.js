@@ -135,6 +135,143 @@ window.addEventListener("load", function () {
         this.blur();
     });
 
+    // set up random sources page
+    const dists = [
+        {
+            "id": "primary-mass",
+            "name": "Primary Mass",
+            "min": 0,
+            "max": 50,
+            "mean": 10,
+            "sigma": 1,
+            "units": "M<sub>⊙</sub>",
+            "log": false,
+        },
+        {
+            "id": "mass-ratio",
+            "name": "Mass Ratio",
+            "min": 0,
+            "max": 1,
+            "mean": 0.5,
+            "sigma": 0.1,
+            "units": null,
+            "log": false,
+        },
+        {
+            "id": "orbital-frequency",
+            "name": "Orbital Frequency",
+            "min": 1e-5,
+            "max": 1e-2,
+            "mean": 1e-3,
+            "sigma": 1,
+            "units": "Hz",
+            "log": true,
+        },
+        {
+            "id": "eccentricity",
+            "name": "Eccentricity",
+            "min": 0,
+            "max": 1,
+            "mean": 0.5,
+            "sigma": 0.1,
+            "units": null,
+            "log": false,
+        },
+        {
+            "id": "distance",
+            "name": "Distance",
+            "min": 0,
+            "max": 30,
+            "mean": 8,
+            "sigma": 1,
+            "units": "kpc",
+            "log": false,
+        }
+    ];
+    const rand_ids = [
+        "random-var-dist",
+        "random-var-scale",
+        "random-var-collapse-uniform",
+        "random-var-collapse-normal",
+        "random-var-min",
+        "random-var-max",
+        "random-var-mean",
+        "random-var-sigma"
+    ]
+    for (let i = 0; i < dists.length; i++) {
+        const rnd_dist = document.getElementById("random-var-template").cloneNode(true);
+        rnd_dist.id = "random-" + dists[i]["id"];
+        rnd_dist.classList.remove("hide");
+
+        rnd_dist.querySelector(".dist-label").innerHTML = dists[i]["name"];
+
+        rnd_dist.querySelector("#random-var-min").value = dists[i]["min"];
+        rnd_dist.querySelector("#random-var-max").value = dists[i]["max"];
+        rnd_dist.querySelector("#random-var-mean").value = dists[i]["mean"];
+        rnd_dist.querySelector("#random-var-sigma").value = dists[i]["sigma"];
+
+        if (dists[i]["units"] != null) {
+            rnd_dist.querySelectorAll(".input-group.units").forEach(group => {
+                const text = document.createElement("div");
+                text.classList.add("input-group-text");
+                text.innerHTML = dists[i]["units"];
+                group.appendChild(text);
+            });
+        }
+
+        if (dists[i]["log"]) {
+            rnd_dist.querySelector("#random-var-scale").value = "log";
+        }
+
+        // reset ids
+        rand_ids.forEach(id => {
+            rnd_dist.querySelector("#" + id).id = id.replace("var", dists[i].id);
+        });
+
+        rnd_dist.querySelector("select.dist-select").addEventListener("change", function() {
+            // disable the select to stop interference
+            this.setAttribute("disabled", "true");
+            const disttype = this.value;
+
+            let soon_open = null;
+            if (disttype == "uniform") {
+                soon_open = rnd_dist.querySelector(".uni-collapse");
+            } else if (disttype == "normal") {
+                soon_open = rnd_dist.querySelector(".norm-collapse");
+            }
+
+            // find the currently open collapse
+            const open = rnd_dist.querySelector(".collapse.show")
+
+            if (open == soon_open) {
+                return;
+            }
+
+            // add a listener for once the open once is closed
+            open.addEventListener('hidden.bs.collapse', function () {
+                // prep the next collapse
+                const collapse = new bootstrap.Collapse(soon_open);
+
+                // once it has been shown then re-enable the select
+                soon_open.addEventListener("shown.bs.collapse", function () {
+                    rnd_dist.querySelector("select.dist-select").removeAttribute("disabled");
+                }, {once: true});
+
+                // show the collapse
+                collapse.show();
+            }, {once: true});
+    
+            // close the current one
+            const open_collapse = new bootstrap.Collapse(open);
+            open_collapse.hide();
+        });
+
+        document.querySelector("#input-random-sources").insertBefore(rnd_dist,
+                                                                     document.querySelector("#random"));
+    }
+    const random_template = document.getElementById("random-var-template");
+    random_template.parentElement.removeChild(random_template);
+
     // calculate the SNR using the API
     document.querySelector("#snr").addEventListener("click", function () {
         make_calculation("#snr", "snr", "Signal-to-noise ratio");

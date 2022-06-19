@@ -13,15 +13,15 @@ block content %}
                         <div class="col">
                             <nav>
                                 <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                    <button class="nav-link active" id="input-single-source-tab" data-bs-toggle="tab" data-bs-target="#input-single-source" type="button" role="tab">
+                                    <button class="nav-link" id="input-single-source-tab" data-bs-toggle="tab" data-bs-target="#input-single-source" type="button" role="tab">
                                         Single Source
                                     </button>
                                     <button class="nav-link" id="input-csv-sources-tab" data-bs-toggle="tab" data-bs-target="#input-csv-sources" type="button" role="tab">Sources from CSV</button>
-                                    <button class="nav-link" id="input-random-sources-tab" data-bs-toggle="tab" data-bs-target="#input-random-sources" type="button" role="tab">Random sources</button>
+                                    <button class="nav-link active" id="input-random-sources-tab" data-bs-toggle="tab" data-bs-target="#input-random-sources" type="button" role="tab">Draw random sources</button>
                                 </div>
                             </nav>
                             <div class="tab-content mt-2" id="nav-tabContent">
-                                <div class="tab-pane fade active show" id="input-single-source" role="tabpanel" tabindex="0">
+                                <div class="tab-pane fade" id="input-single-source" role="tabpanel" tabindex="0">
                                     <form>
                                         <div class="row mb-3">
                                             <div class="col">
@@ -88,7 +88,48 @@ block content %}
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="input-random-sources" role="tabpanel" tabindex="0">TODO</div>
+                                <div class="tab-pane fade active show" id="input-random-sources" role="tabpanel" tabindex="0">
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <p>
+                                                Use this panel to select distributions for each of the initial variables and to generate
+                                                a random population given these choices. Bear in mind that for unbounded distributions we
+                                                will take the absolute variable of any negative values.</p>
+                                        </div>
+                                    </div>
+                                    <div id="random-var-template" class="row mb-4 hide">
+                                        <div class="col-12 col-md-4 mb-3 mb-md-0">
+                                            <label class="form-label dist-label">Primary Mass Distribution</label>
+                                            <div class="input-group">
+                                                <select id="random-var-dist" class="form-select dist-select">
+                                                    <option value="uniform">Uniform</option>
+                                                    <option value="normal">Normal</option>
+                                                </select>
+                                                <select id="random-var-scale" class="form-select">
+                                                    <option value="linear">Linear</option>
+                                                    <option value="log">Log</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-8 mb-3 mb-md-0">
+                                            <div id="random-var-collapse-uniform" class="collapse uni-collapse show">
+                                                <label class="form-label">Distribution bounds</label>
+                                                <div class="input-group units">
+                                                    <input id="random-var-min" class="form-control" type="number" value="0">
+                                                    <input id="random-var-max" class="form-control" type="number" value="30">
+                                                </div>
+                                            </div>
+                                            <div id="random-var-collapse-normal" class="collapse norm-collapse">
+                                                <label class="form-label">Distribution $\mu$ and $\sigma$</label>
+                                                <div class="input-group units">
+                                                    <input id="random-var-mean" class="form-control" type="number" value="10">
+                                                    <input id="random-var-sigma" class="form-control" type="number" value="1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button id="random" class="btn btn-primary w-100">Generate random population</button>
+                                </div>
                             </div>
                             <hr />
                             <h3>Detector</h3>
