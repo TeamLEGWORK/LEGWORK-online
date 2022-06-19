@@ -26,6 +26,60 @@ def tool():
     return render_template('tool.html')
 
 
+@bp.route('/tool/random-sources', methods=["POST"])
+def random_sources():
+    start = time.time()
+    data = request.get_json()
+
+    sources = []
+
+    # just storing locations in case it comes in a weird order (q before m_1)
+    m1_loc, q_loc = -1, -1
+
+    # randomly draw each of the variables
+    for i, var in enumerate(data["dists"]):
+        if var["id"] == "m_1":
+            m1_loc = i
+        if var["id"] == "q":
+            q_loc = i
+
+        sources.append({
+            "id": var["id"],
+            "values": random_distribution(dist=var["dist"],
+                                          count=data["count"],
+                                          scale=var["scale"],
+                                          min=var["min"],
+                                          max=var["max"],
+                                          mean=var["mean"],
+                                          sigma=var["sigma"])
+        })
+
+    # swap out mass ratio for secondary mass
+    sources[q_loc]["id"] = "m_2"
+    sources[q_loc]["values"] = list(np.multiply(sources[m1_loc]["values"], sources[q_loc]["values"]))
+
+    json = {
+        "sources": sources,
+        "runtime": f"Runtime: {time.time() - start:1.2f}s"
+    }
+    return json
+
+
+def random_distribution(dist, count, scale="linear", min=None, max=None, mean=None, sigma=None):
+    if scale == "log":
+        min, max, mean, sigma = np.log10(min), np.log10(max), np.log10(mean), np.log10(sigma)
+
+    if dist == "uniform":
+        vars = np.random.uniform(low=min, high=max, size=count)
+    if dist == "normal":
+        vars = np.random.normal(loc=mean, scale=sigma, size=count)
+
+    if scale == "log":
+        vars = 10**vars
+
+    return list(vars)
+
+
 @bp.route('/tool/snr', methods=["POST"])
 def snr():
     start = time.time()
