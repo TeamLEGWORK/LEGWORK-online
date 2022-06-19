@@ -815,6 +815,8 @@ function inject_toast(message, small_text = "", delay = null) {
 
     const toast = new bootstrap.Toast(toast_el);
     toast.show();
+
+    animateCSS(toast_el, "bounceInRight");
     return toast_el;
 }
 
