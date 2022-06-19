@@ -11,7 +11,7 @@ window.MathJax = {
     startup: {
         pageReady: function () {
             return MathJax.startup.defaultPageReady().then(function () {
-                document.querySelectorAll(".input-group-text .MathJax").forEach(function (el) {
+                document.querySelectorAll(".MathJax").forEach(function (el) {
                     el.setAttribute("tabindex", "-1");
                 });
             });
