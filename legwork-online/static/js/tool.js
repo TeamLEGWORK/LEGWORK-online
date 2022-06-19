@@ -16,7 +16,6 @@ const header_to_longname = {
 
 // stores current input data
 let data = {
-    single_source: true,
     sources: {
         m_1: null,
         m_2: null,
@@ -131,73 +130,64 @@ window.addEventListener("load", function () {
         document.querySelector("#init").classList.add("btn-outline-primary");
         document.querySelector("#init").classList.remove("btn-primary");
         document.querySelector("#init-warning").classList.add("hide");
-        this.innerText = "Reset and update inputs"
+        this.innerText = "Reset and update inputs";
         this.blur();
     });
 
     // set up random sources page
     const dists = [
         {
-            "id": "primary-mass",
-            "name": "Primary Mass",
-            "min": 0,
-            "max": 50,
-            "mean": 10,
-            "sigma": 1,
-            "units": "M<sub>⊙</sub>",
-            "log": false,
+            id: "m_1",
+            name: "Primary Mass",
+            min: 0,
+            max: 50,
+            mean: 10,
+            sigma: 1,
+            units: "M<sub>⊙</sub>",
+            log: false,
         },
         {
-            "id": "mass-ratio",
-            "name": "Mass Ratio",
-            "min": 0,
-            "max": 1,
-            "mean": 0.5,
-            "sigma": 0.1,
-            "units": null,
-            "log": false,
+            id: "q",
+            name: "Mass Ratio",
+            min: 0,
+            max: 1,
+            mean: 0.5,
+            sigma: 0.1,
+            units: null,
+            log: false,
         },
         {
-            "id": "orbital-frequency",
-            "name": "Orbital Frequency",
-            "min": 1e-5,
-            "max": 1e-2,
-            "mean": 1e-3,
-            "sigma": 1,
-            "units": "Hz",
-            "log": true,
+            id: "f_orb",
+            name: "Orbital Frequency",
+            min: 1e-5,
+            max: 1e-2,
+            mean: 1e-3,
+            sigma: 1,
+            units: "Hz",
+            log: true,
         },
         {
-            "id": "eccentricity",
-            "name": "Eccentricity",
-            "min": 0,
-            "max": 1,
-            "mean": 0.5,
-            "sigma": 0.1,
-            "units": null,
-            "log": false,
+            id: "ecc",
+            name: "Eccentricity",
+            min: 0,
+            max: 0.1,
+            mean: 0.05,
+            sigma: 0.01,
+            units: null,
+            log: false,
         },
         {
-            "id": "distance",
-            "name": "Distance",
-            "min": 0,
-            "max": 30,
-            "mean": 8,
-            "sigma": 1,
-            "units": "kpc",
-            "log": false,
-        }
+            id: "dist",
+            name: "Distance",
+            min: 0,
+            max: 30,
+            mean: 8,
+            sigma: 1,
+            units: "kpc",
+            log: false,
+        },
     ];
-    const rand_ids = [
-        "random-var-dist",
-        "random-var-scale",
-        "random-var-collapse-uniform",
-        "random-var-collapse-normal",
-        "random-var-min",
-        "random-var-max",
-        "random-var-mean",
-        "random-var-sigma"
-    ]
+    const rand_ids = ["random-var-dist", "random-var-scale", "random-var-collapse-uniform", "random-var-collapse-normal", "random-var-min", "random-var-max", "random-var-mean", "random-var-sigma"];
     for (let i = 0; i < dists.length; i++) {
         const rnd_dist = document.getElementById("random-var-template").cloneNode(true);
         rnd_dist.id = "random-" + dists[i]["id"];
@@ -228,7 +218,7 @@ window.addEventListener("load", function () {
             rnd_dist.querySelector("#" + id).id = id.replace("var", dists[i].id);
         });
 
-        rnd_dist.querySelector("select.dist-select").addEventListener("change", function() {
+        rnd_dist.querySelector("select.dist-select").addEventListener("change", function () {
             // disable the select to stop interference
             this.setAttribute("disabled", "true");
             const disttype = this.value;
@@ -241,26 +231,26 @@ window.addEventListener("load", function () {
             }
 
             // find the currently open collapse
-            const open = rnd_dist.querySelector(".collapse.show")
+            const open = rnd_dist.querySelector(".collapse.show");
 
             if (open == soon_open) {
                 return;
             }
 
             // add a listener for once the open once is closed
-            open.addEventListener('hidden.bs.collapse', function () {
-                // prep the next collapse
-                const collapse = new bootstrap.Collapse(soon_open);
+            open.addEventListener("hidden.bs.collapse", function () {
+                    // prep the next collapse
+                    const collapse = new bootstrap.Collapse(soon_open);
 
-                // once it has been shown then re-enable the select
-                soon_open.addEventListener("shown.bs.collapse", function () {
-                    rnd_dist.querySelector("select.dist-select").removeAttribute("disabled");
-                }, {once: true});
+                    // once it has been shown then re-enable the select
+                    soon_open.addEventListener("shown.bs.collapse", function () {
+                            rnd_dist.querySelector("select.dist-select").removeAttribute("disabled");
+                    }, {once: true});
 
-                // show the collapse
-                collapse.show();
+                    // show the collapse
+                    collapse.show();
             }, {once: true});
-    
+
             // close the current one
             const open_collapse = new bootstrap.Collapse(open);
             open_collapse.hide();
@@ -271,6 +261,63 @@ window.addEventListener("load", function () {
     }
     const random_template = document.getElementById("random-var-template");
     random_template.parentElement.removeChild(random_template);
+
+    // set up generate random sources button
+    document.querySelector("#random").addEventListener("click", function () {
+        let random_gen_data = {
+            count: parseInt(document.querySelector("#random-how-many").value),
+            dists: []
+        }
+        dists.forEach(dist => {
+            random_gen_data["dists"].push({
+                "id": dist["id"],
+                "dist": document.querySelector("#random-" + dist["id"] + "-dist").value,
+                "scale": document.querySelector("#random-" + dist["id"] + "-scale").value,
+                "min": parseFloat(document.querySelector("#random-" + dist["id"] + "-min").value),
+                "max": parseFloat(document.querySelector("#random-" + dist["id"] + "-max").value),
+                "mean": parseFloat(document.querySelector("#random-" + dist["id"] + "-mean").value),
+                "sigma": parseFloat(document.querySelector("#random-" + dist["id"] + "-sigma").value),
+            });
+        });
+
+        const button = document.querySelector("#random");
+        const original_html = button.innerHTML;
+        add_loader(button, "Generating...");
+        
+        $.ajax({
+            type: "POST",
+            url: "/tool/random-sources",
+            data: JSON.stringify(random_gen_data),
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                console.log(response);
+                response["sources"].forEach(param => {
+                    data["sources"][param["id"]] = param["values"];
+                });
+
+                console.log(data);
+
+                let rows = new Array(data["sources"]["m_1"].length);
+                rows[0] = ["m_1", "m_2", "f_orb", "ecc", "dist"]
+
+                for (let i = 0; i < data["sources"]["m_1"].length; i++) {
+                    rows[i + 1] = [data["sources"]["m_1"][i], data["sources"]["m_2"][i],
+                                   data["sources"]["f_orb"][i], data["sources"]["ecc"][i],
+                                   data["sources"]["dist"][i]]
+                }
+                create_table(rows);
+
+                inject_toast("Random sources generated! See table for results.", response["runtime"]);
+                button.innerHTML = original_html;
+            },
+            error: function (response) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(response.responseText, "text/html");
+                alert_user("Error: generation failed", doc.querySelector(".errormsg").innerHTML, response.responseText);
+                button.innerHTML = original_html;
+            },
+        });
+    });
 
     // calculate the SNR using the API
     document.querySelector("#snr").addEventListener("click", function () {
@@ -357,13 +404,13 @@ window.addEventListener("load", function () {
         });
     });
 
-    document.querySelectorAll("#inputs-card input").forEach(el => {
-        el.addEventListener("change", function() {
+    document.querySelectorAll("#inputs-card input").forEach((el) => {
+        el.addEventListener("change", function () {
             document.querySelector("#init").classList.remove("btn-outline-primary");
             document.querySelector("#init").classList.add("btn-primary");
             document.querySelector("#init-warning").classList.remove("hide");
         });
-    })
+    });
 
     document.querySelector("#toggle-plots").addEventListener("click", function () {
         let i = this.querySelector("i");
@@ -393,37 +440,36 @@ window.addEventListener("load", function () {
 
     // set up switching collapses for 1D+2D plots
     ["oned", "twod"].forEach(dimensions => {
-        document.querySelector("#" + dimensions + "-plot-disttype").addEventListener("change", function() {
+        document.querySelector("#" + dimensions + "-plot-disttype").addEventListener("change", function () {
             // disable the select to stop interference
             this.setAttribute("disabled", "true");
             const disttype = this.value;
 
             // find the currently open collapse
-            const open = document.querySelector("#" + dimensions + "-plot-pane .collapse.show")
+            const open = document.querySelector("#" + dimensions + "-plot-pane .collapse.show");
 
             // add a listener for once the open once is closed
-            open.addEventListener('hidden.bs.collapse', function () {
-                // prep the next collapse
-                const soon_open = document.querySelector("#" + dimensions + "-collapse-" + disttype)
-                const collapse = new bootstrap.Collapse(soon_open);
+            open.addEventListener("hidden.bs.collapse", function () {
+                    // prep the next collapse
+                    const soon_open = document.querySelector("#" + dimensions + "-collapse-" + disttype);
+                    const collapse = new bootstrap.Collapse(soon_open);
 
-                // once it has been shown then re-enable the select
-                soon_open.addEventListener("shown.bs.collapse", function () {
-                    document.querySelector("#" + dimensions + "-plot-disttype").removeAttribute("disabled");
-                }, {once: true});
+                    // once it has been shown then re-enable the select
+                    soon_open.addEventListener("shown.bs.collapse", function () {
+                            document.querySelector("#" + dimensions + "-plot-disttype").removeAttribute("disabled");
+                    }, {once: true});
 
-                // show the collapse
-                collapse.show();
+                    // show the collapse
+                    collapse.show();
             }, {once: true});
-    
+
             // close the current one
             const open_collapse = new bootstrap.Collapse(open);
             open_collapse.hide();
         });
-
     });
 
-    document.querySelector("#create-plot").addEventListener("click", function() {
+    document.querySelector("#create-plot").addEventListener("click", function () {
         const button = this;
         const original_html = this.innerHTML;
 
@@ -442,7 +488,7 @@ window.addEventListener("load", function () {
                     sources_colour: document.getElementById("sc-plot-sources-colour").value,
                     include_vbs: document.getElementById("sc-plot-include-vbs").checked,
                     legend: document.getElementById("sc-plot-legend").checked,
-                }
+                };
                 if (data["plot_params"]["include_sources"] && !enforce_inputs()) {
                     return;
                 }
@@ -462,8 +508,8 @@ window.addEventListener("load", function () {
                     histtype: document.getElementById("oned-plot-histtype").value,
                     bw_adjust: parseFloat(document.getElementById("oned-plot-bw-adjust").value),
                     stat: document.getElementById("oned-plot-stat").value,
-                    scale: document.getElementById("oned-plot-scale").value
-                }
+                    scale: document.getElementById("oned-plot-scale").value,
+                };
                 break;
             }
             case "plot-twod": {
@@ -483,11 +529,11 @@ window.addEventListener("load", function () {
                     alpha: parseFloat(document.getElementById("twod-plot-alpha").value),
                     bw_adjust: parseFloat(document.getElementById("twod-plot-bw-adjust").value),
                     fill: document.getElementById("twod-plot-fill").checked,
-                }
+                };
                 break;
             }
         }
-       
+
         add_loader(button, "Plotting...");
 
         $.ajax({
@@ -497,7 +543,7 @@ window.addEventListener("load", function () {
             contentType: "application/json; charset=utf-8",
             success: function (response) {
                 document.querySelectorAll("#plot-carousel .carousel-item.active img").forEach(el => {
-                    el.src = 'data:image/png;base64,' + response;
+                    el.src = "data:image/png;base64," + response;
                 });
                 button.innerHTML = original_html;
             },
@@ -553,8 +599,6 @@ function read_csv_input(file) {
             }
         }
 
-        data["single_source"] = false;
-
         if (success) {
             inject_toast("File upload complete, check out your data in the table below!", "", "3000");
             document.getElementById("source-csv-file-label").innerHTML = `
@@ -563,7 +607,7 @@ function read_csv_input(file) {
             animateCSS(".file-drop-box-container", "jello");
 
             // delete old columns
-            let delete_these = ["snr", "t_merge", "merged", "total_strain", "total_char_strain"]
+            let delete_these = ["snr", "t_merge", "merged", "total_strain", "total_char_strain"];
             let remaining = delete_these.filter(x => !rows[0].includes(x));
             remaining.forEach(param => {
                 data["sources"][param] = null;
@@ -888,9 +932,8 @@ function download_table() {
     inject_toast("Download complete! File is called `legwork-online-results.csv`.");
 }
 
-
 function format_number(number, precision) {
-    if (number > 1e-2 && number < 1e3 || number == 0.0) {
+    if ((number > 1e-2 && number < 1e3) || number == 0.0) {
         return number.toFixed(precision);
     } else {
         return number.toExponential(precision);
