@@ -85,8 +85,10 @@ def snr():
     start = time.time()
     data = request.get_json()
     sources = data_to_Source(data)
+    snr = sources.get_snr()
     json = {
-        "snr": list(sources.get_snr()),
+        "snr": list(snr),
+        "max_snr_harmonic": list(sources.max_snr_harmonic.astype(float)),
         "runtime": f"Runtime: {time.time() - start:1.2f}s"
     }
     return json
@@ -346,6 +348,9 @@ def data_to_Source(data, dont_bother=False):
 
     if data["sources"]["snr"] is not None:
         sources.snr = np.array(data["sources"]["snr"])
+
+    if data["sources"]["max_snr_harmonic"] is not None:
+        sources.max_snr_harmonic = np.array(data["sources"]["max_snr_harmonic"])
 
     if data["sources"]["t_merge"] is not None:
         sources.t_merge = data["sources"]["t_merge"] * u.Myr

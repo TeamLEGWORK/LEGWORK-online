@@ -27,6 +27,7 @@ let data = {
         total_strain: null,
         total_char_strain: null,
         merged: null,
+        max_snr_harmonic: null,
     },
     detector: {
         instrument: "LISA",
@@ -882,6 +883,9 @@ function make_calculation(button_selector, method, text_version) {
         contentType: "application/json; charset=utf-8",
         success: function (response) {
             insert_or_update_column(method, response[method]);
+            if (response["max_snr_harmonic"] != undefined) {
+                data["sources"]["max_snr_harmonic"] = response["max_snr_harmonic"];
+            }
             inject_toast(text_version + " calculated! <span class='goto-table link-info'>See table</span> for results.", response["runtime"]);
             button.innerHTML = original_html;
             data["sources"][method] = response[method];
