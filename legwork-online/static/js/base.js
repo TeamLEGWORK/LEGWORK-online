@@ -23,7 +23,13 @@ export const animateCSS = (element, animation, prefix = "animate__", callback = 
     // We create a Promise and return it
     new Promise((resolve, reject) => {
         const animationName = `${prefix}${animation}`;
-        const node = document.querySelector(element);
+
+        let node = null;
+        if (typeof element === "string") {
+            node = document.querySelector(element);
+        } else {
+            node = element;
+        }
 
         node.classList.add(`${prefix}animated`, animationName);
 
