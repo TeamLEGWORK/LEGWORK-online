@@ -446,27 +446,54 @@ window.addEventListener("load", function () {
             this.setAttribute("disabled", "true");
             const disttype = this.value;
 
-            // find the currently open collapse
-            const open = document.querySelector("#" + dimensions + "-plot-pane .collapse.show");
+            // if they want both then just open everything
+            if (disttype == "combined") {
+                const other = document.querySelector("#" + dimensions + "-plot-pane .collapse:not(.show)")
+                const collapse = new bootstrap.Collapse(other);
 
-            // add a listener for once the open once is closed
-            open.addEventListener("hidden.bs.collapse", function () {
+                other.addEventListener("shown.bs.collapse", function () {
+                    document.querySelector("#" + dimensions + "-plot-disttype").removeAttribute("disabled");
+                }, {once: true});
+
+                collapse.show()
+                return;
+            }
+
+            // find the currently open collapses and go through each
+            document.querySelectorAll("#" + dimensions + "-plot-pane .collapse.show").forEach(open => {
+                // return if it's the one that we want open
+                const id_split = open.id.split("-")
+                console.log(id_split[id_split.length - 1], disttype);
+                if (id_split[id_split.length - 1] == disttype) {
+                    return;
+                }
+
+                // add a listener for once the open one is closed
+                open.addEventListener("hidden.bs.collapse", function () {
                     // prep the next collapse
                     const soon_open = document.querySelector("#" + dimensions + "-collapse-" + disttype);
-                    const collapse = new bootstrap.Collapse(soon_open);
 
-                    // once it has been shown then re-enable the select
-                    soon_open.addEventListener("shown.bs.collapse", function () {
+                    // only open it if it's now already showing!
+                    if (!soon_open.classList.contains("show")) {
+                        const collapse = new bootstrap.Collapse(soon_open);
+        
+                        // after it has been shown re-enable the select
+                        soon_open.addEventListener("shown.bs.collapse", function () {
                             document.querySelector("#" + dimensions + "-plot-disttype").removeAttribute("disabled");
-                    }, {once: true});
-
-                    // show the collapse
-                    collapse.show();
-            }, {once: true});
-
-            // close the current one
-            const open_collapse = new bootstrap.Collapse(open);
-            open_collapse.hide();
+                        }, {once: true});
+        
+                        // show the collapse
+                        collapse.show();
+                    } else {
+                        // if it's already showing then just re-enable the select, we're done!
+                        document.querySelector("#" + dimensions + "-plot-disttype").removeAttribute("disabled");
+                    }
+                }, {once: true});
+    
+                // close the current one
+                const open_collapse = new bootstrap.Collapse(open);
+                open_collapse.hide();
+            });
         });
     });
 
