@@ -4,12 +4,13 @@ from flask import (
 import base64
 
 from legwork.source import Source, VerificationBinaries
-from legwork.visualisation import *
+from legwork.visualisation import plot_sensitivity_curve
 import numpy as np
 import astropy.units as u
 import time
 import os
 
+from matplotlib.patches import Patch
 import matplotlib
 matplotlib.use('Agg')
 
@@ -189,32 +190,48 @@ def plot_sc():
                                      approximate_R=bool(data["detector"]["approximate_response_function"]),
                                      confusion_noise=confusion_noise)
 
+    sdist = None
     if bool(data["plot_params"]["include_sources"]):
         sources = data_to_Source(data)
 
         if sources.snr is None:
             sources.get_snr()
 
-        if data["plot_params"]["sources_dist"] == "kde" and sources.n_sources > 1:
-            fig, ax = sources.plot_sources_on_sc(fig=fig, ax=ax, show=False, disttype="kde",
-                                                 fill=True, color=data["plot_params"]["sources_colour"],
-                                                 thresh=0.1, zorder=2, bw_adjust=0.9)
-
-            # SUPER HACKY FIX: seaborn is creating an extra dodgy level that I'm just hiding
-            ax.collections[1 if bool(data["plot_params"]["fill"]) else 0].set_alpha(0)
-        else:
+        sdist = data["plot_params"]["sources_dist"]
+        if sdist in ["combined", "scatter"]:
             sources.plot_sources_on_sc(fig=fig, ax=ax, show=False, disttype="scatter",
-                                       color=data["plot_params"]["sources_colour"])
+                                       color=data["plot_params"]["sources_colour"],
+                                       scatter_s=1 if sdist == "combined" else None, label="Sources")
+
+        if sdist in ["combined", "kde"] and sources.n_sources > 1:
+            sources.plot_sources_on_sc(fig=fig, ax=ax, show=False, disttype="kde",
+                                       fill=True, color=data["plot_params"]["sources_colour"],
+                                       zorder=2, bw_adjust=0.9, label="SourcesKDE")
 
     if bool(data["plot_params"]["include_vbs"]):
         vbs = VerificationBinaries()
-        fig, ax = plot_sources_on_sc_ecc_stat(vbs.f_orb * 2, vbs.true_snr, fig=fig, ax=ax, show=False,
-                                              disttype="scatter", scatter_s=100,
-                                              edgecolor="grey", color="none", marker="*",
-                                              label="Verification Binaries (Kupfer+18)", zorder=3)
+        vbs.snr = vbs.true_snr
+        vbs.plot_sources_on_sc(fig=fig, ax=ax, show=False,
+                               disttype="scatter", scatter_s=100,
+                               edgecolor="grey", color="none", marker="*",
+                               label="Verification Binaries (Kupfer+18)", zorder=3)
 
     if bool(data["plot_params"]["legend"]):
-        ax.legend()
+        # this is where life gets hacky
+        handles, labels = ax.get_legend_handles_labels()
+
+        # don't show the label for scatter plots if it is combined
+        if sdist == "combined":
+            ind = labels.index("Sources")
+            del handles[ind]
+            del labels[ind]
+
+        # fix the KDE handle since Seaborn seems to have a bug
+        if "SourcesKDE" in labels:
+            ind = labels.index("SourcesKDE")
+            handles[ind] = Patch(facecolor=handles[ind].get_facecolor()[0])
+            labels[ind] = "Sources"
+        ax.legend(handles=handles, labels=labels, fontsize=16)
 
     fig.savefig(temp_filepath, format="png", bbox_inches="tight")
 
@@ -319,13 +336,15 @@ def plot_twod():
     response.headers.set('Content-Disposition', 'attachment', filename='image.png')
     return response
 
+
 @bp.route('/about')
 def about():
     return render_template('about.html')
 
 
 def data_to_Source(data, dont_bother=False):
-    confusion_noise = None if data["detector"]["confusion_noise_model"] == "None" else data["detector"]["confusion_noise_model"]
+    confusion_noise = None if data["detector"]["confusion_noise_model"] == "None"\
+        else data["detector"]["confusion_noise_model"]
     sc_params = {
         "instrument": data["detector"]["instrument"],
         "t_obs": float(data["detector"]["duration"]) * u.yr,
