@@ -308,21 +308,26 @@ def plot_twod():
         data["plot_params"]["yscale"] == "log"
     ]
 
-    if data["plot_params"]["disttype"] == "scatter":
+    dist = data["plot_params"]["disttype"]
+    fig, ax = None, None
+    if dist in ["scatter", "combined"]:
         fig, ax = sources.plot_source_variables(xstr=data["plot_params"]["xstr"],
                                                 ystr=data["plot_params"]["ystr"],
                                                 show=False, scatter_s=data["plot_params"]["scatter_s"],
                                                 marker=data["plot_params"]["marker"],
                                                 alpha=data["plot_params"]["alpha"],
                                                 color=data["plot_params"]["colour"],
-                                                log_scale=log_scale)
-    else:
+                                                log_scale=log_scale, zorder=1,
+                                                fig=fig, ax=ax)
+
+    if dist in ["kde", "combined"]:
         fig, ax = sources.plot_source_variables(xstr=data["plot_params"]["xstr"],
                                                 ystr=data["plot_params"]["ystr"], show=False, disttype="kde",
                                                 bw_adjust=data["plot_params"]["bw_adjust"],
                                                 fill=data["plot_params"]["fill"],
                                                 color=data["plot_params"]["colour"],
-                                                log_scale=log_scale)
+                                                log_scale=log_scale, zorder=2,
+                                                fig=fig, ax=ax)
 
     fig.savefig(temp_filepath, format="png", bbox_inches="tight")
 
